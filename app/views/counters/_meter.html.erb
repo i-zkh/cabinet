@@ -1,0 +1,10 @@
+<% @report.each do |r| %></div>
+  <tr><td><%= r["reading"] %></td>
+      <td><%= r["created_at"] %></td>
+      <% if  r["snapshot_url"] %>
+      <td><%= image_tag @path+r["snapshot_url"] %></td>
+      <% else %>
+      <td>Нет картинки</td>
+      <% end %>
+  </tr>
+      <% end %>

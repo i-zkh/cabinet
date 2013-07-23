@@ -1,0 +1,37 @@
+<h3>Транзакции</h3> 
+<div class="select-block span3">
+<%= form_tag(transactions_url, method: :post, remote: true) do %>
+<%= select_tag(:month_id, options_for_select([["Январь", 1],["Февраль", 2], ["Май", 5],["Июнь", 6],["Июль", 7],[ "Август", 8],["Сентябрь", 9],["Октябрь", 10],["Ноябрь", 11],[ "Декабрь", 12]], DateTime.now.month))%></div><br><br><br>
+<div id="button_small" ><%= submit_tag "Обновить"%></div>
+<% end %>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Лицевой счёт</th>
+      <th>Город</th>
+      <th>Сумма</th>
+      <th>Дата</th>
+    </tr>
+  </thead>
+  <tbody id="report">
+    <div id ="val"><% @report.each do |r| %></div>
+  <tr><td><%= r["card_holder"] %></td>
+      <td><%= r["city"] %></td>
+      <td><%= r["amount"] %></td>
+      <td><%= r["created_at"] %></td>
+  </tr>
+      <% end %>
+  </tbody>
+</table>
+
+
+<!--Show all report
+  <tbody>
+    <% @report.each do |r| %>
+      <tr><% r.each_value do |value| %>
+          <td><%= value %></td>
+         <% end %></tr>
+      <% end %>
+  </tbody>
+-->

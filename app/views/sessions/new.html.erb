@@ -1,0 +1,10 @@
+<div class="bag">
+<div class="login">
+	<div class="login-form">
+	<%= form_tag sessions_path, method: :post do %>
+		<div class="control-group login-field"><%= text_field_tag :auth_key, nil,  placeholder: "Key" %></div>
+ 	<div id="button"><%= submit_tag "Войти"%></div>
+	<%end%>
+	</div>
+</div>
+</div>

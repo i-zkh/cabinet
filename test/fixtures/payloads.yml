@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user_id: 1
+  user_type: MyString
+  invoce_amount: 1.5
+  invoce_date: 1
+  vendor_id: 1
+
+two:
+  user_id: 1
+  user_type: MyString
+  invoce_amount: 1.5
+  invoce_date: 1
+  vendor_id: 1
