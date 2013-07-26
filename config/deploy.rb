@@ -16,7 +16,7 @@ set :branch, "master"
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 set :ssh_options, {:auth_methods => "publickey"}
-set :ssh_options, {:keys => ["/home/ubuntu/aws_key/aws.pem"]}
+set :ssh_options, {:keys => ["/vagrant/project/aws.pem"]}
 
 after 'deploy:update_code', 'deploy:symlink_uploads'
 
