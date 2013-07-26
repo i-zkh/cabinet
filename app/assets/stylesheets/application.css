@@ -58,8 +58,7 @@ input{
 }
 .login {
 	width: 323px;
-	display: block;
-	margin: 100px auto;
+	margin: 90px auto;
 }
 #button input, .link a, #button_small input {
 	height: 30px;
@@ -141,23 +140,17 @@ table {
 	color: #3498DB;
 }
 .span3 {
-	width: 150px;
-    height: 100%;
-    float: left;
 }
 .span9 {
-	width: 700px;
-	position: relative;
+	width: 70%;
+	position: absolute;
 	margin-left: 230px;
 	padding-top: 20px;
-	display: block;
-	float: left;
 }
 .navigation{
 	background-color: #edeff1;
 	position: fixed;
 	width: 200px;
-	float: left;
 	height: 100%;
 }
 

@@ -1,7 +1,8 @@
-<h3>Транзакции</h3> 
+<div class="span9">
+  <h3>Транзакции</h3> 
 <div class="select-block span3">
 <%= form_tag(transactions_url, method: :post, remote: true) do %>
-<%= select_tag(:month_id, options_for_select([["Январь", 1],["Февраль", 2], ["Май", 5],["Июнь", 6],["Июль", 7],[ "Август", 8],["Сентябрь", 9],["Октябрь", 10],["Ноябрь", 11],[ "Декабрь", 12]], DateTime.now.month))%></div><br><br><br>
+<%= select_tag(:month_id, options_for_select([["Январь", 1],["Февраль", 2], ["Май", 5],["Июнь", 6],["Июль", 7],[ "Август", 8],["Сентябрь", 9],["Октябрь", 10],["Ноябрь", 11],[ "Декабрь", 12]], DateTime.now.month))%></div>
 <div id="button_small" ><%= submit_tag "Обновить"%></div>
 <% end %>
 
@@ -24,7 +25,7 @@
       <% end %>
   </tbody>
 </table>
-
+</div>
 
 <!--Show all report
   <tbody>
