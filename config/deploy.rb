@@ -1,6 +1,6 @@
 require "bundler/capistrano"
 
-server "ec2-54-212-5-64.us-west-2.compute.amazonaws.com", :web, :app, :db, primary: true
+server "10.232.5.101", :web, :app, :db, primary: true
 
 set :application, "project"
 set :user, "ubuntu"
@@ -15,6 +15,8 @@ set :branch, "master"
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
+set :ssh_options, {:auth_methods => "publickey"}
+set :ssh_options, {:keys => ["/home/ubuntu/aws_key/aws.pem"]}
 
 after 'deploy:update_code', 'deploy:symlink_uploads'
 
