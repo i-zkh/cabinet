@@ -1,6 +1,6 @@
 require "bundler/capistrano"
 
-server "10.232.5.101", :web, :app, :db, primary: true
+server "ec2-54-212-5-64.us-west-2.compute.amazonaws.com", :web, :app, :db, primary: true
 
 set :application, "project"
 set :user, "ubuntu"
