@@ -18,9 +18,6 @@ ssh_options[:forward_agent] = true
 set :ssh_options, {:auth_methods => "publickey"}
 set :ssh_options, {:keys => ["/vagrant/project/aws.pem"]}
 
-after 'deploy', 'deploy:bundle_gems'
-after 'deploy:bundle_gems', 'deploy:restart'
-
 after 'deploy:update_code', 'deploy:symlink_uploads'
 
 namespace :deploy do
