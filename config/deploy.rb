@@ -20,28 +20,13 @@ set :ssh_options, {:keys => ["/vagrant/project/aws.pem"]}
 
 after 'deploy:update_code', 'deploy:symlink_uploads'
 
-namespace :deploy do
-  task :symlink_uploads do
-    run "ln -nfs #{shared_path}/uploads  #{release_path}/public/uploads"
-  end
-  
-  task :restart do
-    run "touch #{current_path}/tmp/restart.txt"
-    run "cd #{current_path} && bin/bundle exec clockwork lib/clock.rb"
-  end
-
-end
-# if you want to clean up old releases on each deploy uncomment this:
-# after "deploy:restart", "deploy:cleanup"
-
-# if you're still using the script/reaper helper you will need
-# these http://github.com/rails/irs_process_scripts
-
-# If you are using Passenger mod_rails uncomment this:
-# namespace :deploy do
-#   task :start do ; end
-#   task :stop do ; end
-#   task :restart, :roles => :app, :except => { :no_release => true } do
-#     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-#   end
-# end
+ namespace :deploy do
+   task :bundle_gems do
+   	 run "cd #{deploy_to} && bundle install vendor/gems"
+   end
+   task :start do ; end
+   task :stop do ; end
+   task :restart, :roles => :app, :except => { :no_release => true } do
+     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+   end
+ end
