@@ -2,7 +2,8 @@ class Parser
 	def input
 	end
 
-	def self.push_data_to_db(data, vendor_id)
+	def push_data_to_db(data, vendor_id)
+
 	address_range_last_id = AddressRange.pluck(:id).last
 	user_id_range_last_id = UserIdRange.pluck(:id).last
 		(0..data.size-1).each do |i|
@@ -10,12 +11,12 @@ class Parser
     		UserIdRange.create!(user_account: data[i]["user_account"], vendor_id: vendor_id)
 		end
 		i = 0
-		ActiveRecord::Base.connection.select_values('SELECT id FROM address_ranges WHERE id > ?', address_range_last_id).each do |u_id|
+		ActiveRecord::Base.connection.select_values('SELECT id FROM address_ranges WHERE id > 115152').each do |u_id|
  			Payload.create!(user_id: u_id, user_type: "AddressRange", invoice_amount: data[i]["invoice_amount"], vendor_id: vendor_id)
 			i += 1
    		end
 		i = 0
-    	ActiveRecord::Base.connection.select_values('SELECT id FROM user_id_ranges WHERE id > ?', user_id_range_last_id).each do |u_id|
+    	ActiveRecord::Base.connection.select_values('SELECT id FROM user_id_ranges WHERE id > 115152').each do |u_id|
  			Payload.create!(user_id: u_id, user_type: "UserIdRange", invoice_amount: data[i]["invoice_amount"], vendor_id: vendor_id)
  			i += 1
     	end

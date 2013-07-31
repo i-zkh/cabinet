@@ -3,31 +3,28 @@ class AddressRangesController < ApplicationController
    #Trashcan of XML
 
   def create
-  #parsing_xlt("VOKU1.xls")
+  parsing_xlt("VOKU1.xls")
   #post_test(cyfral)
   #get_request_vendor(vendor_all)
   end
   
 
   def parsing_xlt(file_path)
-   p s = Roo::Excel.new(file_path)
+   s = Roo::Excel.new(file_path)
    row = Array.new
    data = Array.new
    value =[]
    hash = {}
    key = ["user_account"]
 
-   (7..271).each do |i|
-    row << s.cell(i,2)
-   end
+   #(7..271).each do |i|
+   # hash =  {key[0] => s.cell(i, 2).gsub!(" ", "").to_i}
+   # data << hash
+   #end
 
-   row.each do |v|
-    hash = { key[0] => v[0] }
-       data << hash
-   end
-    data
-
-#    create_data(data, s)
+ (0..data.size-1).each do |i|
+    UserIdRange.create!(user_account: data[i]["user_account"], vendor_id: 46)
+  end
   end
     
   def parsing_xml(file_path)
@@ -47,14 +44,13 @@ class AddressRangesController < ApplicationController
        data << hash
    end
 #    create_data(data, s)
-    create_payload(data, s)
+ #   create_payload(data, s)
  end
 
-def create_data(data, s)
-  (0..s.last_row-1).each do |i|
-    AddressRange.create!(city: data[i]["city"], area: data[i]["area"], street: data[i]["street"], house: data[i]["house"], building: data[i]["building"], apartment: data[i]["apartment"], section: data[i]["section"], vendor_id: 1, id: i)
-    UserIdRange.create!(user_account: data[i]["user_account"], vendor_id: 1, id: i)
-
+def create_data(data)
+  (0..data.size-1).each do |i|
+ #   AddressRange.create!(city: data[i]["city"], area: data[i]["area"], street: data[i]["street"], house: data[i]["house"], building: data[i]["building"], apartment: data[i]["apartment"], section: data[i]["section"], vendor_id: 1, id: i)
+    UserIdRange.create!(user_account: data[i]["user_account"], vendor_id: 46)
   end
 end
 

@@ -19,7 +19,7 @@ class TxtParser < Parser
  		hash = { key[0] => array[0], key[1] => array[1], key[2] => array[2], key[3] => array[3], key[4] => array[4], key[5] => array[5]}
 		data << hash
 	end
-	#push_data_to_db(data, @vendor_id)
+	# push_data_to_db(data, @vendor_id)
   end
 	
 end
