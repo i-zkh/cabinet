@@ -1,8 +1,8 @@
-require 'bundler/capistrano'
-require 'rvm/capistrano'
-
-set :rvm_ruby_string, "ruby-1.9.3-p429"
-set :rvm_type, 'ununtu'
+require "rvm/capistrano"
+set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
+set :rvm_type, "ubuntu"
+ 
+require "bundler/capistrano"
 
 server "ec2-54-245-165-167.us-west-2.compute.amazonaws.com", :web, :app, :db, primary: true
 
