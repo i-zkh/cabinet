@@ -1,3 +1,10 @@
+$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
+require "rvm/capistrano"
+set :rvm_ruby_string, 'default'
+set :rvm_type, :user
+ 
+require "bundler/capistrano"
+
 server "ec2-54-245-165-167.us-west-2.compute.amazonaws.com", :web, :app, :db, primary: true
 
 set :application, "project"
@@ -20,7 +27,6 @@ after 'deploy:update_code', 'deploy:symlink_uploads'
 
 namespace :deploy do
   task :symlink_uploads do
-  	run("cd #{deploy_to}/current; /usr/bin/env rake #{ENV['task']} RAILS_ENV=#{rails_env}")
     run "ln -nfs #{shared_path}/uploads  #{release_path}/public/uploads"
   end
   
