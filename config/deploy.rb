@@ -20,7 +20,7 @@ after 'deploy:update_code', 'deploy:symlink_uploads'
 
 namespace :deploy do
   task :symlink_uploads do
-  	run("cd #{deploy_to}/current && /usr/bin/env rake `<task_name>` RAILS_ENV=production")
+  	run("cd #{deploy_to}/current; /usr/bin/env rake #{ENV['task']} RAILS_ENV=#{rails_env}")
     run "ln -nfs #{shared_path}/uploads  #{release_path}/public/uploads"
   end
   
