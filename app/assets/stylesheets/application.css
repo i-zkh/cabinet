@@ -182,6 +182,7 @@ table {
 	color:white;
     height: 30px;
     padding:7px 30px;
+    margin: 10px -1px;
 }
 select,
 input[type="file"] {
@@ -203,3 +204,7 @@ select {
 #button_small input {
 	width:150px;
  	}
+
+.update{
+	margin-left: -4px;
+}
