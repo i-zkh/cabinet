@@ -1,5 +1,3 @@
-require "rvm/capistrano"
-
 server "ec2-54-245-165-167.us-west-2.compute.amazonaws.com", :web, :app, :db, primary: true
 
 set :application, "project"
