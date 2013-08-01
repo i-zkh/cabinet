@@ -1,5 +1,5 @@
 require "rvm/capistrano"
-set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
+set :rvm_ruby_string, "ruby-1.9.3-p429"
 set :rvm_type, "ubuntu"
  
 require "bundler/capistrano"
