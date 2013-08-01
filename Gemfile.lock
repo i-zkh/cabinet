@@ -109,6 +109,8 @@ GEM
       spreadsheet (> 0.6.4)
     ruby-ole (1.2.11.7)
     rubyzip (0.9.9)
+    rvm-capistrano (1.4.1)
+      capistrano (>= 2.0.0)
     sass (3.2.9)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -144,9 +146,12 @@ DEPENDENCIES
   httparty
   jquery-rails
   json
+  nokogiri
   pg
+  rack (~> 1.1)
   rails (= 3.2.13)
   roo
+  rvm-capistrano
   sass-rails (~> 3.2.3)
   therubyracer
   uglifier (>= 1.0.3)

@@ -10,7 +10,9 @@ gem 'roo'
 gem 'json'
 gem 'httparty'
 gem "flat-ui-rails"
-
+gem 'nokogiri'
+gem 'rack', '~>1.1'
+gem 'rvm-capistrano'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
