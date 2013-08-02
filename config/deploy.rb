@@ -1,10 +1,6 @@
-
 require "rvm/capistrano"
 set :rvm_ruby_string, 'default'
 set :rvm_type, :user
- 
-# Bundler
- 
  
 server "ec2-54-212-98-198.us-west-2.compute.amazonaws.com", :web, :app, :db, primary: true
 
