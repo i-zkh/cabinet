@@ -1,7 +1,7 @@
 <% @report.each do |r| %>
- <tr><td><%= r["card_holder"] %></td>
-     <td><%= r["city"] %></td>
-     <td><%= r["amount"] %></td>
-     <td><%= r["created_at"] %></td>
+  <tr><td><%= r["user_account"] %></td>
+      <td><%= r["address"] %></td>
+      <td><%= r["amount"] %></td>
+      <td><%= r["date"] %></td>
  </tr>
 <% end %>

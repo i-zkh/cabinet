@@ -13,6 +13,19 @@ Project::Application.routes.draw do
   get 'get_txt' => 'txt#create'
   get 'get_xls' => 'xls#create'
   get 'get_xlt' => 'address_ranges#create'
+  
+  get 'auth' => 'auth_token#create'
+
+  #Post request
+  get 'create_vendor' => 'request#request_vendor'
+  get 'create_field_template' => 'request#request_field_template'
+  get 'create_tariff_template' => 'request#request_tariff_template'
+
+  #match 'payments' => 'payments#show', :as => 'payments', :via => :get
+  #match 'payments' => 'payments#create', :as => 'payments', :via => :post
+
+  #match 'contact' => 'contact#new', :as => 'contact', :via => :get
+  #match 'contact' => 'contact#create', :as => 'contact', :via => :post
 
   root :to => 'sessions#new'
   # The priority is based upon order of creation:

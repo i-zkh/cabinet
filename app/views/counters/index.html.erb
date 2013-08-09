@@ -15,6 +15,7 @@
   </thead>
   <tbody id="report">
     <div id ="val"><% @report.each do |r| %></div>
+    <%if @report %>
   <tr><td><%= r["reading"] %></td>
       <td><%= r["created_at"] %></td>
       <% if  r["snapshot_url"] %> 
@@ -23,6 +24,7 @@
       <td>Нет картинки</td>
       <% end %>
   </tr>
+      <% end %>
       <% end %>
   </tbody>
 </table>

@@ -28,11 +28,11 @@ module Project
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
+    config.time_zone = 'Moscow'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    config.i18n.default_locale = :ru
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
@@ -59,6 +59,30 @@ module Project
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    config.assets.initialize_on_precompile = true
+    config.assets.initialize_on_precompile = false
+
+    # Configure mailer
+    config.action_mailer.smtp_settings = {
+      :address              => "smtp.gmail.com",
+      :port                 => 587,
+      :domain               => "gmail.com",
+      :user_name            => "iva.anastya@gmail.com",
+      :password             => "konorenok3677",
+      :authentication       => :plain,
+      :enable_starttls_auto => false
+   
+    #  :address              => "mail.nic.ru",
+    #  :port                 => 25,
+    #  :domain               => "izkh.ru",
+    #  :user_name            => "out@izkh.ru",
+    #  :password             => "EbabZas0",
+    #  :authentication       => :plain,
+    #  :enable_starttls_auto => false
+    }
+
+    #config.action_mailer.default_url_options = { 
+    #  :host => 'izkh.ru'
+    #}
+    
   end
 end

@@ -1,10 +1,11 @@
 class SessionsController < ApplicationController
+
   def new
   end
 
   def create 
   	if  params[:auth_key] != ""  
-      p vendor = Vendor.where(:auth_key => params[:auth_key]).first
+      vendor = Vendor.where(:auth_key => params[:auth_key]).first
       if vendor
       session[:vendor_id] = vendor.id
       redirect_to transactions_url
@@ -12,7 +13,7 @@ class SessionsController < ApplicationController
       render "new"
     end
     else 
-       render "new"
+      render "new"
     end
    end
 

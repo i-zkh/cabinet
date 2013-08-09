@@ -1,10 +1,18 @@
+#encoding: utf-8
+require 'russian'
 class PaymentsController < ApplicationController
   def create
-    request = RequestPayment.new("TITLE", "6")
+  	auth = session[:auth_token]
 
-    report1 = Report.new(TxtPayment.new(request.get_payment))
-    report1.output_report
-    p ReportMail.report("Hello").deliver
-    render json: report1
+  	vendor = []
+
+    request = RequestPayment.new(auth)
+    report = Report.new(TxtPayment.new(request.get_payment))
+    vendor_id = report.output_report
+    vendor_id.each do |v|
+    	vendor = Vendor.find(v)
+    	ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver
+    end
+    render json: true
   end
 end

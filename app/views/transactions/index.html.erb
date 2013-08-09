@@ -10,29 +10,21 @@
   <thead>
     <tr>
       <th>Лицевой счёт</th>
-      <th>Город</th>
+      <th>Адрес</th>
       <th>Сумма</th>
       <th>Дата</th>
     </tr>
   </thead>
   <tbody id="report">
+    <% if @report != nil %>
     <div id ="val"><% @report.each do |r| %></div>
-  <tr><td><%= r["card_holder"] %></td>
-      <td><%= r["city"] %></td>
+  <tr><td><%= r["user_account"] %></td>
+      <td><%= r["address"] %></td>
       <td><%= r["amount"] %></td>
-      <td><%= r["created_at"] %></td>
+      <td><%= r["date"] %></td>
   </tr>
+      <% end %>
       <% end %>
   </tbody>
 </table>
 </div>
-
-<!--Show all report
-  <tbody>
-    <% @report.each do |r| %>
-      <tr><% r.each_value do |value| %>
-          <td><%= value %></td>
-         <% end %></tr>
-      <% end %>
-  </tbody>
--->
