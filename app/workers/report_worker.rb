@@ -10,5 +10,5 @@ class ReportWorker
 	    	vendor = Vendor.find(v)
 	    	ReportMail.report("report", vendor).deliver
 	    end
-     end
+    end
 end
