@@ -29,7 +29,7 @@ namespace :deploy do
   
   task :restart do
     run "touch #{current_path}/tmp/restart.txt"
-    run "cd #{current_path} && clockwork lib/clock.rb"
+    run "cd #{current_path} && bin/bundle exec clockwork apps/lib/clock.rb"
   end
 
 end
