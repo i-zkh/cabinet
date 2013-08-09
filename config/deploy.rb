@@ -1,4 +1,7 @@
 require "rvm/capistrano"
+$:.unshift(File.expand_path("./lib", ENV["rvm_path"]))
+require "bundler/capistrano"
+
 require 'sidekiq/capistrano'
 set :rvm_ruby_string, 'default'
 set :rvm_type, :user
