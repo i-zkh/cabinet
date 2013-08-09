@@ -160,6 +160,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
   capistrano
+  celluloid
   clockwork
   coffee-rails (~> 3.2.1)
   daemons
