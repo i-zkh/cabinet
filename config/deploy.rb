@@ -1,6 +1,6 @@
 require "rvm/capistrano"
-require 'sidekiq/capistrano'
 
+require 'sidekiq/capistrano'
 set :rvm_ruby_string, 'default'
 set :rvm_type, :user
 set :bundle_cmd, 'bundle'
@@ -33,5 +33,6 @@ namespace :deploy do
 
   task :restart do
     run "touch #{current_path}/tmp/restart.txt"
+    run "cd #{current_path} && bin/bundle exec sidekiq"
   end
 end
