@@ -13,6 +13,14 @@ set :deploy_via, :remote_cache
 set :use_sudo, false
 set :rails_env, "production"
 
+set :bundle_cmd, 'bundle'
+set :sidekiq_cmd, "#{bundle_cmd} exec sidekiq"
+set :sidekiqctl_cmd, "#{bundle_cmd} exec sidekiqctl"
+set :sidekiq_timeout, 10
+set :sidekiq_role, :app
+set :sidekiq_pid, "#{current_path}/tmp/pids/sidekiq.pid"
+set :sidekiq_processes, 1
+
 set :scm, "git"
 set :repository, "git://github.com/ivannasya/vendor.git"
 set :branch, "master"
@@ -23,11 +31,6 @@ set :ssh_options, {:auth_methods => "publickey"}
 set :ssh_options, {:keys => ["/vagrant/project/aws.pem"]}
 
 after 'deploy:update_code', 'deploy:symlink_uploads'
-before "deploy:update_code", "sidekiq:quiet"
-after "deploy:stop",    "sidekiq:stop"
-after "deploy:start",   "sidekiq:start"
-before "deploy:restart", "sidekiq:restart"
-
 
 namespace :deploy do
   task :symlink_uploads do
@@ -37,28 +40,4 @@ namespace :deploy do
   task :restart do
     run "touch #{current_path}/tmp/restart.txt"
   end
-
-
-  namespace :sidekiq do    
-    desc "Quiet sidekiq (stop accepting new work)"
-    task :quiet, :roles => :app, :on_no_matching_servers => :continue do
-      run "/usr/sbin/service sidekiq quiet"
-    end
-
-    desc "Stop sidekiq"
-    task :stop, :roles => :app, :on_no_matching_servers => :continue do
-      run "sudo /usr/bin/monit stop sidekiq"
-    end
-
-    desc "Start sidekiq"
-    task :start, :roles => :app, :on_no_matching_servers => :continue do
-      run "sudo /usr/bin/monit start sidekiq"
-    end
-
-    desc "Restart sidekiq"
-    task :restart, :roles => :app, :on_no_matching_servers => :continue do
-      run "sudo /usr/bin/monit restart sidekiq"
-    end
-  end  
-
 end
