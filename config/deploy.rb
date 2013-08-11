@@ -1,5 +1,4 @@
 require "rvm/capistrano"
-require 'bundler/capistrano'
 require 'sidekiq/capistrano'
 
 set :rvm_ruby_string, 'default'
