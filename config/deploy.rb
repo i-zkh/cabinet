@@ -14,6 +14,14 @@ set :deploy_via, :remote_cache
 set :use_sudo, false
 set :rails_env, "production"
 
+set :bundle_cmd, 'bundle'
+set :sidekiq_cmd, "#{bundle_cmd} exec sidekiq"
+set :sidekiqctl_cmd, "#{bundle_cmd} exec sidekiqctl"
+set :sidekiq_timeout, 10
+set :sidekiq_role, :app
+set :sidekiq_pid, "#{current_path}/tmp/pids/sidekiq.pid"
+set :sidekiq_processes, 1
+
 set :scm, "git"
 set :repository, "git://github.com/ivannasya/vendor.git"
 set :branch, "master"
@@ -32,6 +40,5 @@ namespace :deploy do
 
   task :restart do
     run "touch #{current_path}/tmp/restart.txt"
-    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec sidekiq"
   end
 end
