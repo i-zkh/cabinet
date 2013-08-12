@@ -47,6 +47,11 @@ textarea:focus,
     -moz-box-shadow: none;
     box-shadow: none; 
 }
+
+.edit_input input{
+
+}
+
 .control-group textarea, 
 .control-group input[type="text"], 
 .control-group .uneditable-input{
