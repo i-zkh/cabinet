@@ -1,6 +1,3 @@
-require "rvm/capistrano"
-require 'sidekiq/capistrano'
-
 set :rvm_ruby_string, 'default'
 set :rvm_type, :user
  
