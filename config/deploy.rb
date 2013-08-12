@@ -39,6 +39,6 @@ namespace :deploy do
 
   task :restart do
     run "touch #{current_path}/tmp/restart.txt"
-    run "cd #{current_path} && bin/bundle exec sidekiq"
+    run "cd #{current_path} && #{sidekiq_cmd}"
   end
 end
