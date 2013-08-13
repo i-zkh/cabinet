@@ -3,8 +3,7 @@ require 'russian'
 class PaymentsController < ApplicationController
   def create
     vendor = []
-      auth = "LuNXcS4tAGMgj8xwr7LR"
-      request = RequestPayment.new(auth)
+      request = RequestPayment.new(session_auth)
       report = Report.new(TxtPayment.new(request.get_payment))
       vendor_id = report.output_report
       vendor_id.each do |v|
