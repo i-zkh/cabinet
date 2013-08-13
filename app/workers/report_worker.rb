@@ -4,7 +4,7 @@ class ReportWorker
   include Sidekiq::Worker
      def perform
 		vendor = []
-		if session[:auth_token] = ""
+		if !session[:auth_token]
           response = HTTParty.post( "https://izkh.ru/users/sign_in.json",
           :body => { :user =>  { :email => "iva.anastya@gmail.com", :password => "slastenka3677" }}.to_json,
           :headers => { 'Content-Type' => 'application/json' })
