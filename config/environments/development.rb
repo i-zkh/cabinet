@@ -28,16 +28,6 @@ Project::Application.configure do
       :enable_starttls_auto => true
   }
 
- #config.action_mailer.smtp_settings = {
- #    :address              => "mail.nic.ru",
- #    :port                 => 25,
- #    :domain               => "izkh.ru",
- #    :user_name            => "out@izkh.ru",
- #    :password             => "EbabZas0",
- #    :authentication       => :plain,
- #    :enable_starttls_auto => false
- #}
-
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 
