@@ -18,10 +18,11 @@
   <tbody id="report">
     <% if @report != nil %>
     <div id ="val"><% @report.each do |r| %></div>
+      <% date = DateTime.parse(r["date"]) %>
   <tr><td><%= r["user_account"] %></td>
       <td><%= r["address"] %></td>
       <td><%= r["amount"] %></td>
-      <td><%= r["date"] %></td>
+      <td><%= date.strftime("%Y-%m-%d") %></td>
   </tr>
       <% end %>
       <% end %>

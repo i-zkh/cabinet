@@ -16,10 +16,11 @@
   <tbody id="report">
     <div id ="val"><% @report.each do |r| %></div>
     <%if @report %>
+    <% date = DateTime.parse(r["created_at"]) %>
   <tr><td><%= r["reading"] %></td>
-      <td><%= r["created_at"] %></td>
+      <td><%= date.strftime("%Y-%m-%d") %></td>
       <% if  r["snapshot_url"] %> 
-      	<td><%= image_tag @path+r["snapshot_url"] %></td>
+      	<td ><%= image_tag @path+r["snapshot_url"] %></td>
       <% else %>
       <td>Нет картинки</td>
       <% end %>

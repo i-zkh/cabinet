@@ -63,13 +63,20 @@ module Project
 
     # Configure mailer
     config.action_mailer.smtp_settings = {
-      :address              => "mail.nic.ru",
-      :port                 => 25,
-      :domain               => "izkh.ru",
-      :user_name            => "out@izkh.ru",
-      :password             => "EbabZas0",
+    #  :address              => "mail.nic.ru",
+    #  :port                 => 25,
+    #  :domain               => "izkh.ru",
+    #  :user_name            => "out@izkh.ru",
+    #  :password             => "EbabZas0",
+    #  :authentication       => :plain,
+    #  :enable_starttls_auto => false
+      :address              => "smtp.gmail.com",
+      :port                 => 587,
+      :domain               => "gmail.com",
+      :user_name            => "iva.anastya@gmail.com",
+      :password             => "konorenok3677",
       :authentication       => :plain,
-      :enable_starttls_auto => false
+      :enable_starttls_auto => true
     }
 
     config.action_mailer.default_url_options = { 
