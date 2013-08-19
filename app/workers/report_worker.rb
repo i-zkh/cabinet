@@ -15,5 +15,6 @@ class ReportWorker
 	    	vendor = Vendor.find(v)
 	    	ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver
 	    end
+	    	ReportMail.accounts.deliver
     end
 end

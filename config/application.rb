@@ -70,13 +70,6 @@ module Project
       :password             => "EbabZas0",
       :authentication       => :plain,
       :enable_starttls_auto => false
-    #  :address              => "smtp.gmail.com",
-    #  :port                 => 587,
-    #  :domain               => "gmail.com",
-    #  :user_name            => "iva.anastya@gmail.com",
-    #  :password             => "konorenok3677",
-    #  :authentication       => :plain,
-    #  :enable_starttls_auto => true
     }
 
     config.action_mailer.default_url_options = { 

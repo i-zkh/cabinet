@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def authorize
-  	redirect_to new_session_path if (current_user.nil? && current_user.id != vendor.id)
+  	redirect_to new_session_path if current_user.nil?
   end
 
   def session_auth 

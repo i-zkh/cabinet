@@ -1,8 +1,11 @@
 <div class="span9">
- <div class="form"> <%= form_for(@vendor) do |f| %>
+ <div class="form"> 
+  <%= form_for(@vendor) do |f| %>
   <div id="vendor_title">
-    <%= f.label :title, "Название" %>
-    <%= f.text_field :title %>
+  <!--  <%= f.label :title, "Название" %>
+    <%= f.text_field :title %>-->
+    <b>Название:</b>
+  <%= @vendor.title %>
   </div>
   <td class="pbm">
     <div>Водоснабжение <%= check_box_tag :voda %></div>
@@ -12,6 +15,6 @@
   <div class="actions">
     <div id="button_small" class="update"><%= f.submit "Обновить" %></div>
   </div>
-  <% end %>
+ <% end %>
 </div>
 </div>

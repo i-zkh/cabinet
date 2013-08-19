@@ -8,4 +8,9 @@ class ReportMail < ActionMailer::Base
     attachments["#{vendor.title}.txt"] = File.read("#{vendor.title}.txt")
     mail(to: vendor.email, subject: "АйЖКХ")
   end
+
+  def accounts
+    attachments["absence_user_account.txt"] = File.read("absence_user_account.txt")
+    mail(to: "ivanova@izkh.ru", subject: "report")
+  end
 end

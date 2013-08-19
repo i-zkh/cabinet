@@ -27,7 +27,7 @@ Project::Application.routes.draw do
   #match 'contact' => 'contact#new', :as => 'contact', :via => :get
   #match 'contact' => 'contact#create', :as => 'contact', :via => :post
 
-  root :to => 'sessions#new'
+  root :to => "transactions#index"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

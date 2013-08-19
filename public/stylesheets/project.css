@@ -202,4 +202,17 @@ select {
 img {
 	width: 150px;
 	height: 100px;
+	-webkit-transition: .25s linear, color .25s linear;
+	-moz-transition: .25s linear, color .25s linear;
+	-o-transition: .25s linear, color .25s linear;
+	transition: .25s linear, color .25s linear;
+}
+
+.big-image {
+	z-index: 1000;
+	position: absolute;
+}
+
+td.td_with_image{
+	height: 100px;
 }
