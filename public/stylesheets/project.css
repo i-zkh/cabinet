@@ -14,6 +14,7 @@
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
 	margin:0;
 	padding:0;
+	z-index: 0;
 }
 fieldset,img { 
 	border:0;
@@ -78,7 +79,6 @@ input{
 thead{
 	background-color: #3498DB;
 }
-
 #button input:active, .link a:active, #button_small input:active {
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	background-color: #006dcc;
@@ -93,7 +93,6 @@ thead{
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
-
 #button input:hover, .link a:hover, #button_small input:hover {
 	-webkit-transition: 0.25s;
 	-moz-transition: 0.25s;
@@ -133,13 +132,12 @@ table {
 .todo li.todo-done{
 	color: #3498DB;
 }
-.span3 {
-}
-.span9 {
+.span9{
 	width: 70%;
-	position: absolute;
+	position: relative;
 	margin-left: 230px;
 	padding-top: 20px;
+	z-index: 100;
 }
 .navigation{
 	background-color: #edeff1;
@@ -165,7 +163,6 @@ table {
 	color: #C0392B;
 	padding: 0 6px 15px 6px; 
 }
-
 .form { 
 	padding: 30px 0;
 	line-height: 40px;
@@ -195,11 +192,11 @@ select {
 }
 #button_small input {
 	width:150px;
- 	}
+}
 .update{
 	margin-left: -4px;
 }
-img {
+img{
 	width: 150px;
 	height: 100px;
 	-webkit-transition: .25s linear, color .25s linear;
@@ -207,12 +204,9 @@ img {
 	-o-transition: .25s linear, color .25s linear;
 	transition: .25s linear, color .25s linear;
 }
-
-.big-image {
-	z-index: 1000;
-	position: absolute;
+img:hover{
+	cursor:pointer;
 }
-
 td.td_with_image{
 	height: 100px;
 }

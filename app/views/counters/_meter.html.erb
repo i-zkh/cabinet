@@ -1,12 +1,12 @@
-    <%if @report %>
-    <% @report.each do |r| %></div>
-      <% date = DateTime.parse(r["created_at"]) %>
+<%if @report %>
+  <% @report.each do |r| %></div>
+    <% date = DateTime.parse(r["created_at"]) %>
   <tr>
   	<% if  r["snapshot_url"] %>
       <td class="td_with_image"><%= image_tag @path+r["snapshot_url"] %></td>
-      <% else %>
+    <% else %>
       <td>Нет картинки</td>
-      <% end %>
+    <% end %>
   	<td><%= r["reading"] %></td>
     <td><%= date.strftime("%Y-%m-%d") %></td>
   </tr>

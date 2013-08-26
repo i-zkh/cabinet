@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130808111639) do
+ActiveRecord::Schema.define(:version => 20130821111706) do
 
   create_table "address_ranges", :force => true do |t|
     t.string   "city"
@@ -44,13 +44,14 @@ ActiveRecord::Schema.define(:version => 20130808111639) do
     t.string   "title"
     t.integer  "account_number"
     t.integer  "user_id_type"
-    t.integer  "vendor_type"
+    t.string   "vendor_type",     :limit => nil
     t.integer  "merchantId"
     t.integer  "service_type_id"
     t.string   "auth_key",        :limit => nil
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
     t.string   "email"
+    t.float    "commission"
   end
 
 end

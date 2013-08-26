@@ -1,13 +1,11 @@
 class CountersController < ApplicationController
   def index
-  	request = RequestMeter.new(1, DateTime.now.month)
-	  @report = request.get_meter
+  	@report = GetRequest.meters(1, DateTime.now.month)
     @path = "http://izkh.ru/"
   end
 
   def create
-    request = RequestMeter.new(1, params[:month_id])
-    @report = request.get_meter
+    @report = GetRequest.meters(1, params[:month_id])
     @path = "http://izkh.ru/"
     respond_to do |f| f.js { render "counters/create" }
     end

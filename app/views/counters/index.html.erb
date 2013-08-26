@@ -1,12 +1,14 @@
-<style>
-  hoverer();
-</style>
+<script>
+  $( document ).ready(function(){
+    hoverer();
+  });
+</script>
 <div class="span9"><h3>Счётчики</h3> 
 <div class="select-block span3">
-<%= form_tag(counters_url, method: :post, remote: true) do %>
-<%= select_tag(:month_id, options_for_select([["Январь", 1],["Февраль", 2], ["Май", 5],["Июнь", 6],["Июль", 7],[ "Август", 8],["Сентябрь", 9],["Октябрь", 10],["Ноябрь", 11],[ "Декабрь", 12]], DateTime.now.month))%></div>
+  <%= form_tag(counters_url, method: :post, remote: true) do %>
+  <%= select_tag(:month_id, options_for_select([["Январь", 1],["Февраль", 2], ["Май", 5],["Июнь", 6],["Июль", 7],[ "Август", 8],["Сентябрь", 9],["Октябрь", 10],["Ноябрь", 11],[ "Декабрь", 12]], DateTime.now.month))%></div>
 <div id="button_small" ><%= submit_tag "Обновить"%></div>
-<% end %>
+  <% end %>
 
 <table class="table table-striped table-hover">
   <thead>
@@ -17,18 +19,18 @@
     </tr>
   </thead>
   <tbody id="report">
-        <%if @report %>
+  <%if @report %>
     <div id ="val"><% @report.each do |r| %></div>
       <% date = DateTime.parse(r["created_at"]) %>
       <% if  r["snapshot_url"] %> 
-          <tr><td class="td_with_image"><%= image_tag @path+r["snapshot_url"] %></td>
+        <tr><td class="td_with_image"><%= image_tag @path+r["snapshot_url"] %></td>
       <% else %>
           <td>Нет картинки</td>
       <% end %>
-     <td><%= r["reading"] %></td>
+      <td><%= r["reading"] %></td>
         <td><%= date.strftime("%Y-%m-%d") %></td>
-    </tr>
-  <% end %>
+        </tr>
+   <% end %>
   <% end %>
   </tbody>
 </table>

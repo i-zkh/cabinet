@@ -17,9 +17,10 @@ Project::Application.routes.draw do
   get 'auth' => 'auth_token#create'
 
   #Post request
-  get 'create_vendor' => 'request#request_vendor'
+  get 'add_vendor_to_service' => 'request#add_vendor_to_service'
   get 'create_field_template' => 'request#request_field_template'
   get 'create_tariff_template' => 'request#request_tariff_template'
+  get 'get_vendor' => 'request#get_vendor'
 
   #match 'payments' => 'payments#show', :as => 'payments', :via => :get
   #match 'payments' => 'payments#create', :as => 'payments', :via => :post

@@ -8,21 +8,19 @@
   <%= csrf_meta_tags %>
 </head>
 <%if !current_user %>
-<style>
+  <style>
 	body {background-color: #3498DB;}
-</style>
+  </style>
 <% end %>
 <body>
 	<% if current_user %>	
-	<div class="span3">
 	<div class="navigation">
-          <ul class="sidebar ">
+    <ul class="sidebar ">
 	  <li class="<%= 'active' if current_page?(edit_vendor_path(current_user.id)) || current_page?(vendor_path(current_user.id))%>"><%= link_to "Аккаунт", vendor_path(current_user.id) %></li>
 	  <li class="<%= 'active' if current_page?(transactions_path) %>"><%= link_to "Транзакции", transactions_path %></li>
 	  <li class="<%= 'active' if current_page?(counters_path) %>"><%= link_to "Показания счётчиков", counters_path %></li>
 	  <li><%= link_to "Выход", session_path("current"), method: "delete" %></li>
-		  </ul>
-	</div>
+	</ul>
 	</div>
 	<% end %>
   <%= yield %>

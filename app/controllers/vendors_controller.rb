@@ -6,7 +6,6 @@ class VendorsController < ApplicationController
   #    flash[:error] = 'Введен не существующий ключ.'}
   def show
     @vendor = current_user
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @vendor }
@@ -20,7 +19,7 @@ class VendorsController < ApplicationController
   def update
     @vendor = current_user
 
-        respond_to do |format|
+    respond_to do |format|
       if @vendor.update_attributes(params[:vendor])
         format.html { redirect_to @vendor, notice: 'Данные успешно обновлены.' }
         format.json { head :no_content }
@@ -30,5 +29,4 @@ class VendorsController < ApplicationController
       end
     end
   end
-
 end

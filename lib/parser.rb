@@ -3,7 +3,6 @@ class Parser
 	end
 
 	def push_data_to_db(data, vendor_id)
-
 	address_range_last_id = AddressRange.pluck(:id).last
 	user_id_range_last_id = UserIdRange.pluck(:id).last
 		(0..data.size-1).each do |i|

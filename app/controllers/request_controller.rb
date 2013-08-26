@@ -1,19 +1,9 @@
 #encoding: utf-8
 class RequestController < ApplicationController
-
-  def auth_token
-    response = HTTParty.post( "http://ec2-54-245-202-30.us-west-2.compute.amazonaws.com/users/sign_in.json",
-      :body => { :user =>  { :email => "iva.anastya@gmail.com", :password => "slastenka3677" }}.to_json,
-      :headers => { 'Content-Type' => 'application/json' })
-    @user = response.parsed_response["user"]["auth_token"]
-  end
-
-  def request_vendor
-    auth = session[:auth_token]
-  	vendor = CreateVendor.new("ЖСК 43", 4, auth)
-	  @vendor = vendor.request
+  def add_vendor_to_service
+  	vendor = AddVendorToService.new("ЖСК 43", 4)
+	  @vendor = vendor.add
     render json: @user
-
   end
 
   def request_tariff_template
@@ -28,6 +18,19 @@ class RequestController < ApplicationController
     field_template = CreateFieldTemplate.new("title", 100.00, true, 200, "field_type", 'field_units', auth)
     @field_template = field_template.request
     render json: @field_template
+  end
+
+  def get_vendor 
+    @data = GetRequest.vendors
+    (0..@data.size-1).each do |i|
+      vendor = Vendor.where(title: @data[i]["vendor"]["title"]).first
+      if !vendor
+      #k = (0...5).map{('a'..'z').to_a[rand(26)]}.join
+      #vendor_key = Digest::MD5.hexdigest(k)
+        #Vendor.create!(id: @data[i]["vendor"]["id"], title: @data[i]["vendor"]["title"], auth_key: vendor_key)
+      end
+    end  
+    render json: true
   end
 
 end
