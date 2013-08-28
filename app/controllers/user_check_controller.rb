@@ -14,7 +14,6 @@ class UserCheckController < ApplicationController
   def account
   	@vendor = Vendor.where("title = ?", params[:title]).first
   	@user_check = UserIdRange.where("user_account = ? AND vendor_id = ?", params[:user_account], @vendor.id).first
-
   	unless @user_check.nil?
   		@payload = Payload.where(user_id: @user_check.id, user_type: "UserIdRange").first
   		render json: @payload.invoice_amount

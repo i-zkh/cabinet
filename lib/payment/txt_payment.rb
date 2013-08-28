@@ -6,16 +6,13 @@ class TxtPayment < Payment
   end
 
   def output
-    vendors_id = []
-    report = []
-    absence_user_account = []
+    vendors_id, report, absence_user_account = [], [], []
   if @data != []
-    @data.each do |data| 
+    @data.each do |data|
       vendors_id << data['vendor_id']
       vendor = UserIdRange.where(user_account: data['user_account'], vendor_id: data['vendor_id'])
       if vendor = ""
           absence_user_account << data
-      else 
       end
 
     vendors_id.uniq!
@@ -35,13 +32,14 @@ class TxtPayment < Payment
       outFile.puts
       end
       outFile.close
+     end
     end
+  else
+    absence_user_account << "No transactions"
   end
-end
-  accountFile = File.new("absence_user_account.txt", "w")
-  accountFile.write(absence_user_account)
-  accountFile.close
-
-  return vendors_id
+    accountFile = File.new("absence_user_account.txt", "w")
+    accountFile.write(absence_user_account)
+    accountFile.close
+    return vendors_id
   end
 end

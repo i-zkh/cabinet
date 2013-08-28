@@ -27,7 +27,7 @@ class GetRequest
 	end
 
 	def self.geocode(address)
-      response = HTTParty.get( URI::encode("http://geocode-maps.yandex.ru/1.x/?geocode=#{adsress]}&format=json") )
-      return response["response"]["GeoObjectCollection"]["featureMember"].first["GeoObject"]["Point"]["pos"].gsub!(" ", ",")
+    	response = HTTParty.get( URI::encode("http://geocode-maps.yandex.ru/1.x/?geocode=#{address}&format=json") )
+        return response["response"]["GeoObjectCollection"]["featureMember"].first["GeoObject"]["Point"]["pos"].gsub!(" ", ",")
 	end
 end

@@ -1,7 +1,7 @@
 #encoding: utf-8
 class ReportMail < ActionMailer::Base
   default from: "out@izkh.ru"
-  default to: "ivanova@izkh.ru"
+  default to: "out@izkh.ru"
 
   def report(message, vendor)
     @message = message
@@ -11,6 +11,6 @@ class ReportMail < ActionMailer::Base
 
   def accounts
     attachments["absence_user_account.txt"] = File.read("absence_user_account.txt")
-    mail(to: "ivanova@izkh.ru", subject: "report")
+    mail(to: "out@izkh.ru", subject: "report")
   end
 end

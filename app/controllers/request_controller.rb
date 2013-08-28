@@ -1,23 +1,18 @@
 #encoding: utf-8
 class RequestController < ApplicationController
   def add_vendor_to_service
-  	vendor = AddVendorToService.new("ЖСК 43", 4)
-	  @vendor = vendor.add
-    render json: @user
+  	PostRequest.vendor("ЖСК 43", 4)
+    render json: true
   end
 
   def request_tariff_template
-    auth = session[:auth_token]
-    tariff_template = CreateTariffTemplate.new("title", 105, 2, false, auth)
-    @tariff_template = tariff_template.request
-    render json: @tariff_template
+    PostRequest.tariff_template("title", 105, 2, false)
+    render json: true
   end
 
   def request_field_template
-    auth = session[:auth_token]
-    field_template = CreateFieldTemplate.new("title", 100.00, true, 200, "field_type", 'field_units', auth)
-    @field_template = field_template.request
-    render json: @field_template
+    PostRequest.field_template("title", 100.00, true, 200, "field_type", 'field_units')
+    render json: true
   end
 
   def get_vendor 
@@ -31,6 +26,12 @@ class RequestController < ApplicationController
       end
     end  
     render json: true
+  end
+
+  def osmp
+    p response = HTTParty.get( "https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%0034586&txn_date=20120827123230&sum=10.45&sign-md5=#{"ijkh.pem"}" )
+    p @res = response.parsed_response
+    render json: @res
   end
 
 end
