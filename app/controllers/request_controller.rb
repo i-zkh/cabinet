@@ -1,7 +1,10 @@
+require 'openssl'
+require "net/https"
+require "uri"
 #encoding: utf-8
 class RequestController < ApplicationController
   def add_vendor_to_service
-  	PostRequest.vendor("ЖСК 43", 4)
+  	PostRequest.vendor("test", 4)
     render json: true
   end
 
@@ -29,9 +32,32 @@ class RequestController < ApplicationController
   end
 
   def osmp
-    p response = HTTParty.get( "https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%0034586&txn_date=20120827123230&sum=10.45&sign-md5=#{"ijkh.pem"}" )
-    p @res = response.parsed_response
-    render json: @res
-  end
+  #  p response = HTTParty.get( "https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%0034586&txn_date=20120827123230&sum=10.45&sign-md5=#{"ijkh.pem"}" )
+  #  p @res = response.parsed_response
+  #  render json: @res
 
+  #  cert = OpenSSL::X509::Certificate.new(File.open("read.pem"))
+  #p response = HTTParty.get( "https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%0034586&txn_date=20120827123230&sum=10.45", {:ssl_client_cert => cert})
+  #p @res = response.parsed_response
+  # render json: @res
+  
+#  uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%0034586&txn_date=20120827123230&sum=10.45")
+#  pem = File.read("ijkh.pem")
+#  #pembg = File.read("bgbilling.pem")
+#  http = Net::HTTP.new(uri.host, uri.port)
+#  http.use_ssl = true
+#  http.cert = OpenSSL::X509::Certificate.new(pem)
+# # http.key = OpenSSL::PKey::RSA.new(pembg)
+# # http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+#
+#  p request = Net::HTTP::Get.new(uri.request_uri)
+
+  uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%0034586&txn_date=20120827123230&sum=10.45")
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.cert = OpenSSL::X509::Certificate.new(File.read("ijkh.pem"))
+  request = Net::HTTP::Get.new(uri.request_uri)
+  p request.body
+
+  render json: true
+  end
 end
