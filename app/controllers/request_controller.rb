@@ -32,16 +32,16 @@ class RequestController < ApplicationController
   end
 
   def osmp
-  #  p response = HTTParty.get( "https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%0034586&txn_date=20120827123230&sum=10.45&sign-md5=#{"ijkh.pem"}" )
+  #  p response = HTTParty.get( "https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%230034586&txn_date=20120827123230&sum=10.45&sign-md5=#{"ijkh.pem"}" )
   #  p @res = response.parsed_response
   #  render json: @res
 
   #  cert = OpenSSL::X509::Certificate.new(File.open("read.pem"))
-  #p response = HTTParty.get( "https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%0034586&txn_date=20120827123230&sum=10.45", {:ssl_client_cert => cert})
+  #p response = HTTParty.get( "https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%230034586&txn_date=20120827123230&sum=10.45", {:ssl_client_cert => cert})
   #p @res = response.parsed_response
   # render json: @res
   
-#  uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%0034586&txn_date=20120827123230&sum=10.45")
+#  uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%230034586&txn_date=20120827123230&sum=10.45")
 #  pem = File.read("ijkh.pem")
 #  #pembg = File.read("bgbilling.pem")
 #  http = Net::HTTP.new(uri.host, uri.port)
@@ -52,11 +52,37 @@ class RequestController < ApplicationController
 #
 #  p request = Net::HTTP::Get.new(uri.request_uri)
 
-  uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%0034586&txn_date=20120827123230&sum=10.45")
+# IT's WORK
+  uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=pay&txn_id=211119&account=2%230034586&txn_date=20130829112930&sum=10.45")
   http = Net::HTTP.new(uri.host, uri.port)
   http.cert = OpenSSL::X509::Certificate.new(File.read("ijkh.pem"))
   request = Net::HTTP::Get.new(uri.request_uri)
   p request.body
+
+
+#  uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%230034586&txn_date=20120827123230&sum=10.45")
+#  request = Net::HTTP::Get.new(uri.request_uri)
+#  response.cert = OpenSSL::X509::Certificate.new(File.read("ijkh.pem"))
+#  
+#  response = Net::HTTP.new(uri.host, uri.port)
+#  p request.body
+#  p request.message
+
+# uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/5?command=check&txn_id=11441119&account=1%230034586&txn_date=20120827123230&sum=10.45")
+# pem = File.read("bgbilling.pem")
+# http = Net::HTTP.new(uri.host, uri.port)
+# http.use_ssl = true
+# http.cert = OpenSSL::X509::Certificate.new(pem)
+# http.key = OpenSSL::PKey::RSA.new(pem)
+# http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+# 
+# request = Net::HTTP::Get.new(uri.request_uri)
+
+# pem = File.read("ijkh.pem")
+# http.use_ssl = true
+# http.cert = OpenSSL::X509::Certificate.new(pem)
+# http.key = OpenSSL::PKey::RSA.new(pem)
+# http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
   render json: true
   end

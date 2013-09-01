@@ -3,7 +3,7 @@
     <% date = DateTime.parse(r["created_at"]) %>
   <tr>
   	<% if  r["snapshot_url"] %>
-      <td class="td_with_image"><%= image_tag @path+r["snapshot_url"] %></td>
+      <td class="td_with_image"><%= link_to image_tag(@path+r["snapshot_url"]), @path+r["snapshot_url"], :class => "fancybox", :"data-fancybox-group" => "gallery" %></td>
     <% else %>
       <td>Нет картинки</td>
     <% end %>

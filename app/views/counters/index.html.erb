@@ -1,3 +1,9 @@
+<script>
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
+    });
+</script>
+
 <div class="span9">
 <h3>Счётчики</h3> 
 <div class="select-block span3">
@@ -19,7 +25,7 @@
     <div id ="val"><% @report.each do |r| %></div>
       <% date = DateTime.parse(r["created_at"]) %>
       <% if  r["snapshot_url"] %> 
-        <tr><td class="td_with_image"><%= image_tag @path+r["snapshot_url"] %></td>
+        <tr><td class="td_with_image" ><%= link_to image_tag(@path+r["snapshot_url"]), @path+r["snapshot_url"], :class => "fancybox", :"data-fancybox-group" => "gallery" %></td>
       <% else %>
           <td>Нет картинки</td>
       <% end %>

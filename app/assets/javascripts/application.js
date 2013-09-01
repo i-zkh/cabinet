@@ -15,30 +15,7 @@
 //= require_tree .
 
  hoverer = function(){
-	$("img").each(function(i, obj){
-    
-    var position;
-    var action = true;
-    position = $(obj).position();
-    console.log(position.top, position.left);
-
-    $(obj).bind("click", function(e){
-    if (action)
-    {
- 		$(obj).css("top", position.top).css("left", position.left).css("z-index", "1000").css("position", "absolute").animate({
-            height: "500px",
-            width: "600px"
-        });
-        action = false;
-    }
-    else
-    {
-        $(obj).animate({
-            width: "150px",
-            height: "100px"
-        });
-        action = true;
-    }
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
     });
-  });
 };

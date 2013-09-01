@@ -2,9 +2,12 @@
 <html>
 <head>
   <title>Project</title>
-  <%= stylesheet_link_tag root_path+"stylesheets/project.css"%>
-  <%= stylesheet_link_tag root_path+"stylesheets/flat-ui.css"%>
+  <%= stylesheet_link_tag root_path+"stylesheets/project.css" %>
+  <%= stylesheet_link_tag root_path+"stylesheets/flat-ui.css" %>
+  <%= stylesheet_link_tag root_path+"stylesheets/jquery.fancybox.css" %>
   <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js" %>
+  <%= javascript_include_tag "jquery.fancybox.pack.js" %> 
   <%= csrf_meta_tags %>
 </head>
 <%if !current_user %>
