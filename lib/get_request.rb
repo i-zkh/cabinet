@@ -14,9 +14,9 @@ class GetRequest
     	return response.parsed_response["payment_history"]
 	end
 
-	def self.meters(id, month)
+	def self.meters(vendor_id, month)
   		response = HTTParty.get( "https://izkh.ru/api/1.0/meterreadings",
-    		:body => { :meter_reading =>  { :id => id, :month => month }}.to_json,
+    		:body => { :meter_reading =>  { :vendor_id => vendor_id, :month => month }}.to_json,
     		:headers => { 'Content-Type' => 'application/json' })
 	    return response.parsed_response["meter_reading"]
 	end
