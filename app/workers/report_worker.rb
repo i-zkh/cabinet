@@ -24,7 +24,7 @@ class ReportWorker
 	   # accountFile = File.new("error.txt", "w")
 	   # accountFile.write(error)
 	   # accountFile.close
-	   # ReportMail.accounts.deliver	      
+	   # ReportMail.accounts.deliver
 	    else
 	   		ReportMail.no_transactions.deliver
 	    end
