@@ -61,6 +61,7 @@ module Project
     config.assets.version = '1.0'
     config.assets.initialize_on_precompile = false
 
+
     # Configure mailer
     config.action_mailer.smtp_settings = {
       :address              => "mail.nic.ru",

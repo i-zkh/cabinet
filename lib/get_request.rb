@@ -30,4 +30,9 @@ class GetRequest
     	response = HTTParty.get( URI::encode("http://geocode-maps.yandex.ru/1.x/?geocode=#{address}&format=json") )
         return response["response"]["GeoObjectCollection"]["featureMember"].first["GeoObject"]["Point"]["pos"].gsub!(" ", ",")
 	end
+
+	def self.vendor_id(vendor_id)
+		response = HTTParty.get( "http://ec2-54-245-202-30.us-west-2.compute.amazonaws.com/api/1.0/user_accounts/#{vendor_id}?auth_token=#{Auth.get}") 
+    	return response.parsed_response
+	end
 end

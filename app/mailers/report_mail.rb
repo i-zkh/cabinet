@@ -10,7 +10,11 @@ class ReportMail < ActionMailer::Base
   end
 
   def accounts
-    attachments["absence_user_account.txt"] = File.read("absence_user_account.txt")
-    mail(to: "out@izkh.ru", subject: "report")
+    attachments["report.txt"] = File.read("report.txt")
+    mail(to: "out@izkh.ru", subject: "ERROR")
+  end
+
+  def no_transactions
+    mail(to: "out@izkh.ru", subject: "No transactions")
   end
 end

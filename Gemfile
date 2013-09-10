@@ -15,7 +15,6 @@ gem 'rack', '~>1.1'
 gem 'rvm-capistrano'
 gem 'russian', '~> 0.6.0'
 gem 'daemons'
-gem 'celluloid'
 
 gem 'sidekiq'
 gem 'clockwork'

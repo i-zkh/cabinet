@@ -1,22 +1,11 @@
 class Txt
-
-  def self.txt
-      response = HTTParty.get( "https://izkh.ru/api/1.0/report_monthly?vendor_id=16&month=8&auth_token=#{Auth.get}")
-      p @report = response.parsed_response["payment_history"]
- i = 1
-  outFile = File.new("TXT.txt", "w")
+  def self.txt(vendor_id, month)
+  @report = GetRequest.report_monthly(vendor_id, month)
+  vendor = Vendor.where(id: vendor_id).first
+    outFile = File.new("#{vendor.title}-#{month}.txt", "w")
       @report.each do |d|
-        p d
-        d.each_value do |value|
-          outFile.write(value)
-            if (i < d.size)
-              outFile.write(";")
-              i += 1
-            end
+          outFile.puts("#{d['user_account']};#{d['address']};#{d['amount']};#{ DateTime.parse(d['date']).strftime("%Y-%m-%d")}")
         end
-          i = 1
-      outFile.puts
-      end
       outFile.close
   end
-  end
+end
