@@ -11,7 +11,7 @@ set :use_sudo, false
 set :rails_env, "production"
 
 set :scm, "git"
-set :repository, "git://github.com/ivannasya/vendor.git"
+set :repository, "git://github.com/ivannasya/ivendor.git"
 set :branch, "master"
 
 default_run_options[:pty] = true
