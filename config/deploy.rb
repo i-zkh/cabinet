@@ -19,46 +19,30 @@ ssh_options[:forward_agent] = true
 set :ssh_options, {:auth_methods => "publickey"}
 set :ssh_options, {:keys => ["/vagrant/project/aws.pem"]}
 
+# Tasks to start/stop/restart the clockwork process.
+namespace :clockwork do
+  desc "Start clockwork"
+  task :start, :roles => [:app] do
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec clockworkd -c #{current_path}/config/clock.rb --pid-dir #{shared_path}/pids --log --log-dir #{shared_path}/log start"
+  end
+
+  task :stop, :roles => [:app] do
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec clockworkd -c #{current_path}/config/clock.rb --pid-dir #{shared_path}/pids --log --log-dir #{shared_path}/log stop"
+  end
+
+  task :restart, :roles => [:app] do
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec clockworkd -c #{current_path}/config/clock.rb --pid-dir #{shared_path}/pids --log --log-dir #{shared_path}/log restart"
+  end
+end
+
+after  "deploy:stop",    "clockwork:stop"
+after  "deploy:start",   "clockwork:start"
+before "deploy:restart", "clockwork:restart"
+
 namespace :deploy do
   task :symlink_uploads do
     run "ln -nfs #{shared_path}/uploads  #{release_path}/public/uploads"
   end
-  
-after "deploy:stop", "clockwork:stop"
-after "deploy:start", "clockwork:start"
-after "deploy:restart", "clockwork:restart"
- 
-namespace :clockwork do
-  desc "Stop clockwork"
-  task :stop, :roles => clockwork_roles, :on_error => :continue, :on_no_matching_servers => :continue do
-    run "if [ -d #{current_path} ] && [ -f #{pid_file} ]; then cd #{current_path} && kill -INT `cat #{pid
-_file}` ; fi"
-  end
- 
-  desc "Start clockwork"
-  task :start, :roles => clockwork_roles, :on_no_matching_servers => :continue do
-    run "daemon --inherit --name=clockwork --env='#{rails_env}' --output=#{log_file} --pidfile=#{pid_file
-} -D #{current_path} -- bundle exec clockwork config/clockwork.rb"
-  end
- 
-  desc "Restart clockwork"
-  task :restart, :roles => clockwork_roles, :on_no_matching_servers => :continue do
-    stop
-    start
-  end
- 
-  def rails_env
-    fetch(:rails_env, false) ? "RAILS_ENV=#{fetch(:rails_env)}" : ''
-  end
- 
-  def log_file
-    fetch(:clockwork_log_file, "#{current_path}/log/clockwork.log")
-  end
- 
-  def pid_file
-    fetch(:clockwork_pid_file, "#{current_path}/tmp/pids/clockwork.pid")
-  end
-end
 
   task :restart do
     run "touch #{current_path}/tmp/restart.txt"
