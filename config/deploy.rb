@@ -26,6 +26,6 @@ namespace :deploy do
 
   task :restart do
     run "touch #{current_path}/tmp/restart.txt"
-    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec clockwork -c #{current_path}/lib/clock.rb --pid-dir #{shared_path}/pids --log --log-dir #{shared_path}/log start"
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec clockworkd -c #{current_path}/lib/clock.rb --pid-dir #{shared_path}/pids --log --log-dir #{shared_path}/log start"
   end
 end
