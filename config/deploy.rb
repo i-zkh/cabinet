@@ -19,18 +19,6 @@ ssh_options[:forward_agent] = true
 set :ssh_options, {:auth_methods => "publickey"}
 set :ssh_options, {:keys => ["/vagrant/project/aws.pem"]}
 
-  def rails_env
-    fetch(:rails_env, false) ? "RAILS_ENV=#{fetch(:rails_env)}" : ''
-  end
- 
-  def log_file
-    fetch(:clockwork_log_file, "#{current_path}/log/clockwork.log")
-  end
- 
-  def pid_file
-    fetch(:clockwork_pid_file, "#{current_path}/tmp/pids/clockwork.pid")
-  end
-
 namespace :deploy do
   task :symlink_uploads do
     run "ln -nfs #{shared_path}/uploads  #{release_path}/public/uploads"
@@ -38,9 +26,6 @@ namespace :deploy do
 
   task :restart do
     run "touch #{current_path}/tmp/restart.txt"
-    run "if [ -d #{current_path} ] && [ -f #{pid_file} ]; then cd #{current_path} && kill -INT `cat #{pid
-_file}` ; fi"
-    run "daemon --inherit --name=clockwork --env='#{rails_env}' --output=#{log_file} --pidfile=#{pid_file
-} -D #{current_path} -- bundle exec clockwork lib/clock.rb"
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec clockwork -c #{current_path}/lib/clock.rb --pid-dir #{shared_path}/pids --log --log-dir #{shared_path}/log start"
   end
 end
