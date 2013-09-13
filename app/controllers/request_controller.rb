@@ -55,12 +55,12 @@ class RequestController < ApplicationController
 #   response = http.request(request)
 
 # IT's WORK
-  #   uri = URI("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/3?command=check&txn_id=11441119&account=2%230034586&txn_date=20130909160900&sum=10.45")
+    uri = URI("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/3?command=check&txn_id=11441119&account=2%230034586&txn_date=20130909160900&sum=10.45")
   # http = Net::HTTP.new(uri.host, uri.port)
   # http.use_ssl = true
   # http.cert = OpenSSL::X509::Certificate.new(File.read("ijkh.pem"))
   # #http.verify_mode = OpenSSL::SSL::VERIFY_PEER 
-  # p request = Net::HTTP::Get.new(uri.path).get_response
+  # p request = Net::HTTP::Get.new(uri.path)
 
   # Net::HTTP.start(uri.host, uri.port,
   #   :use_ssl => uri.scheme == 'https') do |http|
@@ -74,22 +74,22 @@ class RequestController < ApplicationController
   # end
   #   p response
 
- uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/3?command=check&txn_id=11441119&account=2%230034586&txn_date=20130909160900&sum=10.45")
-pem = File.read("ijkh.pem")
-http = Net::HTTP.new(uri.host, uri.port)
-http.use_ssl = true
-http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-http.cert = OpenSSL::X509::Certificate.new(pem)
-#http.key = OpenSSL::PKey::RSA.new(pem)
+# uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/3?command=check&txn_id=11441119&account=2%230034586&txn_date=20130909160900&sum=10.45")
+# pem = File.read("ijkh.pem")
+# http = Net::HTTP.new(uri.host, uri.port)
+# http.use_ssl = true
+# http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+# http.cert = OpenSSL::X509::Certificate.new(pem)
+# #http.key = OpenSSL::PKey::RSA.new(pem)
 
-store = OpenSSL::X509::Store.new
-store.set_default_paths # Optional method that will auto-include the system CAs.
-store.add_cert(OpenSSL::X509::Certificate.new(File.read("ijkh.pem")))
-store.add_cert(OpenSSL::X509::Certificate.new(File.read("bgbilling.pem")))
-http.cert_store = store
+# store = OpenSSL::X509::Store.new
+# store.set_default_paths # Optional method that will auto-include the system CAs.
+# store.add_cert(OpenSSL::X509::Certificate.new(File.read("ijkh.pem")))
+# store.add_cert(OpenSSL::X509::Certificate.new(File.read("bgbilling.pem")))
+# http.cert_store = store
 
-response = http.request(Net::HTTP::Get.new(uri.request_uri))
-p response.body
+# response = http.request(Net::HTTP::Get.new(uri.request_uri))
+# p response.body
 
 # # uri = URI("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/3?command=check&txn_id=11441119&account=2%230034586&txn_date=20130909160900&sum=10.45")
 # http = Net::HTTP.new(uri.host, uri.port)
@@ -153,15 +153,18 @@ p response.body
 # http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
 #############################
-# uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/3?command=check&txn_id=11441119&account=2%230034586&txn_date=20130909160900&sum=10.45")
+# uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/3?command=check&txn_id=11441119&account=2%230034586&txn_date=20131309120000&sum=10.45")
 # pem = File.read("ijkh.pem")
 # http = Net::HTTP.new(uri.host, uri.port)
 # http.use_ssl = true
 # http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 # http.cert = OpenSSL::X509::Certificate.new(pem)
+# # http.ca_file = Rails.root.join(File.read('bgbilling.pem'))
 # #http.key = OpenSSL::PKey::RSA.new(pem)
-# response = http.request(Net::HTTP::Get.new(uri.request_uri))
+# response = http.request(Net::HTTP::Get.new(uri.path))
 # p response
-  render json: response.body
+#   render json: response.body
+end
+  render json: true
   end
 end

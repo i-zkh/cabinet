@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user_account: MyString
+  city: MyString
+  street: MyString
+  building: MyString
+  apartment: MyString
+  vendor_id: 1
+
+two:
+  user_account: MyString
+  city: MyString
+  street: MyString
+  building: MyString
+  apartment: MyString
+  vendor_id: 1

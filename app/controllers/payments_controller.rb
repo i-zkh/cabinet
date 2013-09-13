@@ -2,32 +2,30 @@
 require 'russian'
 class PaymentsController < ApplicationController
   def create
-    #Mailer.new(GetRequest.report_daily).report
     	vendors_id, @report, @data, error = [], [], [], []
 		@report = GetRequest.report_daily
 	    if @report != []
-	    	p @report
+			Report.new(AllPayment.new(@report)).output_report 
+			Report.new(Booker.new(@report)).output_report
+			Report.new(Error.new(@report)).output_report
+
 	      @report.each do |report|
 	      	vendors_id << report['vendor_id']
 	      end
-
 	      vendors_id.uniq.each do |id|
+	      	@data = @report.select { |d| d['vendor_id'] == id.to_i}
+	      	vendor = Vendor.where(id: id, distribution: true).first
 	        case id
-	        when 1..60
-	          @data = @report.select { |d| d['vendor_id'] == id.to_i}
-	          Report.new(TxtPayment.new(@data, id)).output_report
-	          vendor = Vendor.where(id: id, distribution: true).first
-	          ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver
-	        else
+	    	  when 5
+	          	Report.new(TxtCheckAddress.new(@data, id)).output_report
+	          else
+	          	Report.new(TxtPayment.new(@data, id)).output_report
 	        end
+	   		ReportMail.report_to_vendors("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver  	
 	      end
-	   # accountFile = File.new("error.txt", "w")
-	   # accountFile.write(error)
-	   # accountFile.close
-	   # ReportMail.accounts.deliver
-	     else
+	    else
 	   		ReportMail.no_transactions.deliver
-	     end
-    render json: true
+	    end
+    render json: @report
   end
 end
