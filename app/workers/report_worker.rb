@@ -17,7 +17,7 @@ class ReportWorker
 	          @data = @report.select { |d| d['vendor_id'] == id.to_i}
 	          Report.new(TxtPayment.new(@data, id)).output_report
 	          vendor = Vendor.where(id: id, distribution: true).first
-	          ReportMail.report_to_vendors("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver
+	          ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver
 	        else
 	        end
 	      end

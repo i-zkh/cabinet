@@ -21,7 +21,7 @@ class PaymentsController < ApplicationController
 	          else
 	          	Report.new(TxtPayment.new(@data, id)).output_report
 	        end
-	   		ReportMail.report_to_vendors("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver  	
+	   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver  	
 	      end
 	    else
 	   		ReportMail.no_transactions.deliver

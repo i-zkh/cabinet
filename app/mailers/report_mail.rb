@@ -3,13 +3,13 @@ class ReportMail < ActionMailer::Base
   default from: "out@izkh.ru"
   default to: "out@izkh.ru"
 
-  def report_to_vendors(message, vendor)
+  def report(message, vendor)
     @message = message
     attachments["#{vendor.title}.txt"] = File.read("#{vendor.title}.txt")
     mail(to: vendor.email, subject: "АйЖКХ")
   end
 
-  def report
+  def report_to_out
     attachments["report.txt"] = File.read("report.txt")
     mail(to: "out@izkh.ru", subject: "Report")
   end

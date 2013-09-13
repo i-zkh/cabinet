@@ -11,6 +11,6 @@ class AllPayment < Payment
          reportFile.puts("#{d['user_account']};#{d['address']};#{d['amount']};#{DateTime.parse(d['date']).strftime("%Y-%m-%d")};#{d['vendor_id']}")
       end
     reportFile.close
-    ReportMail.report.deliver
+    ReportMail.report_to_out.deliver
   end
 end
