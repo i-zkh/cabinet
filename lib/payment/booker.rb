@@ -8,7 +8,7 @@ class Booker < Payment
   def output
     bookerFile = File.new("transactions.txt", "w")
       @data.each do |d|
-        vendor = Vendor.find(d['vendor_id'])
+        vendor = Vendor.find(id: d['vendor_id'])
         address = UserIdRange.where(user_account: d['user_account'], vendor_id: d['vendor_id']).first
            if address != nil
             address = Account.where(user_account: d['user_account'], vendor_id: d['vendor_id']).first
