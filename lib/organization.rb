@@ -33,8 +33,10 @@ class Organization
   def get_data_to_vendor
     (0..@data.size-1).each do |i|
       vendor = Vendor.where(title: @data[i]["title"]).first
+      if vendor
       vendor.email = @data[i]["email"]
       vendor.save!
+      end
     end
   end
 

@@ -16,7 +16,6 @@ class ReportMail < ActionMailer::Base
 
   def no_transactions
     mail(to: "out@izkh.ru", subject: "No transactions")
-  # mail(to: "ivanova@izkh.ru", subject: "No transactions")
   end
 
   def error(message)
@@ -27,6 +26,5 @@ class ReportMail < ActionMailer::Base
   def booker(recipient)
       attachments["transactions.txt"] = File.read("transactions.txt")
       mail(to: recipient, subject: "АЙЖКХ")
-     # mail(to: "Gluhovskaya.o@delta.ru", subject: "АЙЖКХ")
    end
 end
