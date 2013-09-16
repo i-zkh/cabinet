@@ -1,7 +1,8 @@
 class OrganizationController < ApplicationController
 	def absence
 		getter = Organization.new("Organizations.xls")
-		getter.add_absence_vendor
+		#getter.add_absence_vendor
+		getter.get_data_to_vendor
     	render json: true
 	end
 

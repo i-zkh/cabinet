@@ -5,7 +5,7 @@ require "uri"
 #encoding: utf-8
 class RequestController < ApplicationController
   def add_vendor_to_service
-  	PostRequest.vendor("test", 4)
+  	#PostRequest.vendor("test", 4)
     render json: true
   end
 
