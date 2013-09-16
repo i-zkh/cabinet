@@ -3,7 +3,7 @@ require 'russian'
 class PaymentsController < ApplicationController
   def create
     	vendors_id, @report, @data, error = [], [], [], []
-		@report = GetRequest.report_daily
+		p @report = GetRequest.report_daily
 	    if @report != []
 			Report.new(AllPayment.new(@report)).output_report 
 			Report.new(Booker.new(@report)).output_report
@@ -21,11 +21,11 @@ class PaymentsController < ApplicationController
 	          else
 	          	Report.new(TxtPayment.new(@data, id)).output_report
 	        end
-	   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver  	
+	   		 ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver  	
 	      end
 	    else
-	   		ReportMail.no_transactions.deliver
+	   		 ReportMail.no_transactions.deliver
 	    end
-    render json: @report
+     render json: @report
   end
 end
