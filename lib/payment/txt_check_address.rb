@@ -14,7 +14,7 @@ class TxtCheckAddress < Payment
            if address != nil
               outFile.puts("#{d['user_account']};#{address['city']}, #{address['street']}, #{address['building']}, #{address['apartment']};#{d['amount']};#{ DateTime.parse(d['date']).strftime("%Y-%m-%d")}")
            end
-        end
+        end 
     outFile.close
   end
 end

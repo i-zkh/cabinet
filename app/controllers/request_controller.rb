@@ -164,7 +164,7 @@ class RequestController < ApplicationController
 # response = http.request(Net::HTTP::Get.new(uri.path))
 # p response
 #   render json: response.body
-end
+#end
   render json: true
   end
 end

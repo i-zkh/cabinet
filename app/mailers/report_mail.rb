@@ -24,9 +24,9 @@ class ReportMail < ActionMailer::Base
     mail(to: "out@izkh.ru", subject: "[ERROR] user accounts")
   end
 
-  def booker
+  def booker(recipient)
       attachments["transactions.txt"] = File.read("transactions.txt")
-      mail(to: "out@izkh.ru", subject: "АЙЖКХ")
+      mail(to: recipient, subject: "АЙЖКХ")
      # mail(to: "Gluhovskaya.o@delta.ru", subject: "АЙЖКХ")
    end
 end

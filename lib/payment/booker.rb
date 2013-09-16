@@ -20,6 +20,10 @@ class Booker < Payment
            end
       end
     bookerFile.close
-    # ReportMail.booker.deliver
+
+      unless File.zero?("transactions.txt")
+        ReportMail.booker("out@izkh.ru").deliver
+        ReportMail.booker("ivanova@izkh.ru").deliver
+      end
   end
 end
