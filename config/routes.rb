@@ -22,6 +22,8 @@ Project::Application.routes.draw do
 
   get 'add_organization' => 'organization#all'
   get 'add_absense_vendor' => 'organization#absence'
+
+  get 'ovd' => 'ovd#ovd'
   
   #match 'payments' => 'payments#show', :as => 'payments', :via => :get
   #match 'payments' => 'payments#create', :as => 'payments', :via => :post
