@@ -12,14 +12,21 @@ class Ovd
 		xml_doc = Nokogiri::XML(xmlfile)
 
 		(0..xml_doc.css("EFOType OVD opor_info opor uum_info uum").size-1).each do |i|
-			p "_____________________________"
 			p xml_doc.css("EFOType OVD opor_info opor uum_info uum uum_surname")[i].text
 			 xml_doc.css("EFOType OVD opor_info opor uum_info uum uum_name")[i].text
 			 xml_doc.css("EFOType OVD opor_info opor uum_info uum uum_middlename")[i].text
-			 
+
 				(0..xml_doc.css("EFOType OVD opor_info opor uum_info uum")[i].children.css("territory_info uumterritory").size-1).each do |j|
 					 xml_doc.css("EFOType OVD opor_info opor uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text
 					p xml_doc.css("EFOType OVD opor_info opor uum_info uum")[i].children.css("territory_info uumterritory houses")[j].text
+
+					#Parsing address
+					case xml_doc.css("EFOType OVD opor_info opor uum_info uum")[i].children.css("territory_info uumterritory houses")[j].text
+					when 
+
+					else # №-№
+						
+					end
 				end
 
 			# (0..xml_doc.css("EFOType OVD opor_info opor uum_info uum ").size-1).each do |j|
