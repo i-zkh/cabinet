@@ -12,6 +12,7 @@ class Ovd
 		xml_doc = Nokogiri::XML(xmlfile)
 
 		(0..xml_doc.css("EFOType OVD opor_info opor uum_info uum").size-1).each do |i|
+			p "____________________"
 			p xml_doc.css("EFOType OVD opor_info opor uum_info uum uum_surname")[i].text
 			 xml_doc.css("EFOType OVD opor_info opor uum_info uum uum_name")[i].text
 			 xml_doc.css("EFOType OVD opor_info opor uum_info uum uum_middlename")[i].text
@@ -22,10 +23,13 @@ class Ovd
 
 					#Parsing address
 					case xml_doc.css("EFOType OVD opor_info opor uum_info uum")[i].children.css("territory_info uumterritory houses")[j].text
-					when 
-
+					when /\w/
+						puts "number"
+					when "все дома"
+						puts "ВСЕ ДОМА!"
+					when /[\w+\-\w+]/
+						puts "№-№"
 					else # №-№
-						
 					end
 				end
 
