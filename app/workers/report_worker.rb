@@ -17,6 +17,7 @@ class ReportWorker
 	      vendors_id.uniq.each do |id|
 	      	@data = @report.select { |d| d['vendor_id'] == id.to_i}
 	      	vendor = Vendor.where(id: id, distribution: true).first
+	      	if vendor != nil 
 	        case id
 	    	  when 5
 	          	Report.new(TxtCheckAddress.new(@data, id)).output_report
@@ -26,6 +27,7 @@ class ReportWorker
 	            unless File.zero?("#{vendor.title}.txt") 
 	   		 		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver
 	   		 	end
+	   		end
 	      end
 	    else
 	   		ReportMail.no_transactions.deliver
