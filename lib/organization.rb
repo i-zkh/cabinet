@@ -68,14 +68,16 @@ class Organization
 
   def non_utility_vendor
     (0..@data.size-1).each do |i|
-      if i == 33
+      p @data[i]["title"]
+      if @data[i]["title"] == "ООО \"Цифрал-Самара\"(Самара)"
         PostRequest.non_utility_vendor_with_image(@data[i]["title"], @data[i]["phone"].to_i.to_s, "уточните по телефону", @data[i]["address"], 12, "http://cs320425.vk.me/v320425507/253f/yrWswddXZTY.jpg")
-      else
+      end
+      if @data[i]["title"] != "ООО \"Цифрал-Самара\"(Самара)" 
         geocode = GetRequest.geocode(@data[i]["address"])
         (0..@servicetype.size-1).each do |j|
           if @data[i]["servicetype"].mb_chars.capitalize.to_s == @servicetype[j]["title"]
             PostRequest.non_utility_vendor(@data[i]["title"], @data[i]["phone"].to_i.to_s, "уточните по телефону", @data[i]["address"], @servicetype[j]["id"], geocode)
-          end
+         end
         end
       end
     end

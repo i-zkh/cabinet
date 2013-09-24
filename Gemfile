@@ -10,11 +10,11 @@ gem 'roo'
 gem 'json'
 gem 'httparty'
 gem "flat-ui-rails"
+gem "jquery-ui-rails"
 gem 'nokogiri'
 gem 'rack', '~>1.1'
 gem 'rvm-capistrano'
 gem 'russian', '~> 0.6.0'
-gem 'daemons'
 
 gem 'sidekiq'
 gem 'clockwork'

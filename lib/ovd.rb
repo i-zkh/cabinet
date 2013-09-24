@@ -1,84 +1,98 @@
 #!/usr/bin/ruby -w
 #encoding: utf-8
 require 'nokogiri'
+require "base64"
 
 class Ovd
-	include REXML
 
 	def self.xml_parser
-		
-
-		xmlfile = File.new("Koord_UUM_3640136400_Самарская область-Самара-Железнодорожный_28.02.2013.xml")
+		xmlfile = File.new("Koord_UUM_3640139200_Самарская область-Самара-Советский_01.03.2013.xml")
 		xml_doc = Nokogiri::XML(xmlfile)
+		n = Precinct.last ? Precinct.last.id : 0
+		data = []
 
-		(0..xml_doc.css("EFOType OVD opor_info opor uum_info uum").size-1).each do |i|
-			p "____________________"
-			p xml_doc.css("EFOType OVD opor_info opor uum_info uum uum_surname")[i].text
-			 xml_doc.css("EFOType OVD opor_info opor uum_info uum uum_name")[i].text
-			 xml_doc.css("EFOType OVD opor_info opor uum_info uum uum_middlename")[i].text
+		(0..xml_doc.css("EFOType OVD opor_info opor").size-1).each do |k|
+			(0..xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum").size-1).each do |i|
+				#Create precincts
+				Precinct.create!(
+					ovd: xml_doc.css("EFOType OVD opor_info opor subdiv_name")[k].text,
+					ovd_town: xml_doc.css("EFOType OVD opor_info opor opor_townname")[k].text,
+					ovd_street: xml_doc.css("EFOType OVD opor_info opor opor_streetname")[k].text,
+					ovd_house: xml_doc.css("EFOType OVD opor_info opor opor_house")[k].text,
+					ovd_telnumber: xml_doc.css("EFOType OVD opor_info opor opor_telnumber")[k].text,
+					surname: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text,
+					name: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_name")[i].text,
+					middlename: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_middlename")[i].text,
+					photo: ""
+				)
 
-				(0..xml_doc.css("EFOType OVD opor_info opor uum_info uum")[i].children.css("territory_info uumterritory").size-1).each do |j|
-					 xml_doc.css("EFOType OVD opor_info opor uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text
-					p xml_doc.css("EFOType OVD opor_info opor uum_info uum")[i].children.css("territory_info uumterritory houses")[j].text
+				(0..xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory").size-1).each do |j|
+					houses = xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory houses")[j].text
+					houses.gsub!('=', '-')
+					houses.gsub!('.', ',')
+					houses.gsub!(';', ',')
+					houses.gsub!(" ", "")
+					houses.gsub!("а", "")
 
-					#Parsing address
-					case xml_doc.css("EFOType OVD opor_info opor uum_info uum")[i].children.css("territory_info uumterritory houses")[j].text
-					when /\w/
-						puts "number"
-					when "все дома"
-						puts "ВСЕ ДОМА!"
-					when /[\w+\-\w+]/
-						puts "№-№"
-					else # №-№
-					end
+					# Parsing address
+					data = case houses
+						   when "все дома" || "полностью" || "все" then ""
+						   when /(\d+)-(\d+),(\d+)-(\d+),(\d+)-(\d+),(\d+)-(\d+)/
+								array = []
+								array << houses.gsub('-', ',').gsub('/', ',').split(',')
+								houses =~ /(\d+)-(\d+),(\d+)-(\d+),(\d+)-(\d+),(\d+)-(\d+)/
+								array << ($1..$2).to_a.each { |x| x.to_i }
+								array << ($3..$4).to_a.each { |x| x.to_i }
+								array << ($5..$6).to_a.each { |x| x.to_i }
+								array.flatten!.uniq
+						   when /(\d+)-(\d+),(\d+)-(\d+)/
+								array = []
+								array << houses.gsub('-', ',').gsub('/', ',').split(',')
+								houses =~ /(\d+)-(\d+),(\d+)-(\d+)/
+								array << ($1..$2).to_a.each { |x| x.to_i }
+								array << ($3..$4).to_a.each { |x| x.to_i }
+								array.flatten!.uniq
+						   when /(\d+)-(\d+)/
+								array = []
+								array << houses.gsub('-', ',').gsub('/', ',').split(',')
+								houses =~ /(\d+)-(\d+)/
+								array << ($1..$2).to_a.each { |x| x.to_i }
+								array.flatten!.uniq									
+						   when /[\w][,]/
+								array = []
+								array = houses.split(',')
+						   when /с(\d+)до(\d+),с(\d+)до(\d+)/
+								array = []
+								houses =~ /с(\d+)до(\d+),с(\d+)до(\d+)/
+								array << ($1..$2).to_a.each { |x| x.to_i }
+								array << ($3..$4).to_a.each { |x| x.to_i }
+								array.flatten!.uniq
+							when /с(\d+)до(\d+)/
+								array = []
+								houses =~ /с(\d+)до(\d+)/
+								array << ($1..$2).to_a.each { |x| x.to_i }
+						 		array.flatten!.uniq
+							when /с(\d+)до(\d+)/
+								array = []
+								houses =~ /с(\d+)до(\d+)/
+								array << ($1..$2).to_a.each { |x| x.to_i }
+						 		array.flatten!.uniq
+							when /(\d+)/
+								array = []
+								array << houses
+							else ""
+							end
+					#Create territories of precinct 
+					(0..data.size-1).each do |d|
+						Territory.create!(
+							precinct_id: n+1,
+							street: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text,
+					 		house: data[d]
+						)	
+					end	
 				end
-
-			# (0..xml_doc.css("EFOType OVD opor_info opor uum_info uum ").size-1).each do |j|
-			# 	p subdiv_name = xml_doc.css("EFOType OVD opor_info opor uum_info uum uum_surname")[j].text
-			# end
+				n += 1
+			end
 		end
-
-	# (0..xml_doc.css("EFOType OVD opor_info opor").size-1).each do |i|
-	# 	p subdiv_name = xml_doc.css("EFOType OVD opor_info opor subdiv_name")[i].text
-	# 	p xml_doc.css("EFOType OVD opor_info opor")[i].children.css("uum_info uum uum_surname")
-	# 	# (0..xml_doc.css("EFOType OVD opor_info opor uum_info uum ").size-1).each do |j|
-	# 	# 	p subdiv_name = xml_doc.css("EFOType OVD opor_info opor uum_info uum uum_surname")[j].text
-	# 	# end
-	# end
-
-# xmlfile = File.new("Koord_UUM_3640136400_Самарская область-Самара-Железнодорожный_28.02.2013.xml")
-# 		xml_doc = Nokogiri::XML(xmlfile)
-
-# 		(0..xml_doc.css("EFOType OVD opor_info opor").size-1).each do |k|
-# 			(0..xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum").size-1).each do |i|
-# 				p xml_doc.css("EFOType OVD opor_info opor subdiv_name")[k].text
-# 				p xml_doc.css("EFOType OVD opor_info opor opor_townname")[k].text
-# 				p xml_doc.css("EFOType OVD opor_info opor opor_streetname")[k].text
-# 				p xml_doc.css("EFOType OVD opor_info opor opor_house")[k].text
-# 				p xml_doc.css("EFOType OVD opor_info opor opor_telnumber")[k].text
-
-# 				p xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text
-# 				p xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_name")[i].text
-# 				 xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_middlename")[i].text
-				
-
-# 					(0..xml_doc.css("EFOType OVD opor_info opor uum_info uum")[i].children.css("territory_info uumterritory").size-1).each do |j|
-# 						p xml_doc.css("EFOType OVD opor_info opor uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text
-# 						p xml_doc.css("EFOType OVD opor_info opor uum_info uum")[i].children.css("territory_info uumterritory houses")[j].text
-# 					end
-
-# 				# (0..xml_doc.css("EFOType OVD opor_info opor uum_info uum ").size-1).each do |j|
-# 				# 	p subdiv_name = xml_doc.css("EFOType OVD opor_info opor uum_info uum uum_surname")[j].text
-# 				# end
-# 			end
-# 		end
-# 	# (0..xml_doc.css("EFOType OVD opor_info opor").size-1).each do |i|
-# 	# 	p subdiv_name = xml_doc.css("EFOType OVD opor_info opor subdiv_name")[i].text
-# 	# 	p xml_doc.css("EFOType OVD opor_info opor")[i].children.css("uum_info uum uum_surname")
-# 	# 	# (0..xml_doc.css("EFOType OVD opor_info opor uum_info uum ").size-1).each do |j|
-# 	# 	# 	p subdiv_name = xml_doc.css("EFOType OVD opor_info opor uum_info uum uum_surname")[j].text
-# 	# 	# end
-# 	# end
-
 	end
 end

@@ -12,7 +12,7 @@ class TxtCheckAddress < Payment
       @data.each do |d|
         address = Account.where(user_account: d['user_account'], vendor_id: d['vendor_id']).first
            if address != nil
-              outFile.puts("#{d['user_account']};#{address['city']}, #{address['street']}, #{address['building']}, #{address['apartment']};#{d['amount']};#{ DateTime.parse(d['date']).strftime("%Y-%m-%d")}")
+              outFile.puts("#{d['user_account']};#{address['city']}, #{address['street']}, #{address['building']}, #{address['apartment']};#{d['amount']};#{ DateTime.parse(d['date']).strftime("%d.%m.%Y")}")
            end
         end 
     outFile.close

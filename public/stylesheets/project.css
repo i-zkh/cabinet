@@ -32,6 +32,7 @@ body{
 .control-group .uneditable-input{
 	width:255px;
 }
+input[type="text"]:focus,
 #vendor_title textarea:focus,
 #vendor_title input[type="text"]:focus, 
 #vendor_title input[type="password"]:focus, 

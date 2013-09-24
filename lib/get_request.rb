@@ -22,7 +22,7 @@ class GetRequest
 	end
 
 	def self.servicetypes
-		response = HTTParty.get( "https://izkh.ru/api/1.0/nonutilityservicetype?auth_token=#{Auth.get}") 
+		response = HTTParty.get( "http://ec2-54-245-202-30.us-west-2.compute.amazonaws.com/api/1.0/nonutilityservicetype?auth_token=#{Auth.get}") 
     	return response.parsed_response
 	end
 
