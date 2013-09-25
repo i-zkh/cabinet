@@ -5,7 +5,7 @@ require 'sidekiq'
 require 'clockwork'
 
 module Clockwork
-  every(1.day, 'Report', :at => '07:07') do
+  every(1.day, 'Report', :at => '09:25') do
    Sidekiq.logger.info "Starting Report"
    Report.report
  end

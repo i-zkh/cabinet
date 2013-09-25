@@ -153,18 +153,18 @@ class RequestController < ApplicationController
 # http.verify_mode = OpenSSL::SSL::VERIFY_PEER
 
 #############################
-# uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/3?command=check&txn_id=11441119&account=2%230034586&txn_date=20131309120000&sum=10.45")
-# pem = File.read("ijkh.pem")
-# http = Net::HTTP.new(uri.host, uri.port)
-# http.use_ssl = true
-# http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-# http.cert = OpenSSL::X509::Certificate.new(pem)
-# # http.ca_file = Rails.root.join(File.read('bgbilling.pem'))
-# #http.key = OpenSSL::PKey::RSA.new(pem)
-# response = http.request(Net::HTTP::Get.new(uri.path))
-# p response
-#   render json: response.body
-#end
-  render json: true
-  end
+uri = URI.parse("https://193.33.144.3:65443/bgbilling/mpsexecuter/13/3?command=check&txn_id=11441119&account=2%230034586&txn_date=20131309250000&sum=10.45")
+pem = File.read("ijkh.pem")
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = true
+http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+http.cert = OpenSSL::X509::Certificate.new(pem)
+http.ca_file = Rails.root.join(File.read('bgbilling.pem'))
+# http.key = OpenSSL::PKey::RSA.new(pem)
+response = http.request(Net::HTTP::Get.new(uri.path))
+p response
+  render json: response.body
+end
+  # render json: true
+  # end
 end

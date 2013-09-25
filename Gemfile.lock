@@ -50,6 +50,7 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     connection_pool (1.1.0)
+    daemons (1.1.9)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -164,6 +165,7 @@ DEPENDENCIES
   capistrano
   clockwork
   coffee-rails (~> 3.2.1)
+  daemons
   flat-ui-rails
   httparty
   jquery-rails
