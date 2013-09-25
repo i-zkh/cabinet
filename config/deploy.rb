@@ -33,6 +33,5 @@ namespace :deploy do
   ## start clockwork
   run "cd #{current_path} && bundle exec clockworkd -c #{current_path}/lib/clock.rb --pid-dir #{shared_path}/pids --log --log-dir #{shared_path}/log restart >> log/clockwork.log 2>&1 &"
   run "ps -eo pid,command | grep clockwork | grep -v grep | awk '{print $1}' > #{cw_pid_file}"
-end
   end
 end
