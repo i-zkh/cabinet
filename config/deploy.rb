@@ -1,7 +1,7 @@
 set :rvm_ruby_string, 'default'
 set :rvm_type, :user
  
-server "54.214.239.57", :web, :app, :db, primary: true
+server "54.214.239.57 ", :web, :app, :db, primary: true
 
 set :application, "project"
 set :user, "ubuntu"
@@ -25,7 +25,7 @@ namespace :deploy do
   end
 
   task :restart do
-  run "touch #{current_path}/tmp/restart.txt"
-  run "cd #{current_path}/lib && bundle exec clockworkd -c clock.rb start"
+    run "touch #{current_path}/tmp/restart.txt"
+	run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec clockworkd -c #{current_path}/lib/clock.rb --pid-dir #{shared_path}/pids --log --log-dir #{shared_path}/log restart"
   end
 end
