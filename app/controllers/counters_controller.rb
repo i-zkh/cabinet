@@ -15,21 +15,21 @@ class CountersController < ApplicationController
   def create
     p @report = GetRequest.meters(1000, params[:month_id])
      @path = "http://izkh.ru/"
-    # data, array = [], []
-    # @user_account = []
-    # if @report
-    #   @report.each do |r|
-    #     array << r['user_id'].to_s
-    #   end
-    #   @user_account = array.uniq
-    #   if params[:user_account] != ""
-    #     @report.each do |r|
-    #       if params[:user_account].to_i == r['user_id']
-    #         data << r
-    #       end
-    #     end
-    #     @report = data
-    #   end
-    # end
+    data, array = [], []
+    @user_account = []
+    if @report
+      @report.each do |r|
+        array << r['user_id'].to_s
+      end
+      @user_account = array.uniq
+      if params[:user_account] != ""
+        @report.each do |r|
+          if params[:user_account].to_i == r['user_id']
+            data << r
+          end
+        end
+        @report = data
+      end
+    end
   end
 end

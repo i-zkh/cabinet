@@ -10,26 +10,24 @@
   <%= javascript_include_tag "counters.js.coffee" %>
   <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js" %>
   <%= javascript_include_tag "jquery.fancybox.pack.js" %> 
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-
+  <%= javascript_include_tag "http://code.jquery.com/ui/1.10.3/jquery-ui.js" %>
   <%= csrf_meta_tags %>
 </head>
 <%if !current_user %>
   <style>
-	body {background-color: #3498DB;}
+	  body {background-color: #3498DB;}
   </style>
 <% end %>
 <body>
 	<% if current_user %>	
 	<div class="navigation">
     <ul class="sidebar ">
-	  <!--<li class="<%= 'active' if current_page?(edit_vendor_path(current_user.id)) || current_page?(vendor_path(current_user.id))%>"><%= link_to "Аккаунт", vendor_path(current_user.id) %></li>-->
-    <li class="<%= 'active' if current_page?(vendors_path)%>"><%= link_to "Аккаунт", vendors_path %></li>
-	  <li class="<%= 'active' if current_page?(transactions_path) %>"><%= link_to "Транзакции", transactions_path %></li>
-	  <li class="<%= 'active' if current_page?(counters_path) %>"><%= link_to "Показания счётчиков", counters_path %></li>
-	  <li><%= link_to "Выход", session_path("current"), method: "delete" %></li>
-	</ul>
+  	  <!--<li class="<%= 'active' if current_page?(edit_vendor_path(current_user.id)) || current_page?(vendor_path(current_user.id))%>"><%= link_to "Аккаунт", vendor_path(current_user.id) %></li>-->
+      <li class="<%= 'active' if current_page?(vendors_path)%>"><%= link_to "Аккаунт", vendors_path %></li>
+  	  <li class="<%= 'active' if current_page?(transactions_path) %>"><%= link_to "Транзакции", transactions_path %></li>
+  	  <li class="<%= 'active' if current_page?(counters_path) %>"><%= link_to "Показания счётчиков", counters_path %></li>
+  	  <li><%= link_to "Выход", session_path("current"), method: "delete" %></li>
+	  </ul>
 	</div>
 	<% end %>
   <%= yield %>

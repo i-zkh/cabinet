@@ -32,17 +32,6 @@ body{
 .control-group .uneditable-input{
 	width:255px;
 }
-input[type="text"]:focus,
-#vendor_title textarea:focus,
-#vendor_title input[type="text"]:focus, 
-#vendor_title input[type="password"]:focus, 
-#vendor_title .uneditable-input:focus,
-.control-group textarea:focus, 
-.control-group input[type="text"]:focus, 
-.control-group .uneditable-input {
-	border-color: #3498DB;
-
-}
 input{
 	outline: none;
 	color:white;	
@@ -80,6 +69,7 @@ input{
 thead{
 	background-color: #3498DB;
 }
+
 #button input:active, .link a:active, #button_small input:active {
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	background-color: #006dcc;
@@ -208,4 +198,9 @@ img{
 }
 td.td_with_image{
 	height: 100px;
+}
+
+#user_account{
+	margin-left: 2px;
+	width: 140px;
 }
