@@ -2,11 +2,14 @@ Project::Application.routes.draw do
 
   resources :vendors
   resources :transactions
-  resources :sessions
   resources :counters
   resources :address_ranges
+  resources :sessions
 
   root :to => "transactions#index"
+
+  get 'login' => 'sessions#new'
+  post 'login' => 'sessions#create'
 
   get 'get_key' => "key#create"
 
