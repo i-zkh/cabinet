@@ -27,11 +27,10 @@ namespace :deploy do
   task :restart do
   run "touch #{current_path}/tmp/restart.txt"
 
-  cw_pid_file = "#{shared_path}/pids/clockwork.pid"
+  cw_pid_file = "#{current_path}/tmp/pids/clockwork.pid"
   # stop clockwork
-  run "if [ -d #{current_path} ] && [ -f #{cw_pid_file} ]; then cd #{current_path} && kill -int $(cat #{cw_pid_file}) 2>/dev/null; else echo 'clockwork was not running'"
+  run "if [ -d #{current_path} ] && [ -f #{cw_pid_file} ]; then cd #{current_path} && kill -int $(cat #{cw_pid_file}) 2>/dev/null; else echo 'clockwork was not running'; fi"
   ## start clockwork
   run "cd #{current_path} && bundle exec clockworkd -c #{current_path}/lib/clock.rb --pid-dir #{shared_path}/pids --log --log-dir #{shared_path}/log restart >> log/clockwork.log 2>&1 &"
-  run "ps -eo pid,command | grep clockwork | grep -v grep | awk '{print $1}' > #{cw_pid_file}"
   end
 end
