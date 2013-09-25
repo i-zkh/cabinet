@@ -1,7 +1,7 @@
 set :rvm_ruby_string, 'default'
 set :rvm_type, :user
  
-server "ec2-54-212-98-198.us-west-2.compute.amazonaws.com", :web, :app, :db, primary: true
+server "http://54.214.239.57", :web, :app, :db, primary: true
 
 set :application, "project"
 set :user, "ubuntu"
