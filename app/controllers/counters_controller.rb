@@ -1,11 +1,12 @@
 class CountersController < ApplicationController
-  def work_counters
+  
+  def index
     array = []
     params[:month_id] = DateTime.now.month
-    @report = GetRequest.meters(1000, params[:month_id])
+    @report = GetRequest.meters(session[:vendor_id], params[:month_id])
     if @report	
       @report.each do |r|
-        array << r['user_id'].to_s
+        array << r['user_account'].to_s
       end
       @user_account = array.uniq
     end
@@ -13,18 +14,17 @@ class CountersController < ApplicationController
   end
 
   def create
-    p @report = GetRequest.meters(1000, params[:month_id])
+    p @report = GetRequest.meters(session[:vendor_id], params[:month_id])
      @path = "http://izkh.ru/"
-    data, array = [], []
-    @user_account = []
+    data, array, @user_account = [], [], []
     if @report
       @report.each do |r|
-        array << r['user_id'].to_s
+        array << r['user_account'].to_s
       end
       @user_account = array.uniq
       if params[:user_account] != ""
         @report.each do |r|
-          if params[:user_account].to_i == r['user_id']
+          if params[:user_account] == r['user_account']
             data << r
           end
         end

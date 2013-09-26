@@ -18,6 +18,8 @@ gem 'russian', '~> 0.6.0'
 gem 'daemons'
 gem 'sidekiq'
 gem 'clockwork'
+
+gem "dbf"
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

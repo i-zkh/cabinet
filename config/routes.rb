@@ -15,14 +15,13 @@ Project::Application.routes.draw do
 
   get 'address_range' => "user_check#address"
   get 'user_account' => "user_check#account"
-
-  get 'work_counters' => "counters#work_counters"
   
 # Report
   get 'get_payment' => 'payments#create'
 
-# Parsing report
-  get 'get_txt' => 'txt#create'
+# Parsing vendor's reports
+  get 'accounts/create' => 'accounts#create'
+
   get 'get_xls' => 'xls#create'
   get 'get_xlt' => 'address_ranges#create'
 
