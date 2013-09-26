@@ -9,6 +9,8 @@ set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
 set :use_sudo, false
 set :rails_env, "production"
+set :cw_log_file, "#{current_path}/log/clockwork.log"
+set :cw_pid_file, "#{current_path}/tmp/pids/clockwork.pid"
 
 set :scm, "git"
 set :repository, "git://github.com/ivannasya/vendor.git"
@@ -26,6 +28,9 @@ namespace :deploy do
 
   task :restart do
     run "touch #{current_path}/tmp/restart.txt"
-	run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec clockworkd -c #{current_path}/lib/clock.rb --pid-dir #{shared_path}/pids --log --log-dir #{shared_path}/log restart"
+  	run "if [ -d #{current_path} ] && [ -f #{cw_pid_file} ]; then cd #{current_path} && kill -int $(cat #{cw_pid_file}) 2>/dev/null; else echo 'clockwork was not running' ; fi"
+  	run "cd #{current_path}; nohup bundle exec clockwork config/clockwork.rb -e #{rails_env} >> #{current_path}/log/clockwork.log 2>&1 &", :pty => false
+    # get process id
+    run "ps -eo pid,command | grep clockwork | grep -v grep | awk '{print $1}' > #{cw_pid_file}"
   end
 end
