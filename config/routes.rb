@@ -31,7 +31,7 @@ Project::Application.routes.draw do
   get 'get_vendor' => 'request#get_vendor'
   
 # Organization file
-  get 'add_organization' => 'organization#all'
+  get 'organization/all' => 'organization#all'
   get 'add_absense_vendor' => 'organization#absence'
 
 # Precinct

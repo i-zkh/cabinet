@@ -20,8 +20,10 @@ class AccountsController < ApplicationController
 	# DataProcessing.push_data_to_account(Getter.new(XlsForThreeColumns.new("254.xls")).input_data, 58)
 
 	#Add тсж Лидер
-	 DataProcessing.push_data_to_account(Getter.new(Dbf.new("тсж Лидер.DBF")).input_data, 61)
+	DataProcessing.push_data_to_account(Getter.new(Dbf.new("тсж Лидер.DBF")).input_data, 61)
 
+	#Add ЖСК №224, Лагуна
+	#DataProcessing.push_data_to_account(Getter.new(Ods.new("ЖСК №224.ods")).input_data, )
     render json: true
   end
 

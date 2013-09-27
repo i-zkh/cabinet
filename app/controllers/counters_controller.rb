@@ -1,5 +1,6 @@
 class CountersController < ApplicationController
-  
+  before_filter :authorize, only: [:index, :create]
+
   def index
     array = []
     params[:month_id] = DateTime.now.month
@@ -14,8 +15,8 @@ class CountersController < ApplicationController
   end
 
   def create
-    p @report = GetRequest.meters(session[:vendor_id], params[:month_id])
-     @path = "http://izkh.ru/"
+    @report = GetRequest.meters(session[:vendor_id], params[:month_id])
+    @path = "http://izkh.ru/"
     data, array, @user_account = [], [], []
     if @report
       @report.each do |r|
