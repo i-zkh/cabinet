@@ -26,7 +26,6 @@ class AccountsController < ApplicationController
 	#DataProcessing.push_data_to_account(Getter.new(Ods.new("report/9-13/ЖСК №224.ods")).input_data, )
 
 	# Freelancer.new("Фриланс.xls").add_freelancers
-	Getter.new(Energosbyt.new("report/9-13/Энергосбыт.xls")).input_data
 
     render json: true
   end

@@ -15,6 +15,8 @@ Project::Application.routes.draw do
   get 'get_key' => "key#create"
 
   get 'energosbyt' => 'energosbyt#index'
+  get 'energosbyt/create' => 'energosbyt#create'
+  
   # get 'address_range' => "user_check#address"
   # get 'user_account' => "user_check#account"
   
