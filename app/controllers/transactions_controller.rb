@@ -6,7 +6,7 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    @report = GetRequest.report_monthly(session[:vendor_id], params[:month_id])
+    p @report = GetRequest.report_monthly(session[:vendor_id], params[:month_id])
     respond_to do |f| f.js { render "transactions/create"}
     end
   end

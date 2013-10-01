@@ -11,10 +11,12 @@ Project::Application.routes.draw do
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
 
+  get 'user_account' => 'user_accounts#index'
   get 'get_key' => "key#create"
 
-  get 'address_range' => "user_check#address"
-  get 'user_account' => "user_check#account"
+  get 'energosbyt' => 'energosbyt#index'
+  # get 'address_range' => "user_check#address"
+  # get 'user_account' => "user_check#account"
   
 # Report
   get 'get_payment' => 'payments#create'

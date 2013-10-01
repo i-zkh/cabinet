@@ -31,6 +31,7 @@ class ReportWorker
 	      end
 	    else
 	   		ReportMail.no_transactions.deliver
+	   		Report.new(Booker.new(@report)).output_report
 	    end
     end
 end

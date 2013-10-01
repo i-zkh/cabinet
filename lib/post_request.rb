@@ -1,13 +1,13 @@
 require 'open-uri'
 class PostRequest
 	def self.non_utility_service_type(title)
-	  	response = HTTParty.post( "http://ec2-54-245-202-30.us-west-2.compute.amazonaws.com/api/1.0/nonutilityservicetype?auth_token=#{Auth.get}",
+	  	response = HTTParty.post( "https://izkh.ru/api/1.0/nonutilityservicetype?auth_token=#{Auth.get}",
 	    	:body => { :non_utility_service_type => { title: title }}.to_json,
 	    	:headers => {'Content-Type' => 'application/json'})
 	end
 
 	def self.non_utility_vendor(title, phone, work_time, address, non_utility_service_type_id, geocode)
-		response = HTTParty.post( "http://ec2-54-245-202-30.us-west-2.compute.amazonaws.com/api/1.0/non_utility_vendor?auth_token=#{Auth.get}",
+		response = HTTParty.post( "https://izkh.ru/api/1.0/non_utility_vendor?auth_token=#{Auth.get}",
             :body => { :non_utility_vendor => { title: title, phone: phone, work_time: work_time, address: address, non_utility_service_type_id: non_utility_service_type_id },
             :picture => { url: "http://static-maps.yandex.ru/1.x/?ll=#{geocode}&z=15&l=map&size=300,200&pt=#{geocode}" }}.to_json,
             :headers => {'Content-Type' => 'application/json'})
@@ -16,6 +16,12 @@ class PostRequest
 	def self.vendor(title, service_type_id)
 		response = HTTParty.post( "https://izkh.ru/api/1.0/vendor?auth_token=#{Auth.get}",
 	    	:body => { :vendor =>  { title: title, service_type_id: service_type_id, is_active: true }}.to_json,
+	    	:headers => {'Content-Type' => 'application/json'})
+	end
+
+	def self.freelancer(freelance_category_id, description, phone, title, name)
+	  	response = HTTParty.post( "https://izkh.ru/api/1.0/freelancer/create?auth_token=#{Auth.get}",
+	    	:body => { freelancer: { freelance_category_id: freelance_category_id, description: description, phone: phone, title: title, work_time: "", name: name}}.to_json,
 	    	:headers => {'Content-Type' => 'application/json'})
 	end
 
@@ -32,14 +38,14 @@ class PostRequest
 	end
 
 	def self.non_utility_vendor_with_image(title, phone, work_time, address, non_utility_service_type_id, image)
-		response = HTTParty.post( "http://ec2-54-245-202-30.us-west-2.compute.amazonaws.com/api/1.0/non_utility_vendor?auth_token=#{Auth.get}",
+		response = HTTParty.post( "https://izkh.ru/api/1.0/non_utility_vendor?auth_token=#{Auth.get}",
             :body => { :non_utility_vendor => { title: title, phone: phone, work_time: work_time, address: address, non_utility_service_type_id: non_utility_service_type_id },
             :picture => { url: image }}.to_json,
             :headers => {'Content-Type' => 'application/json'})
 	end
 
 	def self.payload(data)
-		response = HTTParty.post( "http://ec2-54-245-202-30.us-west-2.compute.amazonaws.com/api/1.0/account/autoset?auth_token=#{Auth.get}",
+		response = HTTParty.post( "https://izkh.ru/api/1.0/account/autoset?auth_token=#{Auth.get}",
 	    	:body => { :payload => data}.to_json,
 	    	:headers => {'Content-Type' => 'application/json'})
 	end

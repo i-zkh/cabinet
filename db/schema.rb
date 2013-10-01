@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130919090232) do
+ActiveRecord::Schema.define(:version => 20131001105242) do
 
   create_table "accounts", :force => true do |t|
     t.string   "user_account"
@@ -35,6 +35,18 @@ ActiveRecord::Schema.define(:version => 20130919090232) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "en_acccounts", :force => true do |t|
+    t.string  "user_account"
+    t.string  "city"
+    t.string  "street"
+    t.string  "building"
+    t.string  "apartment"
+    t.date    "bypass"
+    t.integer "meter_reading"
+    t.float   "invoice_amount"
+    t.date    "data"
+  end
+
   create_table "payloads", :force => true do |t|
     t.integer  "user_id"
     t.string   "user_type"
@@ -43,6 +55,14 @@ ActiveRecord::Schema.define(:version => 20130919090232) do
     t.integer  "vendor_id"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+  end
+
+  create_table "precinct_houses", :force => true do |t|
+    t.integer  "precinct_id"
+    t.integer  "street_id"
+    t.string   "house"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "precincts", :force => true do |t|
@@ -57,6 +77,12 @@ ActiveRecord::Schema.define(:version => 20130919090232) do
     t.text     "photo"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+  end
+
+  create_table "streets", :force => true do |t|
+    t.string   "street"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "territories", :force => true do |t|

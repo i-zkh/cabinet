@@ -10,10 +10,6 @@ class Ovd
 			next if file == '.' or file == '..'
 			xmlfile = File.new("ovd_data/#{file}")
 			xml_doc = Nokogiri::XML(xmlfile)
-			# n for create db
-			n = Precinct.last ? Precinct.last.id : 0
-			# n for post
-			# n = 0
 			data = []
 
 			(0..xml_doc.css("EFOType OVD opor_info opor").size-1).each do |k|
@@ -21,16 +17,18 @@ class Ovd
 
 					unless xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text == "Вакантно" || xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text == "Вакансия" || xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text == "вакантный"
 						# Create precincts
-						Precinct.create!(
-							ovd: xml_doc.css("EFOType OVD opor_info opor subdiv_name")[k].text,
-							ovd_town: xml_doc.css("EFOType OVD opor_info opor opor_townname")[k].text,
-							ovd_street: xml_doc.css("EFOType OVD opor_info opor opor_streetname")[k].text,
-							ovd_house: xml_doc.css("EFOType OVD opor_info opor opor_house")[k].text,
-							ovd_telnumber: xml_doc.css("EFOType OVD opor_info opor opor_telnumber")[k].text,
-							surname: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text,
-							name: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_name")[i].text,
-							middlename: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_middlename")[i].text
-						)
+						unless Precinct.where(surname: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text).first				
+							Precinct.create!(
+								ovd: xml_doc.css("EFOType OVD opor_info opor subdiv_name")[k].text,
+								ovd_town: xml_doc.css("EFOType OVD opor_info opor opor_townname")[k].text,
+								ovd_street: xml_doc.css("EFOType OVD opor_info opor opor_streetname")[k].text,
+								ovd_house: xml_doc.css("EFOType OVD opor_info opor opor_house")[k].text,
+								ovd_telnumber: xml_doc.css("EFOType OVD opor_info opor opor_telnumber")[k].text,
+								surname: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text,
+								name: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_name")[i].text,
+								middlename: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_middlename")[i].text
+							)
+						end
 						# Post request to create precincts on service
 						# PostRequest.precinct(
 						# 	xml_doc.css("EFOType OVD opor_info opor subdiv_name")[k].text,
@@ -44,6 +42,14 @@ class Ovd
 						# )
 
 						(0..xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory").size-1).each do |j|
+
+							#Create streets
+							unless Street.where(street: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text).first
+								Street.create!(
+									street: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text
+								)
+							end
+
 							houses = xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory houses")[j].text
 							houses.gsub!('=', '-')
 							houses.gsub!('.', ',')
@@ -101,16 +107,15 @@ class Ovd
 									end
 							#Create territories of precinct 
 							(0..data.size-1).each do |d|
-								Territory.create!(
-									precinct_id: n+1,
-									street: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text,
+								PrecinctHouse.create!(
+									precinct_id: Precinct.where(surname: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text).first.id,
+									street_id: Street.where(street: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text).first.id,
 							    	house: data[d]
-								)	
+								)
 								#Post request to create precinct's territories on service
 								# PostRequest.precinct_territory(n+1, xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text, data[d])
 							end	
 						end
-						n += 1
 				    end
 				end
 			end
