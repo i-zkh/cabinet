@@ -1,0 +1,13 @@
+<div class="span9">
+<%= form_tag(energosbyt_report_url, method: :get) do %>
+<%= select_tag(:report_month_id, options_for_select([["Январь", 1],["Февраль", 2], ["Май", 5],["Июнь", 6],["Июль", 7],[ "Август", 8],["Сентябрь", 9],["Октябрь", 10],["Ноябрь", 11],[ "Декабрь", 12]], DateTime.now.month))%>
+<div id="button_small" ><%= submit_tag "Обновить"%></div>
+<% end %>
+ 	<p>
+  Download:
+  <%= link_to "Excel", "/energosbyt_report.xls?report_month_id=#{params[:report_month_id]}" %>
+</p>
+<p>Колличество строк:
+<%= @handling.size %>
+</p>
+</div>

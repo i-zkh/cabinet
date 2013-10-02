@@ -11,12 +11,14 @@ Project::Application.routes.draw do
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
 
-  get 'user_account' => 'user_accounts#index'
   get 'get_key' => "key#create"
 
+# Energosbyt
   get 'energosbyt' => 'energosbyt#index'
-  get 'energosbyt/create' => 'energosbyt#create'
-  
+  post 'energosbyt' => 'energosbyt#create'
+  get 'energosbyt_report' => 'energosbyt#xls'
+  post 'energosbyt_report_month' => 'energosbyt#xls_month'
+
   # get 'address_range' => "user_check#address"
   # get 'user_account' => "user_check#account"
   

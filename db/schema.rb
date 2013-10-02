@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131001105242) do
+ActiveRecord::Schema.define(:version => 20131002070708) do
 
   create_table "accounts", :force => true do |t|
     t.string   "user_account"
@@ -45,6 +45,14 @@ ActiveRecord::Schema.define(:version => 20131001105242) do
     t.integer "meter_reading"
     t.float   "invoice_amount"
     t.date    "data"
+  end
+
+  create_table "en_handlings", :force => true do |t|
+    t.integer  "user_account"
+    t.integer  "user_id"
+    t.string   "remote_ip"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "payloads", :force => true do |t|

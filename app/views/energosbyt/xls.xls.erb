@@ -1,0 +1,14 @@
+<table border="1">
+  <tr>
+    <th>Лицевой счет</th>
+    <th>Ip</th>
+    <th>Дата</th>
+  </tr>
+  <% @handling.each do |handling| %>
+  <tr>
+    <td><%= handling.user_account %></td>
+    <td><%= handling.remote_ip %></td>
+    <td><%= handling.created_at %></td>
+  </tr>
+  <% end %>
+</table>

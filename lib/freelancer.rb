@@ -13,16 +13,16 @@ class Freelancer
 	    end
 	    (0..@categories.size-1).each do |j|
 	        categories << @categories[j]["title"]
-	    end 
+	    end
 
 	    array = data - categories
 	    array.uniq!
 	    if array != []
-	      (0..array.size-1).each do |a|
-	        PostRequest.freelance_category(array[a])
-	       end
+	      	(0..array.size-1).each do |a|
+	       		PostRequest.freelance_category(array[a])
+	       	end
 	    else
-	      puts "----------No one new categories----------"
+	      	puts "----------No one new categories----------"
 	    end
 	end
 
