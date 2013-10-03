@@ -1,0 +1,7 @@
+ <%= form_tag(counters_url, method: :post, remote: true, id: "users", data: {users: @user_account}) do %>
+    <%= select_tag(:month_id, options_for_select([["Январь", 1],["Февраль", 2], ["Май", 5],["Июнь", 6],["Июль", 7],[ "Август", 8],["Сентябрь", 9],["Октябрь", 10],["Ноябрь", 11],[ "Декабрь", 12]], DateTime.now.month))%></div>
+    <%= text_field_tag(:user_account) %>
+      <br>
+      <br>
+      <div id="button_small" ><%= submit_tag "Обновить" %></div>
+  <% end %>

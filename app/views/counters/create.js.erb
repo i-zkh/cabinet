@@ -1,2 +1,7 @@
 $("#report").html('<%= escape_javascript render("counters/meter")%>');
+ $(function() {
+    $( "#user_account" ).autocomplete({
+      source: $('#users').data('users')
+    });
+  });
 hoverer();

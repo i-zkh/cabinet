@@ -162,8 +162,10 @@ table {
 	line-height: 40px;
 	color:white;
     height: 30px;
-    padding:7px 30px;
-    margin: 10px -1px;
+    padding:7px 33px;
+}
+p {
+	padding:7px 5px;
 }
 select,
 input[type="file"] {

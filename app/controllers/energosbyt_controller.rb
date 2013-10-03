@@ -13,45 +13,16 @@ class EnergosbytController < ApplicationController
 
 	def create
 		EnHandling.create!(user_account: params[:user_account], user_id: params[:user_id], remote_ip: params[:remote_ip])
+		render json: {}
 	end
 
-	# def xls
-	#     p report_month_id = params[:report_month_id] 
-	# 	p @handling = EnHandling.all.select { |d| d.created_at.month == report_month_id.to_i }
- #    	respond_to do |format|
- #      		format.html
- #      		format.xls
- #    	end	
-	# end
-
 	def xls
-	    p report_month_id = params[:report_month_id] 
-		p @handling = EnHandling.where('extract(month from created_at) = ? ', report_month_id)
+		@month = params[:report_month_id] ? params[:report_month_id] : DateTime.now.month
+		@handling = EnHandling.where('extract(month from created_at) = ? ', @month )
     	respond_to do |format|
       		format.html
       		format.xls
     	end	
 	end
-
-	# def xls
-	#     @handling = EnHandling.all
- #    	respond_to do |format|
- #      		format.html
- #      		format.xls
- #    	end	
-	# end
-	
-	# def xls_month
-	# 	p report_month_id = params[:report_month_id] ? params[:report_month_id] : DateTime.now.month
-	# 	p @handling = EnHandling.all.select { |d| d.created_at.month == params[:report_month_id].to_i }
-	# 	p @handling.size 
-	# 	respond_to do |f| f.js { render "energosbyt/datasize"}
-	# 	end
- #    	respond_to do |format|
-
- #      		format.html
- #      		format.xls
- #    	end	
-	# end
 end
 

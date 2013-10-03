@@ -3,26 +3,25 @@ class CountersController < ApplicationController
 
   def index
     array = []
-    params[:month_id] = DateTime.now.month
-    @report = GetRequest.meters(session[:vendor_id], params[:month_id])
+    @path = "http://izkh.ru/"
+    @report = GetRequest.meters(1000, DateTime.now.month)
     if @report	
       @report.each do |r|
         array << r['user_account'].to_s
       end
-      @user_account = array.uniq
+      p @user_account = array.uniq
     end
-    @path = "http://izkh.ru/"
   end
 
   def create
-    @report = GetRequest.meters(session[:vendor_id], params[:month_id])
+    @report = GetRequest.meters(1000, params[:month_id])
     @path = "http://izkh.ru/"
     data, array, @user_account = [], [], []
     if @report
       @report.each do |r|
         array << r['user_account'].to_s
       end
-      @user_account = array.uniq
+      p @user_account = array.uniq
       if params[:user_account] != ""
         @report.each do |r|
           if params[:user_account] == r['user_account']
