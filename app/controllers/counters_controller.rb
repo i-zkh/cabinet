@@ -4,7 +4,7 @@ class CountersController < ApplicationController
   def index
     array = []
     @path = "http://izkh.ru/"
-    @report = GetRequest.meters(1000, DateTime.now.month)
+    @report = GetRequest.meters(session[:vendor_id], DateTime.now.month)
     if @report	
       @report.each do |r|
         array << r['user_account'].to_s
@@ -14,7 +14,7 @@ class CountersController < ApplicationController
   end
 
   def create
-    @report = GetRequest.meters(1000, params[:month_id])
+    @report = GetRequest.meters(session[:vendor_id], params[:month_id])
     @path = "http://izkh.ru/"
     data, array, @user_account = [], [], []
     if @report
