@@ -17,7 +17,6 @@ Project::Application.routes.draw do
   get 'energosbyt' => 'energosbyt#index'
   post 'energosbyt' => 'energosbyt#create'
   get 'energosbyt_report' => 'energosbyt#xls'
-  post 'energosbyt_report_month' => 'energosbyt#xls_month'
 
   # get 'address_range' => "user_check#address"
   # get 'user_account' => "user_check#account"
@@ -27,6 +26,7 @@ Project::Application.routes.draw do
 
 # Parsing vendor's reports
   get 'accounts/create' => 'accounts#create'
+  get 'accounts/update' => 'accounts#update'
 
   get 'get_xls' => 'xls#create'
   get 'get_xlt' => 'address_ranges#create'

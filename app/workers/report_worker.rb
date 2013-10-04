@@ -8,7 +8,7 @@ class ReportWorker
 		 @report = GetRequest.report_daily
 	    if @report != []
 			Report.new(AllPayment.new(@report)).output_report 
-			# Report.new(Booker.new(@report)).output_report
+			Report.new(Booker.new(@report)).output_report
 			# Report.new(Error.new(@report)).output_report
 
 	      @report.each do |report|
@@ -31,7 +31,6 @@ class ReportWorker
 	      end
 	    else
 	   		ReportMail.no_transactions.deliver
-	   		Report.new(Booker.new(@report)).output_report
 	    end
     end
 end
