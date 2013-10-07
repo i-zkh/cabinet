@@ -4,10 +4,18 @@ class AccountsController < ApplicationController
   def create
 	# DataProcessing.amount_to_service(Getter.new(TxtParser.new("report/10-13/Цифрал-Самара.TXT")).input_data, 5)
 	# DataProcessing.amount_from_db(5)
+	# DataProcessing.amount_from_db(40)
+	# DataProcessing.amount_from_db(38)
+	# DataProcessing.amount_from_db(46)
+	# DataProcessing.amount_from_db(55)
+	# DataProcessing.amount_from_db(47)
+	# DataProcessing.amount_from_db(58)
+	# DataProcessing.amount_from_db(61)
 
-	# Add жск_219, ТСЖ "Уют" (Демократическая,2) 
+	# Add жск_219, ТСЖ "Уют" (Демократическая, 2), жск 199
 	# DataProcessing.push_data_to_account(Getter.new(Xls.new("report/9-13/жск_219.xls")).input_data, 38)
 	# DataProcessing.push_data_to_account(Getter.new(Xls.new("report/9-13/VOKU1.xls")).input_data, 46)
+	DataProcessing.push_data_to_account(Getter.new(Xls.new("report/10-13/ЖСК199.xls")).input_data, 63)
 
 	# Add Цифрал
 	# DataProcessing.push_data_to_account(Getter.new(TxtParser.new("report/10-13/ТЦД Цифрал-Сервис.TXT")).input_data, 40)
@@ -21,11 +29,12 @@ class AccountsController < ApplicationController
 	#Add жск 254
 	# DataProcessing.push_data_to_account(Getter.new(XlsForThreeColumns.new("report/9-13/254.xls")).input_data, 58)
 
-	#Add тсж Лидер
+	# Add тсж Лидер
 	# DataProcessing.push_data_to_account(Getter.new(Dbf.new("report/9-13/тсж Лидер.DBF")).input_data, 61)
 
 	#Add ЖСК №224, Лагуна
-	#DataProcessing.push_data_to_account(Getter.new(Ods.new("report/9-13/ЖСК №224.ods")).input_data, )
+	DataProcessing.push_data_to_account(Getter.new(Ods.new("report/9-13/ЖСК №224.ods")).input_data, 64)
+	DataProcessing.push_data_to_account(Getter.new(Ods.new("report/9-13/ТСЖ \"Лагуна\".ods")).input_data, 65)
 
 	#Фриланс
 	# Freelancer.new("Фриланс.xls").add_freelancers
@@ -40,6 +49,10 @@ class AccountsController < ApplicationController
 
 	# ПТС
 	# DataProcessing.update_accounts(Getter.new(XlsForTwoColumns.new("report/10-13/Абоненты ПТС на 01_10_2013.xls")).input_data, 47)
+
+	# лидер
+	DataProcessing.update_accounts(Getter.new(Dbf.new("report/10-13/лидер.dbf")).input_data, 61)
+
     render json: true
   end
 end

@@ -10,7 +10,7 @@ class OrganizationController < ApplicationController
 		# getter = Organization.new("Organizations.xls")
 		# getter.non_utility_vendor
 		getter = Organization.new("Organizations.xls")
-		getter.add_absence_vendor
+		getter.non_utility_vendor
 		render json: true
 	end
 end

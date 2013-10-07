@@ -12,25 +12,26 @@ class Organization
   def add_absence_vendor
     check_non_utility_service_types
     check_servicetypes
-    #  geocode = GetRequest.geocode(@data[i]["address"])
- 		  vendor = Vendor.where(title: @data[i]["title"]).first
-     	unless vendor
+
+    (0..@data.size-1).each do |i|
+      geocode = GetRequest.geocode(@data[i]["address"])
+      work_time = @data[i]["work_time"] != nil ? @data[i]["work_time"] : "уточните по телефону"
+   		vendor = Vendor.where(title: @data[i]["title"]).first
+      unless vendor
         (0..@servicetypes.size-1).each do |j|
           if @servicetypes[j]["title"].mb_chars.downcase.to_s == @data[i]["servicetype"]
-          # PostRequest.vendor(@data[i]["title"], @servicetypes[j]["id"])
-          # vendor_key = Digest::MD5.hexdigest((0...5).map{('a'..'z').to_a[rand(26)]}.join)[0..5]
-           p @data[i]["title"]
-          # Vendor.create!(title: @data[i]["title"], vendor_type: @servicetypes[j]["title"], service_type_id: @servicetypes[j]["id"], commission: @data[i]["commission"], email: @data[i]["email"], auth_key: vendor_key)
+            PostRequest.vendor(@data[i]["title"], @servicetypes[j]["id"])
+            vendor_key = Digest::MD5.hexdigest((0...5).map{('a'..'z').to_a[rand(26)]}.join)[0..5]
+            Vendor.create!(title: @data[i]["title"], vendor_type: @servicetypes[j]["title"], service_type_id: @servicetypes[j]["id"], commission: @data[i]["commission"], email: @data[i]["email"], auth_key: vendor_key)
           end
         end
-     	  (0..@non_utility_service_types.size-1).each do |j|
+       	(0..@non_utility_service_types.size-1).each do |j|
           if @non_utility_service_types[j]["title"].mb_chars.downcase.to_s == @data[i]["servicetype"]
-             p @data[i]["title"]
-            #PostRequest.non_utility_vendor(@data[i]["title"], @data[i]["phone"].to_i.to_s, "уточните по телефону", @data[i]["address"], @non_utility_service_types[j]["id"], geocode)
+            PostRequest.non_utility_vendor(@data[i]["title"], @data[i]["phone"].to_i.to_s, work_time, @data[i]["address"], @non_utility_service_types[j]["id"], geocode)
           end
         end
-   	  end
-    end
+      end
+ 	  end
   end
 
   def check_non_utility_service_types
@@ -46,7 +47,7 @@ class Organization
     if array != []
       (0..array.size-1).each do |a|
         p array[a]
-        # PostRequest.non_utility_service_type(array[a])
+        PostRequest.non_utility_service_type(array[a])
       end
     else
       puts "----------No one new non_utility_service_type----------"
@@ -66,7 +67,7 @@ class Organization
     if array != []
       (0..array.size-1).each do |a|
         p array[a]
-        # PostRequest.servicetype(array[a])
+        PostRequest.servicetype(array[a])
       end
     else
       puts "----------No one new servicetype----------"
@@ -82,16 +83,16 @@ class Organization
 
   def non_utility_vendor
     (0..@data.size-1).each do |i|
-      p @data[i]["title"]
+      work_time = @data[i]["work_time"] != nil ? @data[i]["work_time"] : "уточните по телефону"
       if @data[i]["title"] == "ООО \"Цифрал-Самара\"(Самара)"
-        PostRequest.non_utility_vendor_with_image(@data[i]["title"], @data[i]["phone"].to_i.to_s, "уточните по телефону", @data[i]["address"], 12, "http://cs320425.vk.me/v320425507/253f/yrWswddXZTY.jpg")
+        PostRequest.non_utility_vendor_with_image(@data[i]["title"], @data[i]["phone"].to_i.to_s, work_time, @data[i]["address"], 12, "http://cs320425.vk.me/v320425507/253f/yrWswddXZTY.jpg")
       end
       if @data[i]["title"] != "ООО \"Цифрал-Самара\"(Самара)" 
         geocode = GetRequest.geocode(@data[i]["address"])
-        (0..@servicetype.size-1).each do |j|
-          if @data[i]["servicetype"].mb_chars.capitalize.to_s == @servicetype[j]["title"]
-            PostRequest.non_utility_vendor(@data[i]["title"], @data[i]["phone"].to_i.to_s, "уточните по телефону", @data[i]["address"], @servicetype[j]["id"], geocode)
-         end
+        (0..@non_utility_service_types.size-1).each do |j|
+          if @data[i]["servicetype"].mb_chars.capitalize.to_s == @non_utility_service_types[j]["title"]
+            PostRequest.non_utility_vendor(@data[i]["title"], @data[i]["phone"].to_i.to_s, work_time, @data[i]["address"], @non_utility_service_types[j]["id"], geocode)
+          end
         end
       end
     end
@@ -111,11 +112,11 @@ class Organization
 
   def parsing_file(file)
     s = Roo::Excel.new(file)
-    key, @data = ["title", "commission", "email", "phone", "address", "servicetype"], []
+    key, @data = ["title", "commission", "email", "phone", "address", "servicetype", "work_time"], []
     hash = {}
     (2..s.last_row).each do |i|
         if s.cell(i, 2) == 2.0
-          hash =  {key[0] => s.cell(i, 4), key[1] => s.cell(i, 7), key[2] => s.cell(i, 10), key[3] => s.cell(i, 8), key[4] => s.cell(i, 11), key[5] => s.cell(i, 13) }
+          hash =  { key[0] => s.cell(i, 4), key[1] => s.cell(i, 7), key[2] => s.cell(i, 10), key[3] => s.cell(i, 8), key[4] => s.cell(i, 11), key[5] => s.cell(i, 13), key[6] => s.cell(i, 9) }
           @data << hash
         end
     end
