@@ -1,3 +1,4 @@
+#encoding: utf-8
 require 'open-uri'
 class PostRequest
 	def self.non_utility_service_type(title)
@@ -26,28 +27,30 @@ class PostRequest
             :headers => {'Content-Type' => 'application/json'})
 	end
 
-	def self.vendor(title, service_type_id)
+	def self.vendor(title, service_type_id, commission, cities)
 		response = HTTParty.post( "https://izkh.ru/api/1.0/vendor?auth_token=#{Auth.get}",
-	    	:body => { :vendor =>  { title: title, service_type_id: service_type_id, is_active: true }}.to_json,
+	    	:body => { :vendor =>  { title: title, service_type_id: service_type_id, is_active: true, commission: commission, merchant_id: 43222, psk: "e45a8c7b-b0bd-4bdd-93d3-859b463daf81" },
+	    	:cities => cities }.to_json,
 	    	:headers => {'Content-Type' => 'application/json'})
+	end
+
+	def self.field_template(tariff_template_id)
+		response = HTTParty.post( "https://izkh.ru/api/1.0/field_template?auth_token=#{Auth.get}",
+    		:body => { :field_template => { title: "Минимальная сумма платежа", value: 0, is_for_calc: false, tariff_template_id: tariff_template_id, field_type: "text_field", field_units: "руб"}}.to_json,
+    		:headers => {'Content-Type' => 'application/json'})
+	end
+
+	def self.tariff_template(vendor_id, service_type_id)
+		title = [ 0, "", "Оплата домофона", "", "Оплата коммунальных услуг", "Оплата интернета", "Оплата услуг охраны", "Оплата горячей воды и тепла", "Оплата услуг по утилизации отходов" ]
+		response = HTTParty.post( "https://izkh.ru/api/1.0/tariff_template?auth_token=#{Auth.get}",
+    		:body => { :tariff_template => { title: title[service_type_id], vendor_id: vendor_id, has_readings: false, service_type_id: service_type_id }}.to_json,
+    		:headers => {'Content-Type' => 'application/json'})
 	end
 
 	def self.freelancer(freelance_category_id, description, phone, title, name)
 	  	response = HTTParty.post( "https://izkh.ru/api/1.0/freelancer/create?auth_token=#{Auth.get}",
 	    	:body => { freelancer: { freelance_category_id: freelance_category_id, description: description, phone: phone, title: title, work_time: "", name: name}}.to_json,
 	    	:headers => {'Content-Type' => 'application/json'})
-	end
-
-	def self.field_template(title, value, is_for_calc, tariff_template_id, field_type, field_units)
-		response = HTTParty.post( "https://izkh.ru/api/1.0/field_template?auth_token=#{Auth.get}",
-    		:body => { :field_template => { title: title, value: value, is_for_calc: is_for_calc, tariff_template_id: tariff_template_id, field_type: field_type, field_units: field_units}}.to_json,
-    		:headers => {'Content-Type' => 'application/json'})
-	end
-
-	def self.tariff_template(title, vendor_id, has_readings, service_type_id)
-		response = HTTParty.post( "https://izkh.ru/api/1.0/tariff_template?auth_token=#{Auth.get}",
-    		:body => { :tariff_template => { title: title, vendor_id: vendor_id, has_readings: has_readings, service_type_id: service_type_id }}.to_json,
-    		:headers => {'Content-Type' => 'application/json'})
 	end
 
 	def self.payload(data)

@@ -19,27 +19,16 @@ class Ovd
 						# Create precincts
 						unless Precinct.where(surname: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text).first				
 							Precinct.create!(
-								ovd: xml_doc.css("EFOType OVD opor_info opor subdiv_name")[k].text,
-								ovd_town: xml_doc.css("EFOType OVD opor_info opor opor_townname")[k].text,
-								ovd_street: xml_doc.css("EFOType OVD opor_info opor opor_streetname")[k].text,
-								ovd_house: xml_doc.css("EFOType OVD opor_info opor opor_house")[k].text,
-								ovd_telnumber: xml_doc.css("EFOType OVD opor_info opor opor_telnumber")[k].text,
-								surname: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text,
-								name: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_name")[i].text,
-								middlename: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_middlename")[i].text
+								ovd: 				xml_doc.css("EFOType OVD opor_info opor subdiv_name")[k].text,
+								ovd_town: 			xml_doc.css("EFOType OVD opor_info opor opor_townname")[k].text,
+								ovd_street: 		xml_doc.css("EFOType OVD opor_info opor opor_streetname")[k].text,
+								ovd_house: 			xml_doc.css("EFOType OVD opor_info opor opor_house")[k].text,
+								ovd_telnumber: 		xml_doc.css("EFOType OVD opor_info opor opor_telnumber")[k].text,
+								surname: 			xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text,
+								name: 				xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_name")[i].text,
+								middlename: 		xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_middlename")[i].text
 							)
 						end
-						# Post request to create precincts on service
-						# PostRequest.precinct(
-						# 	xml_doc.css("EFOType OVD opor_info opor subdiv_name")[k].text,
-						# 	xml_doc.css("EFOType OVD opor_info opor opor_townname")[k].text,
-						#   	xml_doc.css("EFOType OVD opor_info opor opor_streetname")[k].text,
-						#    	xml_doc.css("EFOType OVD opor_info opor opor_house")[k].text, 
-						#    	xml_doc.css("EFOType OVD opor_info opor opor_telnumber")[k].text,
-						#     xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text,
-						#     xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_name")[i].text,
-						#     xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_middlename")[i].text
-						# )
 
 						(0..xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory").size-1).each do |j|
 
@@ -108,12 +97,10 @@ class Ovd
 							#Create territories of precinct 
 							(0..data.size-1).each do |d|
 								PrecinctHouse.create!(
-									precinct_id: Precinct.where(surname: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text).first.id,
-									street_id: Street.where(street: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text).first.id,
-							    	house: data[d]
+									precinct_id: 		Precinct.where(surname: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text).first.id,
+									street_id: 			Street.where(street: xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text).first.id,
+							    	house: 				data[d]
 								)
-								#Post request to create precinct's territories on service
-								# PostRequest.precinct_territory(n+1, xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text, data[d])
 							end	
 						end
 				    end

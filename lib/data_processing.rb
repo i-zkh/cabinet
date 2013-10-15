@@ -36,8 +36,8 @@ class DataProcessing
 				error << hash
 			end
 		end
-		ReportMail.error(error).deliver if error != []
-		PostRequest.payload(array)
+		ReportMail.error(error, "[ERROR] user accounts").deliver unless error.empty?
+		PostRequest.payload(array) unless array == []
 	end
 
 	def self.push_data_to_db(data, vendor_id)

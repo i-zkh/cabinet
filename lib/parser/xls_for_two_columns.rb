@@ -11,7 +11,7 @@ class XlsForTwoColumns < Parser
 	  hash = {}
 
   	(1..s.last_row).each do |i|
-  	  hash =  {key[0] => s.cell(i, 1).to_i, key[1] => s.cell(i, 2)}
+  	  hash =  {key[0] => s.cell(i, 1), key[1] => s.cell(i, 2)}
   	  data << hash
   	end
     data

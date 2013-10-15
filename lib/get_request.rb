@@ -45,4 +45,9 @@ class GetRequest
 		response = HTTParty.get( "https://izkh.ru/api/1.0/freelancecategory?auth_token=#{Auth.get}") 
     	response.parsed_response
 	end
+
+	def self.cities
+		response = HTTParty.get( "https://izkh.ru/api/1.0/cities?auth_token=#{Auth.get}") 
+    	response.parsed_response
+	end
 end

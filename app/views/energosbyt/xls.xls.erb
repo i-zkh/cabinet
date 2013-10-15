@@ -8,7 +8,7 @@
   <tr>
     <td><%= handling.user_account %></td>
     <td><%= handling.remote_ip %></td>
-    <td><%= handling.created_at %></td>
+    <td><%= handling.created_at.strftime("%Y-%m-%d %H:%M") %></td>
   </tr>
   <% end %>
 </table>

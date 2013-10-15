@@ -18,9 +18,9 @@ class ReportMail < ActionMailer::Base
     mail(to: "out@izkh.ru", subject: "No transactions")
   end
 
-  def error(message)
+  def error(message, message_subject)
     @message = message
-    mail(to: "out@izkh.ru", subject: "[ERROR] user accounts")
+    mail(to: "out@izkh.ru", subject: message_subject)
   end
 
   def booker(recipient)

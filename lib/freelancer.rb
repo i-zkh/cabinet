@@ -33,7 +33,7 @@ class Freelancer
 		        if @categories[j]["title"].mb_chars.downcase.to_s == @data[i]["category"].mb_chars.downcase.to_s
 		        	array = [] 
 		        	array = @data[i]["ad"].split(" ")
-				    # PostRequest.freelancer(@categories[j]["id"], @data[i]["ad"], @data[i]["phone"], "#{array[0]} #{array[1]} #{array[2]}...", @data[i]["contact"])
+				    PostRequest.freelancer(@categories[j]["id"], @data[i]["ad"], @data[i]["phone"], "#{array[0]} #{array[1]} #{array[2]} #{array[3]}...", @data[i]["contact"])
 			    end
 	     	end
 	 	end

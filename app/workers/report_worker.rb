@@ -9,7 +9,7 @@ class ReportWorker
 	    if @report != []
 			Report.new(AllPayment.new(@report)).output_report 
 			Report.new(Booker.new(@report)).output_report
-			# Report.new(Error.new(@report)).output_report
+			Report.new(Error.new(@report)).output_report
 
 	      @report.each do |report|
 	      	vendors_id << report['vendor_id']
