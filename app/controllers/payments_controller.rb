@@ -16,9 +16,9 @@ class PaymentsController < ApplicationController
 	      	vendor = Vendor.where(id: id, distribution: true).first
 	      	if vendor
 		        case id
-		    	  when 5, 44
+		    	when 5, 44
 		          	Report.new(TxtCheckAddress.new(@data, id)).output_report
-		          else
+		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
 		   		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
