@@ -20,7 +20,7 @@ class ReportMail < ActionMailer::Base
 
   def error(message, message_subject)
     @message = message
-    mail(to: "out@izkh.ru", subject: message_subject)
+    mail(to: "ivanova@izkh.ru", subject: message_subject)
   end
 
   def booker(recipient)
