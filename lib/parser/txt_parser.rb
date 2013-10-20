@@ -6,8 +6,7 @@ class TxtParser < Parser
   end
 
   def input
-	data, row = [], []
-	key = ["user_account", "city", "street", "building", "apartment", "invoice_amount"]
+	data, row, key = [], [], ["user_account", "city", "street", "building", "apartment", "invoice_amount"]
 	File.open(@file, 'r:windows-1251:utf-8').each do |r|
 		row << r
 	end
@@ -20,3 +19,5 @@ class TxtParser < Parser
 	data
   end
 end
+
+# 		hash = [ array[0], array[1], array[2], array[3], array[4], array[5] ]

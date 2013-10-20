@@ -11,7 +11,7 @@ class TxtPayment < Payment
       @data.each do |d|
         address = Account.where(user_account: d['user_account'], vendor_id: d['vendor_id']).first
         outFile.puts("#{d['user_account']};#{d['address']};#{d['amount']};#{DateTime.parse(d['date']).strftime("%Y-%m-%d")}") unless address.nil?
-        end
+      end
     outFile.close
   end
 end

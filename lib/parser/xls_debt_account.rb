@@ -7,9 +7,7 @@ class XlsDebtAccount < Parser
 
   def input
     s = Roo::Excel.new(@file)
-	  key, data = ["user_account", "invoice_amount"], [] 
-	  hash = {}
-
+	  key, data, hash = ["user_account", "invoice_amount"], [], {}
 
   	(3..s.last_row).each do |i|
   	  next if s.cell(i, 5) == 'ИТОГО'
@@ -18,5 +16,4 @@ class XlsDebtAccount < Parser
   	end
     data
   end
-
 end

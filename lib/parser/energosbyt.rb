@@ -8,8 +8,7 @@ class Energosbyt < Parser
 
 	def input
 	    s = Roo::Excel.new(@file)
-		key, data = ["user_account", "city", "street", "building", "apartment", "bypass", "meter_reading", "invoice_amount", "data"], []
-		hash = {}
+		key, data, hash = ["user_account", "city", "street", "building", "apartment", "bypass", "meter_reading", "invoice_amount", "data"], [], {}
 		(2..s.last_row).each do |i|
 			hash = {key[0] => s.cell(i, 1), key[1] => "Самара", key[2] => s.cell(i, 2), key[3] => s.cell(i, 3), key[4] => s.cell(i, 4), key[5] => s.cell(i, 5), key[6] => s.cell(i, 6), key[7] => s.cell(i, 7), key[8] => s.cell(i, 8)}
 		  	data << hash

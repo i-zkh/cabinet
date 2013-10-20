@@ -7,8 +7,7 @@ class XlsForTwoColumns < Parser
 
   def input
     s = Roo::Excel.new(@file)
-	  key, data = ["user_account", "invoice_amount"], [] 
-	  hash = {}
+	  key, data, hash = ["user_account", "invoice_amount"], [], {}
 
   	(1..s.last_row).each do |i|
   	  hash =  {key[0] => s.cell(i, 1), key[1] => s.cell(i, 2)}

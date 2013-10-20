@@ -6,17 +6,19 @@ class GetRequest
 
     def self.report_daily
 	  	response = HTTParty.get( "https://izkh.ru/api/1.0/report_daily?auth_token=#{Auth.get}")
-    	response.parsed_response["payload"]
+    	daily = response.parsed_response["payload"]
+    	daily.each {|d| d["user_account"].gsub!(/^00/, "")}
+    	daily
 	end
 
 	def self.report_monthly(vendor_id, month)
   		response = HTTParty.get( "https://izkh.ru/api/1.0/report_monthly?vendor_id=#{vendor_id}&month=#{month}&auth_token=#{Auth.get}")
-    	response.parsed_response["payment_history"]
+    	response.parsed_response["payment_history"].each {|m| m["user_account"].gsub!(/^00/, "")}
 	end
 
 	def self.meters(vendor_id, month)
   		response = HTTParty.get( "https://izkh.ru/api/1.0/meterreadings",
-    		:body => { :meter_reading =>  { :vendor_id => vendor_id, :month => month }}.to_json,
+    		:body => { :meter_reading =>  { :vendor_id => vendor_i, :month => month }}.to_json,
     		:headers => { 'Content-Type' => 'application/json' })
 	    response.parsed_response["meter_reading"]
 	end

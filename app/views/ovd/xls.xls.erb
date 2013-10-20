@@ -1,0 +1,21 @@
+<table border="1">
+  <tr>
+    <th>Управляющий пункт</th>
+    <th>Адресс</th>
+    <th>Телефон</th>
+    <th>Участковый</th>
+    <th>Участок</th>
+  </tr>
+  <% @data.each do |data| %>
+  <tr>
+    <td><%= data[0] %></td>
+    <td><%= data[1].mb_chars.capitalize.to_s %>, <%= data[2].mb_chars.capitalize.to_s %>, <%= data[3] %></td>
+    <td><%= data[4] %> </td>
+    <td><%= data[5].mb_chars.capitalize.to_s %> <%= data[6].mb_chars.capitalize.to_s %> <%= data[7].mb_chars.capitalize.to_s %></td>
+    <td><% (0..data[8].size-1).each do |i| %>
+          <%= data[8][i][0].mb_chars.capitalize.to_s %> <%= data[8][i][1] %>;
+        <% end %>
+    </td>
+  </tr>
+  <% end %>
+</table>

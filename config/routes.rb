@@ -42,6 +42,7 @@ Project::Application.routes.draw do
 
 # Precinct
   get 'ovd' => 'ovd#ovd'
+  get 'ovd_report' => 'ovd#xls'
 
 # Jiguli
   get 'osmp' => 'request#osmp'

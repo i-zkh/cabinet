@@ -9,7 +9,7 @@ class Getter
 		@parser.input
 	end
 
-	def update_accounts(data, vendor_id)
+	def self.update_accounts(data, vendor_id)
 		(0..data.size-1).each do |i|
 			account = Account.where(user_account: data[i]["user_account"].to_s, vendor_id: vendor_id).first
 			if account

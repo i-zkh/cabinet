@@ -26,7 +26,7 @@
       <li class="<%= 'active' if current_page?(vendors_path)%>"><%= link_to "Аккаунт", vendors_path %></li>
   	  <li class="<%= 'active' if current_page?(transactions_path) %>"><%= link_to "Транзакции", transactions_path %></li>
   	  <li class="<%= 'active' if current_page?(counters_path) %>"><%= link_to "Показания счётчиков", counters_path %></li>
-      <% if session[:vendor_id] == 45 %>
+      <% if session[:vendor_id] == 1002 %>
         <li class="<%= 'active' if current_page?(energosbyt_report_url) %>"><%= link_to "Запросы пользователей", energosbyt_report_url %></li>
       <% end%>
   	  <li><%= link_to "Выход", session_path("current"), method: "delete" %></li>

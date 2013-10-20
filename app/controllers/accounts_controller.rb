@@ -16,10 +16,13 @@ class AccountsController < ApplicationController
 	# DataProcessing.push_data_to_account(Getter.new(Xls.new("report/9-2013/жск_219.xls")).input_data, 38)
 	# DataProcessing.push_data_to_account(Getter.new(Xls.new("report/9-2013/VOKU1.xls")).input_data, 46)
 	# DataProcessing.push_data_to_account(Getter.new(Xls.new("report/10-2013/ЖСК199.xls")).input_data, 63)
-
+	# Getter.create_accounts(Getter.new(Xls.new("report/10-2013/249.xls")).input_data, 59)
+	
 	# Add Цифрал
 	# DataProcessing.push_data_to_account(Getter.new(TxtParser.new("report/10-2013/ТЦД Цифрал-Сервис.TXT")).input_data, 40)
 	# DataProcessing.push_data_to_account(Getter.new(TxtParser.new("report/10-2013/Цифрал-Самара.TXT")).input_data, 5)
+	@report = Getter.new(XlsForThreeColumns.new("report/9-2013/254.xls")).input_data
+
 
 	# Add PTS, жск 268
 	# DataProcessing.push_data_to_account(Getter.new(XlsForTwoColumns.new("report/9-2013/жск 268 август.xls")).input_data, 55)
@@ -50,7 +53,7 @@ class AccountsController < ApplicationController
 	# Фриланс
 	# Freelancer.new("report/10-2013/Фриланс.xls").add_freelancers
 	# CheckEmail.check
-    render json: true
+    render json: @report
   end
 
   def update

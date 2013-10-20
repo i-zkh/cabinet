@@ -108,4 +108,36 @@ class Ovd
 			end
 		end
 	end
+
+	def self.xml_to_xsl
+		data, array, address = [], [], []
+		Dir.foreach('ovd_data') do |file|
+		next if file == '.' or file == '..'
+		xmlfile = File.new("ovd_data/#{file}")
+		xml_doc = Nokogiri::XML(xmlfile)
+
+
+		(0..xml_doc.css("EFOType OVD opor_info opor").size-1).each do |k|
+		(0..xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum").size-1).each do |i|
+			array = [
+					xml_doc.css("EFOType OVD opor_info opor subdiv_name")[k].text,
+					xml_doc.css("EFOType OVD opor_info opor opor_townname")[k].text,
+					xml_doc.css("EFOType OVD opor_info opor opor_streetname")[k].text,
+					xml_doc.css("EFOType OVD opor_info opor opor_house")[k].text,
+					xml_doc.css("EFOType OVD opor_info opor opor_telnumber")[k].text,
+					xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_surname")[i].text,
+					xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_name")[i].text,
+					xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum uum_middlename")[i].text
+			]
+			address = []
+			(0..xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory").size-1).each do |j|
+				address << [ xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text, xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory houses")[j].text ]
+			end
+			array << address
+		end
+			data << array
+		end
+		end
+		data
+	end
 end
