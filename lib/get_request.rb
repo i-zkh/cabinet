@@ -18,7 +18,7 @@ class GetRequest
 
 	def self.meters(vendor_id, month)
   		response = HTTParty.get( "https://izkh.ru/api/1.0/meterreadings",
-    		:body => { :meter_reading =>  { :vendor_id => vendor_i, :month => month }}.to_json,
+    		:body => { :meter_reading =>  { :vendor_id => vendor_id, :month => month }}.to_json,
     		:headers => { 'Content-Type' => 'application/json' })
 	    response.parsed_response["meter_reading"]
 	end
