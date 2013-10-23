@@ -9,7 +9,7 @@ class Booker < Payment
     bookerFile = File.new("transactions.txt", "w")
       @data.each do |d|
         vendor = Vendor.find(d['vendor_id'])
-        if d['vendor_id'] == 5 || d['vendor_id'] == 44
+        if d['vendor_id'] == 5 || d['vendor_id'] == 44 || d['vendor_id'] == 40
           address = Account.where(user_account: d['user_account'], vendor_id: d['vendor_id']).first
           bookerFile.puts("#{vendor.title}  #{d['user_account']};#{address['city']}, #{address['street']}, #{address['building']}, #{address['apartment']};#{d['amount']};#{ DateTime.parse(d['date']).strftime("%d.%m.%Y")}") unless address.nil?
         else

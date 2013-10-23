@@ -16,7 +16,7 @@ class PostRequest
 	def self.non_utility_vendor(title, phone, work_time, address, non_utility_service_type_id, geocode)
 		response = HTTParty.post( "https://izkh.ru/api/1.0/non_utility_vendor?auth_token=#{Auth.get}",
             :body => { :non_utility_vendor => { title: title, phone: phone, work_time: work_time, address: address, non_utility_service_type_id: non_utility_service_type_id },
-            :picture => { url: "http://static-maps.yandex.ru/1.x/?ll=#{geocode}&z=15&l=map&size=300,200&pt=#{geocode}" }}.to_json,
+            		   :picture => { url: "http://static-maps.yandex.ru/1.x/?ll=#{geocode}&z=15&l=map&size=300,200&pt=#{geocode}" }}.to_json,
             :headers => {'Content-Type' => 'application/json'})
 	end
 
@@ -30,7 +30,7 @@ class PostRequest
 	def self.vendor(title, service_type_id, commission, cities)
 		response = HTTParty.post( "https://izkh.ru/api/1.0/vendor?auth_token=#{Auth.get}",
 	    	:body => { :vendor =>  { title: title, service_type_id: service_type_id, is_active: true, commission: commission, merchant_id: 43222, psk: "e45a8c7b-b0bd-4bdd-93d3-859b463daf81" },
-	    	:cities => cities }.to_json,
+	    			   :cities => cities }.to_json,
 	    	:headers => {'Content-Type' => 'application/json'})
 	end
 

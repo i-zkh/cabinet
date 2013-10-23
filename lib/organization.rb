@@ -7,32 +7,24 @@ class Organization
     @data = parsing_file(file)
     @servicetypes = type("service_type")
     @non_utility_service_types = type("non_utility_service_type")
-    @cities = GetRequest.cities
+    @cities = cities
   end
 
   def add_absence_vendor
     check_type(@servicetypes)
-    check(@non_utility_service_types)
+    check_type(@non_utility_service_types)
 
     (0..@data.size-1).each do |i|
-
-    # cities, array = {}, []
-    # array =  @data[1]["city"].split(',')
-    # array.each do |city|
-    #   @cities.each do |city_id|
-    #     if city_id["city"]["title"] == city
-    #       cities["id"] = city_id["city"]["id"]
-    #     end
-    #   end
-    # end
-    # p cities
-    # PostRequest.vendor(@data[1]["title"], @servicetypes[2]["id"], @data[1]["commission"].to_i, cities)
-
+      cities, array = [], []
+      array =  @data[1]["city"].split(',')
+      array.each do |city_title|
+          cities << {id: @cities["#{city_title}"]}
+      end
       geocode = GetRequest.geocode(@data[i]["address"])
       work_time = @data[i]["work_time"] != nil ? @data[i]["work_time"] : "уточните по телефону"
    	  vendor = Vendor.where(title: @data[i]["title"]).first
         unless vendor
-          vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"].to_i)
+          vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"].to_i, cities)
           vendor_id.parsed_response["vendor"]
           tariff_id = PostRequest.tariff_template(vendor_id["vendor"]["id"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s])
           tariff_id.parsed_response
@@ -99,10 +91,19 @@ class Organization
   def type(type)
     servicetype, hash = [], {}
     servicetype = type == "service_type" ? GetRequest.servicetypes : GetRequest.nonutilityservicetype
-    (0..servicetype.size-1).each do |i|
-      hash[servicetype[i][type]["title"]] = servicetype[i][type]["id"]
+    servicetype.each do |s|
+      hash[s[type]["title"]] = s[type]["id"]
     end
     hash
+  end
+
+  def cities
+    hash = {}
+    cities = GetRequest.cities
+    cities.each do |c| 
+      hash[c["city"]["title"]] = c["city"]["id"]
+    end
+    hash 
   end
 
 end
