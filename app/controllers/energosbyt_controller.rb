@@ -5,7 +5,7 @@ class EnergosbytController < ApplicationController
 	def index
 		enacccount = []
 		if params[:user_account]
-			e_a = EnAcccount.where("user_account = ? AND invoice_amount > 0", params[:user_account] ).first
+			e_a = EnAcccount.where("user_account = ?", params[:user_account]).first
 			e_a ? enacccount = { user_account: e_a.user_account, city: e_a.city, street: e_a.street, building: e_a.building, apartment: e_a.apartment, bypass: e_a.bypass, meter_reading: e_a.meter_reading, invoice_amount: e_a.invoice_amount, data: e_a.data } : enacccount = []
 		end
 		render json: enacccount
