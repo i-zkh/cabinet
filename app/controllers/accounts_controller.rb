@@ -37,9 +37,10 @@ class AccountsController < ApplicationController
 	# Add тсж Лидер
 	# DataProcessing.push_data_to_account(Getter.new(Dbf.new("report/9-2013/тсж Лидер.DBF")).input_data, 61)
 
-	# Add ЖСК №224, Лагуна
+	# Add ЖСК №224, Лагуна, ЖСК №220
 	# DataProcessing.push_data_to_account(Getter.new(Ods.new("report/9-2013/ЖСК №224.ods")).input_data, 64)
 	# DataProcessing.push_data_to_account(Getter.new(Ods.new("report/9-2013/ТСЖ \"Лагуна\".ods")).input_data, 65)
+	Getter.create_accounts(Getter.new(Ods.new("report/10-2013/ЖСК №220.ods")).input_data, 99)
 
 	# Add ТСЖ Набережное
 	# Getter.create_accounts(Getter.new(XlsDebtAccount.new("report/10-2013/ТСЖ Набережное.xls")).input_data, 93)
@@ -52,7 +53,7 @@ class AccountsController < ApplicationController
 	
 	# Фриланс
 	# Freelancer.new("report/10-2013/Фриланс.xls").add_freelancers
-	# CheckEmail.check
+	# CheckEmail.get_organization
     render json: true
   end
 

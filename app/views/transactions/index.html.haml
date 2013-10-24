@@ -1,0 +1,24 @@
+.span9
+	%h3 Транзакции
+	.select-block.span3
+		= form_tag(transactions_url, method: :post, remote: true) do
+			= select_tag(:month_id, options_for_select([["Январь", 1],["Февраль", 2], ["Май", 5],["Июнь", 6],["Июль", 7],[ "Август", 8],["Сентябрь", 9],["Октябрь", 10],["Ноябрь", 11],[ "Декабрь", 12]], DateTime.now.month))
+			#button_small
+				= submit_tag "Обновить"
+
+	%table.table.table-striped.table-hover
+		%thead
+			%tr
+				%th Лицевой счёт
+				%th Адрес
+				%th Сумма
+				%th Дата
+		%tbody#report
+			- unless @report.nil?
+				- @report.each do |r|
+					- date = DateTime.parse(r["date"])
+					%tr
+						%td= r["user_account"]
+						%td= r["address"]
+						%td= r["amount"]
+						%td= date.strftime("%Y-%m-%d")

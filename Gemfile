@@ -18,6 +18,8 @@ gem 'russian', '~> 0.6.0'
 gem 'daemons'
 gem 'sidekiq'
 gem 'clockwork'
+gem 'haml'
+gem 'sass'
 
 gem "dbf"
 # Gems used only for assets and not required

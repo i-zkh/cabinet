@@ -11,8 +11,8 @@ class Organization
   end
 
   def add_absence_vendor
-    check_type(@servicetypes)
-    check_type(@non_utility_service_types)
+    check_servicetypes
+    check_non_utility_service_types
 
     (0..@data.size-1).each do |i|
       cities, array = [], []
@@ -39,14 +39,22 @@ class Organization
     end
 
   # Add servicetypes and non_utility_service_types
-  def check_type(type)
-    data, array = [], []
-    @data.each { |d|  data << d["servicetype"].mb_chars.capitalize.to_s }
-    array = data - type.keys
-    array.uniq!
-    unless array.empty?
-      (0..array.size-1).each do |a|
-        type == @servicetype ? PostRequest.servicetype(array[a]) : PostRequest.non_utility_service_type(array[a])
+
+
+  def check_servicetypes
+    servicetypes = get_servicetypes(@servicetypes)
+    unless servicetypes.nil?
+      (0..servicetypes.size-1).each do |s|
+        PostRequest.servicetype(servicetypes[s])
+      end
+    end
+  end
+
+  def check_non_utility_service_types
+    servicetypes = get_servicetypes(@non_utility_service_types)
+    unless servicetypes.nil?
+      (0..servicetypes.size-1).each do |s|
+        PostRequest.non_utility_service_type(servicetypes[s])
       end
     end
   end
@@ -68,42 +76,48 @@ class Organization
     (0..@data.size-1).each do |i|
       vendor = Vendor.where(title: @data[i]["title"]).first
       if vendor
-      vendor.commission = @data[i]["commission"]
-      vendor.save!
+        vendor.commission = @data[i]["commission"]
+        vendor.save!
       end
     end
   end
 
   private
 
-  def parsing_file(file)
-    s = Roo::Excel.new(file)
-    key, @data, hash = ["title", "commission", "email", "phone", "address", "servicetype", "work_time", "city"], [], {}
-    (2..s.last_row).each do |i|
-        if s.cell(i, 2) == 2.0
-          hash =  { key[0] => s.cell(i, 4), key[1] => s.cell(i, 7), key[2] => s.cell(i, 10), key[3] => s.cell(i, 8), key[4] => s.cell(i, 11), key[5] => s.cell(i, 13), key[6] => s.cell(i, 9), key[7] => s.cell(i, 5) }
-          @data << hash
-        end
+    def parsing_file(file)
+      s = Roo::Excel.new(file)
+      key, @data, hash = ["title", "commission", "email", "phone", "address", "servicetype", "work_time", "city"], [], {}
+      (2..s.last_row).each do |i|
+          if s.cell(i, 2) == 2.0
+            hash =  { key[0] => s.cell(i, 4), key[1] => s.cell(i, 7), key[2] => s.cell(i, 10), key[3] => s.cell(i, 8), key[4] => s.cell(i, 11), key[5] => s.cell(i, 13), key[6] => s.cell(i, 9), key[7] => s.cell(i, 5) }
+            @data << hash
+          end
+      end
+      @data
     end
-    @data
-  end
 
-  def type(type)
-    servicetype, hash = [], {}
-    servicetype = type == "service_type" ? GetRequest.servicetypes : GetRequest.nonutilityservicetype
-    servicetype.each do |s|
-      hash[s[type]["title"]] = s[type]["id"]
+    def get_servicetypes(servicetypes)
+      data, array = [], []
+      @data.each { |d|  data << d["servicetype"].mb_chars.capitalize.to_s }
+      array = data - servicetypes.keys
+      array.uniq!
     end
-    hash
-  end
 
-  def cities
-    hash = {}
-    cities = GetRequest.cities
-    cities.each do |c| 
-      hash[c["city"]["title"]] = c["city"]["id"]
+    def type(type)
+      servicetype, hash = [], {}
+      servicetype = type == "service_type" ? GetRequest.servicetypes : GetRequest.nonutilityservicetype
+      servicetype.each do |s|
+        hash[s[type]["title"]] = s[type]["id"]
+      end
+      hash
     end
-    hash 
-  end
 
+    def cities
+      hash = {}
+      cities = GetRequest.cities
+      cities.each do |c| 
+        hash[c["city"]["title"]] = c["city"]["id"]
+      end
+      hash
+    end
 end
