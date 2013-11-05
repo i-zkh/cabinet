@@ -1,0 +1,6 @@
+.bag.login.login-form
+	= form_tag login_url, method: :post do
+		.control-group.login-field= text_field_tag :email, nil,  placeholder: "Эл. почта"
+		.control-group.login-field= text_field_tag :auth_key, nil,  placeholder: "Ключ"
+		#button
+			= submit_tag "Войти"

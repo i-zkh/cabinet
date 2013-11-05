@@ -6,7 +6,7 @@ class Energosbyt < Parser
     	@file = file
   	end
 
-	def input
+	def create
 	    s = Roo::Excel.new(@file)
 		key, data, hash = ["user_account", "city", "street", "building", "apartment", "bypass", "meter_reading", "invoice_amount", "data"], [], {}
 		(2..s.last_row).each do |i|

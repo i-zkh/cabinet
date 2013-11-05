@@ -13,9 +13,12 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
-
- hoverer = function(){
+hoverer = function(){
     $(document).ready(function() {
         $('.fancybox').fancybox();
     });
 };
+
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
+    });

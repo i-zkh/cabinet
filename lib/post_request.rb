@@ -1,8 +1,8 @@
 #encoding: utf-8
 require 'open-uri'
 class PostRequest
-
 	class << self
+		
 		def non_utility_service_type(title)
 		  	response = HTTParty.post( "https://izkh.ru/api/1.0/nonutilityservicetype?auth_token=#{Auth.get}",
 		    	:body => { :non_utility_service_type => { title: title }}.to_json,

@@ -1,6 +1,6 @@
 class GetRequest
-
 	class << self
+
 		def vendors
 			response = HTTParty.get( "https://izkh.ru/api/1.0/vendors?auth_token=#{Auth.get}")
 	    	response.parsed_response
@@ -54,5 +54,11 @@ class GetRequest
 			response = HTTParty.get( "https://izkh.ru/api/1.0/cities?auth_token=#{Auth.get}") 
 	    	response.parsed_response
 		end
+
+		def report_vendors(month)
+			response = HTTParty.get( "http://izkh.ru/api/1.0/report_vendors?auth_token=#{Auth.get}&month=#{month}")
+	    	response.parsed_response
+		end
+		
 	end
 end

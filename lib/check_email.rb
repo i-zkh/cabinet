@@ -1,7 +1,7 @@
 #!/usr/bin/env
 class CheckEmail 
 
-	def self.check
+	def self.get_reports
 		Mail.defaults do
 		  retriever_method :pop3, :address    => "mail.nic.ru",
 		                          :port       => 110,
@@ -36,7 +36,7 @@ class CheckEmail
 		end
 	end
 
-	def self.get_organization
+	def self.get_organizations
 		Mail.defaults do
 		  retriever_method :pop3, :address    => "mail.nic.ru",
 		                          :port       => 110,
@@ -47,12 +47,12 @@ class CheckEmail
 		emails = Mail.all
 
 		emails.each do |email|
-			if email.date.strftime("%Y-%m-%d") == DateTime.now.strftime("%Y-%m-%d")
+			if email.date.strftime("%Y-%m-%d") == "#{DateTime.now.strftime("%Y-%m-%d")}"
 				if email.subject.chomp == "Organizations"
 					email.attachments.each do |attachment|
 			    		filename = attachment.filename
 					    begin
-					      	File.open( "report/#{DateTime.now.month}-#{DateTime.now.year}/" + "#{filename}", "w+b", 0644) {|f| f.write attachment.body.decoded}
+					      	File.open( "organizations/" + "#{DateTime.now.strftime("%m-%d")}-#{filename}", "w+b", 0644) {|f| f.write attachment.body.decoded}
 					    rescue Exception => e
 					    	error = "Unable to save file #{filename} because #{e.message}"
 							ReportMail.error(error, "[ERROR] Organizations").deliver

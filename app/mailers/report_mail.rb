@@ -9,6 +9,12 @@ class ReportMail < ActionMailer::Base
     mail(to: vendor.email, subject: "АйЖКХ")
   end
 
+  def report_monthly(message, vendor)
+    @message = message
+    attachments["#{vendor.title}.xls"] = File.read("report_monthly/10-2013/#{vendor.title.gsub(/"/, "")}.xls")
+    mail(to: "out@izkh.ru", subject: "АйЖКХ")
+  end
+
   def report_to_out
     attachments["report.txt"] = File.read("report.txt")
     mail(to: "out@izkh.ru", subject: "Report")

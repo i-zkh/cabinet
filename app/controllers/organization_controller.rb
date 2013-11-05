@@ -1,16 +1,6 @@
 class OrganizationController < ApplicationController
-	def absence
-		getter = Organization.new("report/10-2013/Organizations.xls")
-		getter.add_absence_vendor
-		# getter.get_data_to_vendor
-    	render json: true
-	end
-
-	def all
-		# getter = Organization.new("Organizations.xls")
-		# getter.non_utility_vendor
-		getter = Organization.new("report/10-2013/Organizations.xls")
-		getter.non_utility_vendor
+	def add_vendors
+		Organization.new("organizations/11-01-Organizations.xls").add_vendors
 		render json: true
 	end
 end

@@ -10,6 +10,10 @@ class Report
 		@payload.output
 	end
 
+	def monthly
+		@payload.monthly
+	end
+
 	def self.report
         ReportWorker.perform_async
     end

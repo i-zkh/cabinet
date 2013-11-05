@@ -1,0 +1,8 @@
+- unless @report.nil?
+	- @report.each do |r|
+		- date = DateTime.parse(r["date"])
+		%tr
+			%td= r["user_account"]
+			%td= r["address"]
+			%td= r["amount"]
+			%td= date.strftime("%Y-%m-%d")

@@ -3,19 +3,31 @@ require 'dbf'
 require 'iconv'
 class Dbf < Parser
 
-  def initialize(file)
+  def initialize(file, vendor_id)
     @file = file
+    @vendor_id = vendor_id
   end
 
-  def input
-	table = DBF::Table.new(@file)
-	key, data, hash = ["user_account", "city", "street", "building", "apartment", "invoice_amount"], [], {}
-	
-	table.each do |record|
-		record.adr =~ /(\W+),(\d+)-(\d+)/
-	    hash = {key[0] => record.kod.to_i, key[1] => "Самара", key[2] => $1, key[3] => $2, key[4] => $3, key[5] => record.sumd}
-	    data << hash
+	def input
+		table = DBF::Table.new(@file)
+		key, @data, hash = ["user_account", "city", "street", "building", "apartment", "invoice_amount"], [], {}
+		
+		table.each do |record|
+			record.adr =~ /(\W+),(\d+)-(\d+)/
+		    hash = {key[0] => record.kod.to_i, key[1] => "Самара", key[2] => $1, key[3] => $2, key[4] => $3, key[5] => record.sumd}
+		    @data << hash
+		end
+		@data
 	end
-	data
-  end
+
+    def create
+	  	input
+	  	super
+	end
+
+	def update
+	  	input
+	  	super
+	end
+	
 end

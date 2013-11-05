@@ -21,12 +21,24 @@ class PaymentsController < ApplicationController
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
+		   		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
 	   		end
 	      end
 	    else
 	   		ReportMail.no_transactions.deliver
 	    end
      render json: @report
+  end
+
+  def monthly
+	vendors_id = GetRequest.report_vendors(10)
+	vendors_id.each do |id|
+		vendor = Vendor.where(id: id, distribution: true).first
+		unless vendor.nil?
+			@report = GetRequest.report_monthly(id, DateTime.now.month)
+			Report.new(ReportMonthly.new(@report, id)).monthly
+			ReportMail.report_monthly("Выгрузка транзакций АйЖКХ за октябрь}", vendor).deliver unless File.zero?("report_monthly/10-2013/#{vendor.title.gsub!(/"/, "")}.xls")
+		end
+	end
   end
 end

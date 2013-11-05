@@ -2,8 +2,11 @@
 class AccountsController < ApplicationController
 
   def create
+  	# 5, 33, 38, 40, 46, 47, 55, 58, 59, 61, 63, 64, 65, 67, 92, 93, 99
+
 	# DataProcessing.amount_to_service(Getter.new(TxtParser.new("report/10-2013/Цифрал-Самара.TXT")).input_data, 5)
 	# DataProcessing.amount_from_db(5)
+	# DataProcessing.amount_from_db(33)
 	# DataProcessing.amount_from_db(40)
 	# DataProcessing.amount_from_db(38)
 	# DataProcessing.amount_from_db(46)
@@ -11,7 +14,15 @@ class AccountsController < ApplicationController
 	# DataProcessing.amount_from_db(47)
 	# DataProcessing.amount_from_db(58)
 	# DataProcessing.amount_from_db(61)
-
+	# DataProcessing.amount_from_db(59)
+	# DataProcessing.amount_from_db(63)
+	# DataProcessing.amount_from_db(64)
+	# DataProcessing.amount_from_db(65)
+	# DataProcessing.amount_from_db(67)
+	# DataProcessing.amount_from_db(92)
+	# DataProcessing.amount_from_db(93)
+	# DataProcessing.amount_from_db(99)
+	
 	# Add жск_219, ТСЖ "Уют" (Демократическая, 2), жск 199
 	# DataProcessing.push_data_to_account(Getter.new(Xls.new("report/9-2013/жск_219.xls")).input_data, 38)
 	# DataProcessing.push_data_to_account(Getter.new(Xls.new("report/9-2013/VOKU1.xls")).input_data, 46)
@@ -40,7 +51,7 @@ class AccountsController < ApplicationController
 	# Add ЖСК №224, Лагуна, ЖСК №220
 	# DataProcessing.push_data_to_account(Getter.new(Ods.new("report/9-2013/ЖСК №224.ods")).input_data, 64)
 	# DataProcessing.push_data_to_account(Getter.new(Ods.new("report/9-2013/ТСЖ \"Лагуна\".ods")).input_data, 65)
-	Getter.create_accounts(Getter.new(Ods.new("report/10-2013/ЖСК №220.ods")).input_data, 99)
+	# Getter.create_accounts(Getter.new(Ods.new("report/10-2013/ЖСК №220.ods")).input_data, 99)
 
 	# Add ТСЖ Набережное
 	# Getter.create_accounts(Getter.new(XlsDebtAccount.new("report/10-2013/ТСЖ Набережное.xls")).input_data, 93)
@@ -54,6 +65,19 @@ class AccountsController < ApplicationController
 	# Фриланс
 	# Freelancer.new("report/10-2013/Фриланс.xls").add_freelancers
 	# CheckEmail.get_organization
+	# Getter.create_accounts(Getter.new(Dbf.new("report/10-2013/уют-7.DBF")).input_data, 33)
+
+	# Ивушка
+	# Getter.create_accounts(Getter.new(XlsFirstFour.new("report/10-2013/11.xls")).input_data, 56)
+
+	# Промышленный №261
+	# Getter.create_accounts(Getter.new(XlsOther.new("report/10-2013/#261.xls")).input_data, 15)
+
+	############# Getter.new(Xls.new("report/10-2013/ЖСК199.xls", 63)).update
+	
+	CheckEmail.get_organizations
+
+	# @g = Getter.new(Xls.new("report/10-2013/11.xls", 58)).input
     render json: true
   end
 
@@ -67,10 +91,13 @@ class AccountsController < ApplicationController
 	# DataProcessing.update_accounts(Getter.new(XlsForTwoColumns.new("report/10-2013/Абоненты ПТС на 01_10_2013.xls")).input_data, 47)
 
 	# лидер
-	# DataProcessing.update_accounts(Getter.new(Dbf.new("report/10-2013/лидер.dbf")).input_data, 61)
+	# DataProcessing.update_accounts(Getter.new(Dbf.new("report/10-2013/N6801310.dbf")).input_data, 61)
 
-	#ЖСК 254
-	Getter.update_accounts(Getter.new(XlsForThreeColumns.new("report/10-2013/ЖСК 254.xls")).input_data, 58)
+	# ЖСК 254
+	# Getter.update_accounts(Getter.new(XlsForThreeColumns.new("report/10-2013/ЖСК 254.xls")).input_data, 58)
+
+	# ЖСК-219
+	# Getter.update_accounts(Getter.new(Xls.new("report/10-2013/ЖСК - 219.xls")).input_data, 38)
 
     render json: true
   end

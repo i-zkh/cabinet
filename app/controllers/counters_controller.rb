@@ -9,17 +9,17 @@ class CountersController < ApplicationController
     else
       @report = GetRequest.meters(session[:vendor_id], DateTime.now.month)
     end
-    if @report	
+    if @report
       @report.each do |r|
         array << r['user_account'].to_s
       end
-      p @user_account = array.uniq
+      @user_account = array.uniq
     end
   end
 
   def create
     if session[:vendor_id] == 45
-      @report = GetRequest.meters(1000, params[:month_id])
+      p @report = GetRequest.meters(1000, params[:month_id])
     else
       @report = GetRequest.meters(session[:vendor_id], params[:month_id])
     end
@@ -29,7 +29,7 @@ class CountersController < ApplicationController
       @report.each do |r|
         array << r['user_account'].to_s
       end
-      p @user_account = array.uniq
+      @user_account = array.uniq
       if params[:user_account] != ""
         @report.each do |r|
           if params[:user_account] == r['user_account']

@@ -1,0 +1,11 @@
+- if @report
+  - @report.each do |r| 
+    - date = DateTime.parse(r["created_at"])
+    %tr
+      - if  r["snapshot_url"]
+      %td.td_with_image= link_to image_tag(@path+r["snapshot_url"]), @path+r["snapshot_url"], :class => "fancybox", :"data-fancybox-grou" => "gallery"
+      - else
+        %td Нет картинки
+      %td= r["user_account"].to_i
+      %td= r["reading"]
+      %td= date.strftime("%Y-%m-%d")

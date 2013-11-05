@@ -2,8 +2,6 @@
 class VendorsController < ApplicationController
   before_filter :authorize, only: [:show, :edit, :update]
 
-  #    format.html { render action: 'login'
-  #    flash[:error] = 'Введен не существующий ключ.'}
   def show
     @vendor = current_user
     respond_to do |format|

@@ -23,7 +23,7 @@ Project::Application.routes.draw do
   
 # Report
   get 'get_payment' => 'payments#create'
-
+  get 'report_monthly' => 'payments#monthly'
 # Parsing vendor's reports
   get 'accounts/create' => 'accounts#create'
   get 'accounts/update' => 'accounts#update'
@@ -36,9 +36,8 @@ Project::Application.routes.draw do
   get 'create_tariff_template' => 'request#request_tariff_template'
   get 'get_vendor' => 'request#get_vendor'
   
-# Organization file
-  get 'organization/all' => 'organization#all'
-  get 'add_absense_vendor' => 'organization#absence'
+# Add vendors fron Organizations
+  get 'organization/add_vendors' => 'organization#add_vendors'
 
 # Precinct
   get 'ovd' => 'ovd#ovd'
