@@ -23,6 +23,7 @@ class Organization
    	  vendor = Vendor.where(title: @data[i]["title"]).first
       
       unless vendor
+        p @data[i]["title"]
         check_servicetype(@data[i]["servicetype"].mb_chars.capitalize.to_s)
         vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"].to_i, cities)
         vendor_id.parsed_response
