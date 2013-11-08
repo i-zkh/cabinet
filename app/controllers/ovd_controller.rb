@@ -1,7 +1,7 @@
 class OvdController < ApplicationController
 
 	def ovd
-		Ovd.xml_parser
+		Ovd.diff
 		render json: true
 	end
 

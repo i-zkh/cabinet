@@ -1,11 +1,11 @@
 #encoding: utf-8
 class PaymentsController < ApplicationController
-  def create
+  	def create
     	vendors_id, @report, @data, error = [], [], [], []
 		@report = GetRequest.report_daily
 	    if @report != []
 			Report.new(AllPayment.new(@report)).output_report
-			Report.new(Booker.new(@report)).output_report
+			# Report.new(Booker.new(@report)).output_report
 			Report.new(Error.new(@report)).output_report
 
 	      @report.each do |report|
@@ -27,18 +27,28 @@ class PaymentsController < ApplicationController
 	    else
 	   		ReportMail.no_transactions.deliver
 	    end
-     render json: @report
-  end
+    	render json: @report
+  	end
 
-  def monthly
-	vendors_id = GetRequest.report_vendors(10)
-	vendors_id.each do |id|
-		vendor = Vendor.where(id: id, distribution: true).first
-		unless vendor.nil?
-			@report = GetRequest.report_monthly(id, DateTime.now.month)
-			Report.new(ReportMonthly.new(@report, id)).monthly
-			ReportMail.report_monthly("Выгрузка транзакций АйЖКХ за октябрь}", vendor).deliver unless File.zero?("report_monthly/10-2013/#{vendor.title.gsub!(/"/, "")}.xls")
+	def monthly_xls
+		vendors_id = GetRequest.report_vendors(10)
+		vendors_id.each do |id|
+			vendor = Vendor.where(id: id).first
+			unless vendor.nil?
+				@report = GetRequest.report_monthly(id, DateTime.now.month)
+				Report.new(ReportMonthly.new(@report, id)).monthly
+				ReportMail.report_monthly("Выгрузка транзакций АйЖКХ за октябрь}", vendor).deliver unless File.zero?("report_monthly/10-2013/#{vendor.title.gsub!(/"/, "")}.xls")
+			end
 		end
 	end
-  end
+
+  	def self.monthly_txt(vendor_id, month)
+	 	@report = GetRequest.report_monthly(vendor_id, month)
+	  	vendor = Vendor.where(id: vendor_id).first
+	    outFile = File.new("#{vendor.title}-#{month}.txt", "w")
+	    	@report.each do |d|
+	        	outFile.puts("#{vendor.title}	#{d['user_account']};#{d['address']};#{d['amount']};#{ DateTime.parse(d['date']).strftime("%Y-%m-%d")}")
+	        end
+	    outFile.close
+  	end
 end

@@ -78,9 +78,23 @@ class AccountsController < ApplicationController
 	# CheckEmail.get_organizations
 
 	# @g = Getter.new(Xls.new("report/10-2013/11.xls", 58)).input
+	# Osmp.check("0034586", DateTime.now)
 
-	osmp = Osmp.check
-    render json: osmp
+
+	Getter.new(Dbf.new("report/11-2013/сов 147.DBF", 111)).create
+	Getter.new(Xls.new("report/11-2013/ТСЖ 247 б.xls", 62)).create
+	Getter.new(Ods.new("report/11-2013/privol.ods", 49)).create
+	Getter.new(Xls.new("report/11-2013/Спорт3 реестр 10 13.xls", 112)).create	
+	Getter.new(Xls.new("report/11-2013/Лицевые Счета ЖСК №29.xls", 109)).create
+	Getter.new(Xls.new("report/11-2013/bus_center.xls", 110)).create
+
+	# квитанции ТСЖ №275
+	# Dir.foreach('report/11-2013/ТСЖ 275') do |file|
+		# next if file == '.' or file == '..'
+		# Getter.new(Xls.new("report/11-2013/ТСЖ 275/™Ґ®в†≠ж®п 221-6≠Ѓп°ам.xls", 54)).input
+	# end
+
+    render json: true
   end
 
   def update
@@ -101,6 +115,7 @@ class AccountsController < ApplicationController
 	# ЖСК-219
 	# Getter.update_accounts(Getter.new(Xls.new("report/10-2013/ЖСК - 219.xls")).input_data, 38)
 
+	Energosbyt.new("report/11-2013/energo.xls").create
     render json: true
   end
 end

@@ -59,6 +59,6 @@ class GetRequest
 			response = HTTParty.get( "http://izkh.ru/api/1.0/report_vendors?auth_token=#{Auth.get}&month=#{month}")
 	    	response.parsed_response
 		end
-		
+
 	end
 end
