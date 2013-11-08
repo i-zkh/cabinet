@@ -81,12 +81,12 @@ class AccountsController < ApplicationController
 	# Osmp.check("0034586", DateTime.now)
 
 
-	Getter.new(Dbf.new("report/11-2013/сов 147.DBF", 111)).create
-	# Getter.new(Xls.new("report/11-2013/ТСЖ 247 б.xls", 62)).input
-	# Getter.new(Ods.new("report/11-2013/privol.ods", 49)).input
-	# Getter.new(Xls.new("report/11-2013/Спорт3 реестр 10 13.xls", 112)).input	
-	# Getter.new(Xls.new("report/11-2013/Лицевые Счета ЖСК №29.xls", 109)).input
-	# Getter.new(Xls.new("report/11-2013/bus_center.xls", 110)).input
+	# Getter.new(Dbf.new("report/11-2013/сов 147.DBF", 111)).create
+	Getter.new(Xls.new("report/11-2013/ТСЖ 247 б.xls", 62)).input
+	Getter.new(Ods.new("report/11-2013/privol.ods", 49)).input
+	Getter.new(Xls.new("report/11-2013/Спорт3 реестр 10 13.xls", 112)).input	
+	Getter.new(Xls.new("report/11-2013/Лицевые Счета ЖСК №29.xls", 109)).input
+	Getter.new(Xls.new("report/11-2013/bus_center.xls", 110)).input
 
 	# квитанции ТСЖ №275
 	# Dir.foreach('report/11-2013/ТСЖ 275') do |file|
@@ -115,7 +115,7 @@ class AccountsController < ApplicationController
 	# ЖСК-219
 	# Getter.update_accounts(Getter.new(Xls.new("report/10-2013/ЖСК - 219.xls")).input_data, 38)
 
-	Energosbyt.new("report/11-2013/energo.xls").create
+	# Energosbyt.new("report/11-2013/energo.xls").create
     render json: true
   end
 end
