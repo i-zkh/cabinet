@@ -82,11 +82,11 @@ class AccountsController < ApplicationController
 
 
 	# Getter.new(Dbf.new("report/11-2013/сов 147.DBF", 111)).create
-	Getter.new(Xls.new("report/11-2013/ТСЖ 247 б.xls", 62)).input
-	Getter.new(Ods.new("report/11-2013/privol.ods", 49)).input
-	Getter.new(Xls.new("report/11-2013/Спорт3 реестр 10 13.xls", 112)).input	
-	Getter.new(Xls.new("report/11-2013/Лицевые Счета ЖСК №29.xls", 109)).input
-	Getter.new(Xls.new("report/11-2013/bus_center.xls", 110)).input
+	# Getter.new(Xls.new("report/11-2013/ТСЖ 247 б.xls", 62)).input
+	# Getter.new(Ods.new("report/11-2013/privol.ods", 49)).input
+	# Getter.new(Xls.new("report/11-2013/Спорт3 реестр 10 13.xls", 112)).input	
+	# Getter.new(Xls.new("report/11-2013/Лицевые Счета ЖСК №29.xls", 109)).input
+	# Getter.new(Xls.new("report/11-2013/bus_center.xls", 110)).input
 
 	# квитанции ТСЖ №275
 	# Dir.foreach('report/11-2013/ТСЖ 275') do |file|
