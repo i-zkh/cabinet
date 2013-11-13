@@ -39,6 +39,7 @@ Project::Application.routes.draw do
   
 # Add vendors fron Organizations
   get 'organization/add_vendors' => 'organization#add_vendors'
+  get 'organization/auth_keys' => 'organization#auth_keys'
 
 # Precinct
   get 'ovd' => 'ovd#ovd'

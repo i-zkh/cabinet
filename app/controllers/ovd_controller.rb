@@ -1,8 +1,8 @@
 class OvdController < ApplicationController
 
 	def ovd
-		Ovd.diff
-		render json: true
+		ovd = Ovd.xls_parser
+		render json: ovd
 	end
 
 	def xls

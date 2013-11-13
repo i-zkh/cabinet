@@ -109,6 +109,55 @@ class Ovd
 		end
 	end
 
+	def self.xls_parser
+		p "--------------------------------------------------------------------------------------------"
+		s = Roo::Excel.new("report/база участковых.xls")
+		address, houses = [], []
+		(1..s.last_row).each do |i|
+
+			address_ovd = s.cell(i, 2).split(", ")
+			full_name 	= 	s.cell(i, 4).split(" ")
+			sector	 	= 	s.cell(i, 5).split("; ")
+			sector.each { |ad| address = ad.split(",") }
+
+			# Precinct.create!(
+			# 	ovd: 				s.cell(i, 1),
+			# 	ovd_town: 			address_ovd[0],
+			# 	ovd_street: 		address_ovd[1],
+			# 	ovd_house: 			address_ovd[2],
+			# 	ovd_telnumber: 		s.cell(i, 3),
+			# 	surname: 			full_name[0],
+			# 	name: 				full_name[1],
+			# 	middlename: 		full_name[2]
+			# )
+			# Street.create!(street: address[0]) unless Street.where(street: address[0]).first
+
+			(1..address.size).each do |i|
+				next if address[i] == nil || address[i] == " "
+				houses = []
+				houses << case address[i].gsub(' ', '')
+						  when /(\d+)-(\d+)/
+							p address[i]
+							p "-------------------------"
+							array = []
+							address[i].gsub(' ', '') =~ /(\d+)-(\d+)/
+							array << ($1..$2).to_a.each { |x| x.to_i }
+							array.flatten!.uniq	
+						  else
+							address[i]
+						  end
+				houses.each do |house|
+				# PrecinctHouse.create!(
+				# 	precinct_id: 		Precinct.where(surname: full_name[0], name: full_name[1]).first.id,
+				# 	street_id: 			Street.where(street: address[0]).first.id,
+			 #    	house: 				house.lstrip
+				# )
+					p house.lstrip
+				end
+			end
+		end
+	end
+
 	def self.xml_to_xsl
 		data, array, address = [], [], []
 		Dir.foreach('ovd_data2') do |file|

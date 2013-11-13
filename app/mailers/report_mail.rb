@@ -33,4 +33,9 @@ class ReportMail < ActionMailer::Base
       attachments["transactions.txt"] = File.read("transactions.txt")
       mail(to: recipient, subject: "АЙЖКХ")
    end
+
+   def auth_keys(message, vendor)
+      @message = message
+      mail(to: vendor.email, subject: "АйЖКХ")
+   end
 end
