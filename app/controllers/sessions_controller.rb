@@ -18,6 +18,6 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:vendor_id] = nil
-    redirect_to root_url 
+    redirect_to root_url
   end
 end

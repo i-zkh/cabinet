@@ -22,7 +22,7 @@ class Booker < Payment
         ReportMail.booker("pakhomova@izkh.ru").deliver
         ReportMail.booker("yusova@izkh.ru").deliver
         ReportMail.booker("Gluhovskaya.o@delta.ru").deliver
-        ReportMail.booker("ivanova@izkh.ru").delive
+        ReportMail.booker("ivanova@izkh.ru").deliver
       end
   end
 end

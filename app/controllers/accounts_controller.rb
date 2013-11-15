@@ -75,7 +75,7 @@ class AccountsController < ApplicationController
 
 	############# Getter.new(Xls.new("report/10-2013/ЖСК199.xls", 63)).update
 	
-	# CheckEmail.get_organizations
+	CheckEmail.get_organizations
 
 	# @g = Getter.new(Xls.new("report/10-2013/11.xls", 58)).input
 	# Osmp.check("0034586", DateTime.now)
