@@ -1,12 +1,11 @@
 #encoding: utf-8
 require 'dbf'
-require 'iconv'
 class Dbf < Parser
 
-  def initialize(file, vendor_id)
-    @file = file
-    @vendor_id = vendor_id
-  end
+  	def initialize(file, vendor_id)
+    	@file = file
+    	@vendor_id = vendor_id
+  	end
 
 	def input
 		table = DBF::Table.new(@file)

@@ -75,7 +75,7 @@ class AccountsController < ApplicationController
 
 	############# Getter.new(Xls.new("report/10-2013/ЖСК199.xls", 63)).update
 	
-	CheckEmail.get_organizations
+	# CheckEmail.get_organizations
 
 	# @g = Getter.new(Xls.new("report/10-2013/11.xls", 58)).input
 	# Osmp.check("0034586", DateTime.now)
@@ -93,6 +93,14 @@ class AccountsController < ApplicationController
 		# next if file == '.' or file == '..'
 		# Getter.new(Xls.new("report/11-2013/ТСЖ 275/™Ґ®в†≠ж®п 221-6≠Ѓп°ам.xls", 54)).input
 	# end
+
+	# @g = Getter.new(Pdf.new("report/11-2013/Серебряный ручей.pdf", 42)).input
+	
+	#ЖСК-295
+	Getter.new(Dbf.new("report/11-2013/N0011310.DBF", 113)).input
+
+	# Перспектива
+	Getter.new(Xls.new("report/11-2013/ТСЖ Перспектива.xls", 114)).create
 
     render json: true
   end
@@ -116,6 +124,9 @@ class AccountsController < ApplicationController
 	# Getter.update_accounts(Getter.new(Xls.new("report/10-2013/ЖСК - 219.xls")).input_data, 38)
 
 	# Energosbyt.new("report/11-2013/energo.xls").create
+
+	#Уют-7
+	Getter.new(Dbf.new("report/11-2013/N0012010.DBF", 33)).update
     render json: true
   end
 end

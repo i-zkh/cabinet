@@ -12,7 +12,7 @@
  *= require_tree .
  */
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
-	margin:0;
+	margin: 0;
 	padding:0;
 	z-index: 0;
 }
@@ -20,7 +20,7 @@ fieldset,img {
 	border:0;
 }
 ol,ul,li {
-	list-style:none;
+	list-style: none;
 }
 
 body{	
@@ -91,7 +91,7 @@ thead{
 	transition: 0.25s;
 	-webkit-backface-visibility: hidden;
 	background-color: #32A3DA;
-	cursor:pointer;
+	cursor: pointer;
 	color: white;
 }
 table {
