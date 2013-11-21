@@ -19,9 +19,9 @@ class Booker < Payment
       bookerFile.close
 
       unless File.zero?("transactions.txt")
-        ReportMail.booker("pakhomova@izkh.ru").deliver
-        ReportMail.booker("yusova@izkh.ru").deliver
-        ReportMail.booker("Gluhovskaya.o@delta.ru").deliver
+        # ReportMail.booker("pakhomova@izkh.ru").deliver
+        # ReportMail.booker("yusova@izkh.ru").deliver
+        # ReportMail.booker("Gluhovskaya.o@delta.ru").deliver
         ReportMail.booker("ivanova@izkh.ru").deliver
       end
   end

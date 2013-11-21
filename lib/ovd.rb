@@ -110,7 +110,7 @@ class Ovd
 	end
 
 	def self.xls_parser
-		s = Roo::Excel.new("report/база участковых 2.xls")
+		s = Roo::Excel.new("report/база участковых.xls")
 		address, houses = [], []
 		(1..s.last_row).each do |i|
 
@@ -146,7 +146,7 @@ class Ovd
 				houses.flatten.each do |house|
 				PrecinctHouse.create!(
 					precinct_id: 		Precinct.where(surname: full_name[0], name: full_name[1]).first.id,
-					street_id: 			Street.where(street: address[0]).first.id,
+					street_id: 			Street.where(street: address[0].lstrip).first.id,
 			    	house: 				house.lstrip
 				)
 				end
