@@ -13,6 +13,13 @@ class GetRequest
 	    	daily
 		end
 
+	    def report_hourly
+		  	response = HTTParty.get( "http://izkh.ru/api/1.0/report_hourly?auth_token=#{Auth.get}")
+	    	daily = response.parsed_response["payload"]
+	    	daily.each {|d| d["user_account"].gsub!(/^00/, "")}
+	    	daily
+		end
+		
 		def report_monthly(vendor_id, month)
 	  		response = HTTParty.get( "http://izkh.ru/api/1.0/report_monthly?vendor_id=#{vendor_id}&month=#{month}&auth_token=#{Auth.get}")
 	    	response.parsed_response["payment_history"].each {|m| m["user_account"].gsub!(/^00/, "")}

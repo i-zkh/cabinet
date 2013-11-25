@@ -31,7 +31,8 @@ class Organization
         tariff_id.parsed_response
         PostRequest.field_template(tariff_id["id"])
         vendor_key = Digest::MD5.hexdigest((0...5).map{('a'..'z').to_a[rand(26)]}.join)[0..5]
-        ven = Vendor.new(title: @data[i]["title"], vendor_type: @data[i]["servicetype"].mb_chars.capitalize.to_s, service_type_id: @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], commission: @data[i]["commission"], email: @data[i]["email"], auth_key: vendor_key)
+        bool = @data[i]["email"] ? true : false
+        ven  = Vendor.new(title: @data[i]["title"], vendor_type: @data[i]["servicetype"].mb_chars.capitalize.to_s, service_type_id: @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], commission: @data[i]["commission"], email: @data[i]["email"], auth_key: vendor_key, distribution: bool)
         ven.id = vendor_id["vendor"]["id"].to_i
         ven.save!
         check_non_utility_service_types(@data[i]["servicetype"].mb_chars.capitalize.to_s)

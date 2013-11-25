@@ -9,4 +9,9 @@ module Clockwork
 		Sidekiq.logger.info "Starting Report"
    		Report.report
  	end
+
+	every(3.hour, 'Report') do
+		Sidekiq.logger.info "Starting Report hourly"
+   		Report.report_hourly
+ 	end
 end
