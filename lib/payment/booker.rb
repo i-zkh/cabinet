@@ -8,14 +8,14 @@ class Booker < Payment
   def output
     bookerFile = File.new("transactions.txt", "w")
       @data.each do |d|
-        bookerFile.puts("#{vendor.title}  #{d['user_account']};#{d['address']};#{d['amount']};#{ DateTime.parse(d['date']).strftime("%d.%m.%Y")}")
+        bookerFile.puts("#{vendor.title}  #{d['user_account']};#{d['address']};#{d['amount']};#{DateTime.parse(d['date']).strftime("%d.%m.%Y")}")
       end
       bookerFile.close
 
       unless File.zero?("transactions.txt")
-        ReportMail.booker("pakhomova@izkh.ru").deliver
-        ReportMail.booker("yusova@izkh.ru").deliver
-        ReportMail.booker("Gluhovskaya.o@delta.ru").deliver
+        # ReportMail.booker("pakhomova@izkh.ru").deliver
+        # ReportMail.booker("yusova@izkh.ru").deliver
+        # ReportMail.booker("Gluhovskaya.o@delta.ru").deliver
         ReportMail.booker("ivanova@izkh.ru").deliver
       end
   end

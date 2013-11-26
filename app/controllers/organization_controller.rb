@@ -1,15 +1,14 @@
 #encoding: UTF-8
 class OrganizationController < ApplicationController
 	def add_vendors
-		Organization.new("organizations/11-15-Organizations.xls").add_vendors
+		Organization.new("organizations/#{DateTime.now.month}-#{DateTime.now.day}-Organizations.xls").add_vendors
 		render json: true
 	end
 
 	def auth_keys
-		# (1..112).each do i
-			vendor = Vendor.where(id: 45, distribution: true).first
-			ReportMail.auth_keys("Эл. почта: #{vendor.email} Ключ: #{vendor.auth_key}", vendor).deliver
-		# end
+		Vendor.where(distribution: true).each do |ven|
+			# ReportMail.auth_keys(ven).deliver
+		end
 		render json: true
 	end
 end

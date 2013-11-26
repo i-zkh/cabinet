@@ -75,7 +75,7 @@ class AccountsController < ApplicationController
 
 	############# Getter.new(Xls.new("report/10-2013/ЖСК199.xls", 63)).update
 	
-	# CheckEmail.get_organizations
+	CheckEmail.get_organizations
 
 	# @g = Getter.new(Xls.new("report/10-2013/11.xls", 58)).input
 	# Osmp.check("0034586", DateTime.now)
@@ -97,10 +97,10 @@ class AccountsController < ApplicationController
 	# @g = Getter.new(Pdf.new("report/11-2013/Серебряный ручей.pdf", 42)).input
 	
 	#ЖСК-295
-	Getter.new(Dbf.new("report/11-2013/N0011310.DBF", 113)).input
+	# Getter.new(Dbf.new("report/11-2013/N0011310.DBF", 113)).input
 
 	# Перспектива
-	Getter.new(Xls.new("report/11-2013/ТСЖ Перспектива.xls", 114)).create
+	# Getter.new(Xls.new("report/11-2013/ТСЖ Перспектива.xls", 114)).create
 
     render json: true
   end

@@ -13,11 +13,10 @@ class Organization
   def add_vendors
     (0..@data.size-1).each do |i|
       cities, array = [], []
-      array =  @data[1]["city"].split(',')
+      array =  @data[i]["city"].split(',')
       array.each do |city_title|
           cities << { id: @cities["#{city_title}"] }
       end
-
       geocode = GetRequest.geocode(@data[i]["address"])
       work_time = @data[i]["work_time"] != nil ? @data[i]["work_time"] : "уточните по телефону"
    	  vendor = Vendor.where(title: @data[i]["title"]).first
@@ -44,7 +43,7 @@ class Organization
   # Add servicetypes and non_utility_service_types
   def check_servicetype(title)
     if @servicetypes[title].nil?
-      PostRequest.servicetype(title) 
+      PostRequest.servicetype(title)
       @servicetypes = type("service_type")
     end
   end
@@ -108,6 +107,6 @@ class Organization
       cities.each do |c| 
         hash[c["city"]["title"]] = c["city"]["id"]
       end
-      hash
+      p hash
     end
 end

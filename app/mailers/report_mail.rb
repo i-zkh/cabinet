@@ -34,8 +34,10 @@ class ReportMail < ActionMailer::Base
       mail(to: recipient, subject: "АЙЖКХ")
    end
 
-   def auth_keys(message, vendor)
-      @message = message
+   def auth_keys(vendor)
+      @title = vendor.title
+      @email = vendor.email
+      @auth = vendor.auth_key
       mail(to: vendor.email, subject: "АйЖКХ")
    end
 end
