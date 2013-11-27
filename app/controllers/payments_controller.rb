@@ -39,6 +39,7 @@ class PaymentsController < ApplicationController
 			Report.new(Error.new(@report)).output_report
 			# send_report_to_vendors(@report)
 	    end
+	    render json: @report
   	end
 
 	def monthly_xls
