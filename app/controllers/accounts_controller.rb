@@ -126,7 +126,7 @@ class AccountsController < ApplicationController
 	# Energosbyt.new("report/11-2013/energo.xls").create
 
 	#Уют-7
-	Getter.new(Dbf.new("report/11-2013/N0012010.DBF", 33)).update
+	# Getter.new(Dbf.new("report/11-2013/N0012010.DBF", 33)).update
     render json: true
   end
 end

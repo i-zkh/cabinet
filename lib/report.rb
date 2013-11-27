@@ -17,8 +17,4 @@ class Report
 	def self.report
         ReportWorker.perform_async
     end
-
-    def self.report_hourly
-        ReportHourlyWorker.perform_async
-    end
 end

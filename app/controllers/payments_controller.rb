@@ -21,7 +21,7 @@ class PaymentsController < ApplicationController
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
+		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
 	   		end
 	      end
 	    else
@@ -30,14 +30,25 @@ class PaymentsController < ApplicationController
     	render json: @report
   	end
 
+  	def send_report
+   		vendors_id, @report, @data = [], [], []
+		@report = params[:report]
+	    if @report != []
+	    	Report.new(AllPayment.new(@report)).output_report
+			Report.new(Booker.new(@report)).output_report
+			Report.new(Error.new(@report)).output_report
+			# send_report_to_vendors(@report)
+	    end
+  	end
+
 	def monthly_xls
 		vendors_id = GetRequest.report_vendors(10)
 		vendors_id.each do |id|
 			vendor = Vendor.where(id: id).first
 			unless vendor.nil?
-				@report = GetRequest.report_monthly(id, DateTime.now.month)
-				Report.new(ReportMonthly.new(@report, id)).monthly
-				ReportMail.report_monthly("Выгрузка транзакций АйЖКХ за октябрь}", vendor).deliver unless File.zero?("report_monthly/10-2013/#{vendor.title.gsub!(/"/, "")}.xls")
+				p @report = GetRequest.report_monthly(id, DateTime.now.month)
+				# Report.new(ReportMonthly.new(@report, id)).monthly
+				# ReportMail.report_monthly("Выгрузка транзакций АйЖКХ за октябрь}", vendor).deliver unless File.zero?("report_monthly/10-2013/#{vendor.title.gsub!(/"/, "")}.xls")
 			end
 		end
 	end
@@ -51,4 +62,25 @@ class PaymentsController < ApplicationController
 	        end
 	    outFile.close
   	end
+
+  	private
+
+  	def send_report_to_vendors(report)
+	    report.each { |r| vendors_id << r['vendor_id'] }
+	    vendors_id.uniq.each do |id|
+	      	@data = report.select { |d| d['vendor_id'] == id.to_i }
+	      	vendor = Vendor.where(id: id, distribution: true).first
+	      	if vendor
+		        case id
+		    	when 5, 44, 40
+		          	Report.new(TxtCheckAddress.new(@data, id)).output_report
+		        else
+		          	Report.new(TxtPayment.new(@data, id)).output_report
+		        end
+		        logger.info "transaction: #{vendor.title}-#{@data}"
+		   		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
+	   		end
+	    end
+  	end
+
 end

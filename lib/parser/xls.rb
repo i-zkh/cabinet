@@ -9,7 +9,7 @@ class Xls < Parser
 	def input
 		@data = case @vendor_id
 				when 38, 46, 63, 59 						then standard
-				when 55, 47, 67, 62, 109, 110, 112, 114 	then two_columns
+				when 55, 47, 67, 62, 109, 110, 111, 114 	then two_columns
 				when 92										then sokol
 				when 93										then debt_account
 				when 58 									then three_columns
@@ -19,7 +19,6 @@ class Xls < Parser
 				else
 					error = "Xls parser don't have method for #{Vendor.find(@vendor_id).title}. Vendor id: #{@vendor_id}"
 					ReportMail.error(error, "[ERROR] Xls parser").deliver
-					return
 				end
 	end
 
