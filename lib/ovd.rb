@@ -186,6 +186,24 @@ class Ovd
 		data
 	end
 
+	def self.count
+			samara = 0
+			count = 0
+		Dir.foreach('ovd_data2') do |file|
+			next if file == '.' or file == '..'
+			xmlfile = File.new("ovd_data2/#{file}")
+			xml_doc = Nokogiri::XML(xmlfile)
+		
+			(0..xml_doc.css("EFOType OVD opor_info opor").size-1).each do |k|
+				count += 1
+				samara += 1 if xml_doc.css("EFOType OVD opor_info opor opor_townname")[k].text == "Самара"
+			end
+			
+		end
+		p count 
+		p samara
+	end
+
 	def self.diff
 		file_manager = Roo::Excel.new("база участковых1раб.xls")
 		file_ovd_1 = Roo::Excel.new("ovd_11.xls")

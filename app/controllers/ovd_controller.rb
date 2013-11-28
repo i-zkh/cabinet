@@ -1,7 +1,7 @@
 class OvdController < ApplicationController
 
 	def ovd
-		ovd = Ovd.xls_parser
+		ovd = Ovd.count
 		render json: ovd
 	end
 
