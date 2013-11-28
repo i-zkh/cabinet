@@ -1,8 +1,8 @@
 class OvdController < ApplicationController
 
 	def ovd
-		ovd = Ovd.count
-		render json: ovd
+		Ovd.merge
+		render json: true
 	end
 
 	def xls

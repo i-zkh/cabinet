@@ -179,8 +179,8 @@ class Ovd
 				address << [ xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory uum_streetname")[j].text, xml_doc.css("EFOType OVD opor_info opor")[k].children.css("uum_info uum")[i].children.css("territory_info uumterritory houses")[j].text ]
 			end
 			array << address
-		end
 			data << array
+		end
 		end
 		end
 		data
@@ -205,7 +205,32 @@ class Ovd
 	end
 
 	def self.diff
-		file_manager = Roo::Excel.new("база участковых1раб.xls")
+		file_manager = Roo::Excel.new("база участковых 3.xls")
+		file_ovd_1 = Roo::Excel.new("ovd_11.xls")
+		file_ovd_2 = Roo::Excel.new("ovd_22.xls")
+
+		Axlsx::Package.new do |p|
+			p.workbook.add_worksheet(:name => "Report") do |sheet|
+				sheet.add_row ["Управляющий пункт", "Адрес", "Телефон", "Участковый", "Участок"]
+				(1..file_ovd_2.last_row).each do |j|
+					address = ""
+					(1..file_ovd_1.last_row).each do |i|
+						address = file_ovd_1.cell(i, 6) if file_ovd_2.cell(j, 5) == file_ovd_1.cell(i, 5)
+					end
+					if address == "" || address == nil
+						sheet.add_row [file_ovd_2.cell(j, 1), file_ovd_2.cell(j, 2), file_ovd_2.cell(j, 3), file_ovd_2.cell(j, 4), file_ovd_2.cell(j, 5)]
+					else
+						sheet.add_row [file_ovd_2.cell(j, 1), file_ovd_2.cell(j, 2), file_ovd_2.cell(j, 3), file_ovd_2.cell(j, 4), address], :color =>"008000"
+					end
+				end
+			end
+			p.serialize("OVD_test.xls")
+		end
+
+	end
+
+	def self.merge
+		file_manager = Roo::Excel.new("база участковых 3.xls")
 		file_ovd_1 = Roo::Excel.new("ovd_11.xls")
 		file_ovd_2 = Roo::Excel.new("ovd_22.xls")
 
