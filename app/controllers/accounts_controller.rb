@@ -104,7 +104,7 @@ class AccountsController < ApplicationController
 
 	# Getter.new(Dbf.new("report/11-2013/сов 147.DBF", 112)).create
 	# Getter.new(Xls.new("report/11-2013/Спорт3 реестр 10 13.xls", 111)).create
-	Getter.new(Xls.new("report/11-2013/серебрен ручей.xls", 42)).create
+	Getter.new(Xls.new("report/11-2013/ручей.xls", 42)).create
 	Getter.new(Xls.new("report/11-2013/промышленный № 261.xls", 15)).create
 	Getter.new(Xls.new("report/11-2013/254.xls", 58)).create
 	Getter.new(Xls.new("report/11-2013/ивушка.xls", 56)).create
