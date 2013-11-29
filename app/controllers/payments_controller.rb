@@ -18,6 +18,7 @@ class PaymentsController < ApplicationController
 		        case id
 		    	when 5, 44, 40
 		          	Report.new(TxtCheckAddress.new(@data, id)).output_report
+		        when 121
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end

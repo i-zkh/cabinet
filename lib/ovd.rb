@@ -230,26 +230,27 @@ class Ovd
 	end
 
 	def self.merge
-		file_manager = Roo::Excel.new("база участковых 3.xls")
-		file_ovd_1 = Roo::Excel.new("ovd_11.xls")
-		file_ovd_2 = Roo::Excel.new("ovd_22.xls")
+		file_manager = Roo::Excel.new("report/база участковых 3.xls")
+		file_ovd_1 = Roo::Excel.new("report/База.xls")
 
 		Axlsx::Package.new do |p|
 			p.workbook.add_worksheet(:name => "Report") do |sheet|
 				sheet.add_row ["Управляющий пункт", "Адрес", "Телефон", "Участковый", "Участок"]
-				(1..file_ovd_2.last_row).each do |j|
+				(1..file_ovd_1.last_row).each do |j|
 					address = ""
-					(1..file_ovd_1.last_row).each do |i|
-						address = file_ovd_1.cell(i, 6) if file_ovd_2.cell(j, 5) == file_ovd_1.cell(i, 5)
+					ovd_address = ""
+					(1..file_manager.last_row).each do |i|
+						address 	= file_manager.cell(i, 5) if file_manager.cell(i, 4) == file_ovd_1.cell(j, 4)
+						ovd_address = file_manager.cell(i, 2) if file_manager.cell(i, 4) == file_ovd_1.cell(j, 4)
 					end
 					if address == "" || address == nil
-						sheet.add_row [file_ovd_2.cell(j, 1), file_ovd_2.cell(j, 2), file_ovd_2.cell(j, 3), file_ovd_2.cell(j, 4), file_ovd_2.cell(j, 5)]
+						sheet.add_row [file_ovd_1.cell(j, 1), file_ovd_1.cell(j, 2), file_ovd_1.cell(j, 3), file_ovd_1.cell(j, 4), file_ovd_1.cell(j, 5)]
 					else
-						sheet.add_row [file_ovd_2.cell(j, 1), file_ovd_2.cell(j, 2), file_ovd_2.cell(j, 3), file_ovd_2.cell(j, 4), address], :color =>"008000"
+						sheet.add_row [file_ovd_1.cell(j, 1), ovd_address, file_ovd_1.cell(j, 3), file_ovd_1.cell(j, 4), address], :color =>"008000"
 					end
 				end
 			end
-			p.serialize("OVD_test.xls")
+			p.serialize("report/OVD_test.xls")
 		end
 
 	end
