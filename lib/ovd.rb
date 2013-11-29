@@ -239,14 +239,18 @@ class Ovd
 				(1..file_ovd_1.last_row).each do |j|
 					address = ""
 					ovd_address = ""
+					phone = ""
 					(1..file_manager.last_row).each do |i|
-						address 	= file_manager.cell(i, 5) if file_manager.cell(i, 4) == file_ovd_1.cell(j, 4)
-						ovd_address = file_manager.cell(i, 2) if file_manager.cell(i, 4) == file_ovd_1.cell(j, 4)
+						if file_manager.cell(i, 5)[0..10] == file_ovd_1.cell(j, 5)[0..10] && file_manager.cell(i, 4) == file_ovd_1.cell(j, 4)
+							address = file_manager.cell(i, 5) 
+							ovd_address = file_manager.cell(i, 2)
+							phone 		= file_manager.cell(i, 3)
+						end
 					end
 					if address == "" || address == nil
-						sheet.add_row [file_ovd_1.cell(j, 1), file_ovd_1.cell(j, 2), file_ovd_1.cell(j, 3), file_ovd_1.cell(j, 4), file_ovd_1.cell(j, 5)]
+						sheet.add_row [file_ovd_1.cell(j, 1), file_ovd_1.cell(j, 2), file_ovd_1.cell(j, 3), file_ovd_1.cell(j, 4), file_ovd_1.cell(j, 5).chomp(';')]
 					else
-						sheet.add_row [file_ovd_1.cell(j, 1), ovd_address, file_ovd_1.cell(j, 3), file_ovd_1.cell(j, 4), address], :color =>"008000"
+						sheet.add_row [file_ovd_1.cell(j, 1), ovd_address, phone, file_ovd_1.cell(j, 4), address], :color =>"008000"
 					end
 				end
 			end

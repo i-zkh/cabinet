@@ -18,7 +18,6 @@ class PaymentsController < ApplicationController
 		        case id
 		    	when 5, 44, 40
 		          	Report.new(TxtCheckAddress.new(@data, id)).output_report
-		        when 121
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
@@ -49,10 +48,11 @@ class PaymentsController < ApplicationController
 			vendor = Vendor.where(id: id).first
 			unless vendor.nil?
 				p @report = GetRequest.report_monthly(id, DateTime.now.month)
-				# Report.new(ReportMonthly.new(@report, id)).monthly
-				# ReportMail.report_monthly("Выгрузка транзакций АйЖКХ за октябрь}", vendor).deliver unless File.zero?("report_monthly/10-2013/#{vendor.title.gsub!(/"/, "")}.xls")
+				Report.new(ReportMonthly.new(@report, id)).monthly
+				# ReportMail.report_monthly("Выгрузка транзакций АйЖКХ за октябрь}", vendor).deliver unless File.zero?("report_monthly/#{DateTime.now.month}-#{DateTime.now.year}/#{vendor.title.gsub!(/"/, "")}.xls")
 			end
 		end
+		render json: true
 	end
 
   	def self.monthly_txt(vendor_id, month)
