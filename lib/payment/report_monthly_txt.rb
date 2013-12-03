@@ -7,10 +7,14 @@ class ReportMonthlyTxt < Payment
   end
 
   def monthly
-    outFile = File.new("#{Vendor.find(@vendor_id).title}.txt", "w")
+    outFile = File.new("#{Vendor.find(@vendor_id).title}-11.txt", "w")
       @data.each do |d|
         address = Account.where(user_account: d['user_account'], vendor_id: @vendor_id).first
-        outFile.puts("#{d['user_account']};#{address['city']}, #{address['street']}, #{address['building']}, #{address['apartment']};#{d['amount']};#{ DateTime.parse(d['date']).strftime("%d.%m.%Y")}") unless address.nil?
+        if address
+          outFile.puts("#{d['user_account']};#{address['city']}, #{address['street']}, #{address['building']}, #{address['apartment']};#{d['amount']};#{ DateTime.parse(d['date']).strftime("%d.%m.%Y")}")
+        else
+          outFile.puts("#{d['user_account']};#{d['address']};#{d['amount']};#{DateTime.parse(d['date']).strftime("%d.%m.%Y")}")
+        end
       end
     outFile.close
   end

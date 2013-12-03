@@ -5,8 +5,38 @@ require 'sidekiq'
 require 'clockwork'
 
 module Clockwork
-	every(1.day, 'Report', :at => '22:30') do
-		Sidekiq.logger.info "Starting Report"
+	every(1.day, 'Report', :at => '21:00') do
+		Sidekiq.logger.info "Starting Report daily"
    		Report.report
  	end
+
+ 	every(1.day, 'Report', :at => '4:00') do
+    	Sidekiq.logger.info "Starting Report hourly"
+        Report.report_hourly
+    end
+ 
+    every(1.day, 'Report', :at => '7:00') do
+     	Sidekiq.logger.info "Starting Report hourly"
+        Report.report_hourly
+    end
+ 
+    every(1.day, 'Report', :at => '10:00') do
+     	Sidekiq.logger.info "Starting Report hourly"
+        Report.report_hourly
+    end
+ 
+    every(1.day, 'Report', :at => '13:00') do
+    	Sidekiq.logger.info "Starting Report hourly"
+        Report.report_hourly
+    end
+ 
+    every(1.day, 'Report', :at => '16:00') do
+    	Sidekiq.logger.info "Starting Report hourly"
+        Report.report_hourly
+    end
+ 
+    every(1.day, 'Report', :at => '18:00') do
+   		Sidekiq.logger.info "Starting Report hourly"
+        Report.report_hourly
+    end
 end

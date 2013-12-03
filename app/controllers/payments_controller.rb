@@ -58,8 +58,8 @@ class PaymentsController < ApplicationController
 	end
 
   	def monthly_txt
-	 	@report = GetRequest.report_monthly(5, 11)
-	    Report.new(ReportMonthlyTxt.new(@report, 5)).monthly
+	 	p @report = GetRequest.report_monthly(16, 11)
+	    Report.new(ReportMonthlyTxt.new(@report, 16)).monthly
 
 	    render json: true
   	end
