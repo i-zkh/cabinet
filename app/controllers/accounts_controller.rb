@@ -24,8 +24,7 @@ class AccountsController < ApplicationController
 	# Getter.new(Xls.new("report/11-2013/ТСЖ Советский 137 выгрузка.xls", 123)).create
 	# Getter.new(Xls.new("report/11-2013/Выгрузка ЖСК-265, ЛС.xls", 127)).create
 	# Getter.new(Ods.new("report/11-2013/приволжское.ods", 49)).create
-
-	Getter.new(Xls.new("report/11-2013/serebren.xls", 42)).create
+	# Getter.new(Xls.new("report/11-2013/serebren.xls", 42)).create
 
     render json: true
   end
@@ -34,7 +33,7 @@ class AccountsController < ApplicationController
 	# Energosbyt.new("report/11-2013/energo.xls").create
 	# Getter.new(Dbf.new("report/11-2013/N0012010.DBF", 33)).update
 
-	Getter.new(Xls.new("report/11-2013/Спорт3 реестр 11 13.xls", 111)).update
+	Getter.new(Xls.new("report/12-2013/Спорт3 реестр 11 13.xls", 111)).update
     render json: true
   end
 end

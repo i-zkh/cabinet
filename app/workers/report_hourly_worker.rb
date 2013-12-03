@@ -28,6 +28,8 @@ class ReportHourlyWorker
 		        end
 		        logger.info "transaction: #{vendor.title}-#{@data}"
 		   		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
+	   		else
+	   			logger.info "no transactions"
 	   		end
 	    end
   	end
