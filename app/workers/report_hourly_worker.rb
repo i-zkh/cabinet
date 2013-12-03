@@ -10,6 +10,7 @@ class ReportHourlyWorker
 			Report.new(Error.new(@report)).output_report
 			send_report_to_vendors(@report)
     	end
+    end
 
     private
 
