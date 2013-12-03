@@ -4,11 +4,14 @@ class ReportHourlyWorker
   include Sidekiq::Worker
     def perform
     	vendors_id, @report, @data = [], [], []
-		@report = GetRequest.report_hourly.select { |d|  d['amount'] > 5 }
-	    unless @report == []
+		@report = GetRequest.report_hourly
+		logger.info "report: #{@report}"
+	    if @report != []
 			Report.new(Booker.new(@report)).output_report
 			Report.new(Error.new(@report)).output_report
 			send_report_to_vendors(@report)
+		else
+	   		logger.info "no transactions"
     	end
     end
 
@@ -28,9 +31,7 @@ class ReportHourlyWorker
 		        end
 		        logger.info "transaction: #{vendor.title}-#{@data}"
 		   		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
-	   		else
-	   			logger.info "no transactions"
-	   		end
+	    	end
 	    end
   	end
 end
