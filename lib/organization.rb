@@ -20,7 +20,6 @@ class Organization
       geocode = GetRequest.geocode(@data[i]["address"])
       work_time = @data[i]["work_time"] != nil ? @data[i]["work_time"] : "уточните по телефону"
    	  vendor = Vendor.where(title: @data[i]["title"]).first
-      
       unless vendor
         p @data[i]["title"]
         check_servicetype(@data[i]["servicetype"].mb_chars.capitalize.to_s)

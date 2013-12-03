@@ -21,7 +21,7 @@ class PaymentsController < ApplicationController
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
+		   		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
 	   		end
 	      end
 	    else
@@ -43,26 +43,24 @@ class PaymentsController < ApplicationController
   	end
 
 	def monthly_xls
-		vendors_id = GetRequest.report_vendors(10)
+		vendors_id = GetRequest.report_vendors(DateTime.now.month)
 		vendors_id.each do |id|
-			vendor = Vendor.where(id: id).first
+			vendor = Vendor.where(id: id, distribution: true).first
 			unless vendor.nil?
-				p @report = GetRequest.report_monthly(id, DateTime.now.month)
-				Report.new(ReportMonthly.new(@report, id)).monthly
-				# ReportMail.report_monthly("Выгрузка транзакций АйЖКХ за октябрь}", vendor).deliver unless File.zero?("report_monthly/#{DateTime.now.month}-#{DateTime.now.year}/#{vendor.title.gsub!(/"/, "")}.xls")
+				p id
+				# p @report = GetRequest.report_monthly(id, DateTime.now.month)
+				# Report.new(ReportMonthly.new(@report, id)).monthly
+				ReportMail.report_monthly("Выгрузка транзакций АйЖКХ за ноябрь}", vendor).deliver unless id == 5 || id == 45
 			end
 		end
 		render json: true
 	end
 
-  	def self.monthly_txt(vendor_id, month)
-	 	@report = GetRequest.report_monthly(vendor_id, month)
-	  	vendor = Vendor.where(id: vendor_id).first
-	    outFile = File.new("#{vendor.title}-#{month}.txt", "w")
-	    	@report.each do |d|
-	        	outFile.puts("#{vendor.title}	#{d['user_account']};#{d['address']};#{d['amount']};#{ DateTime.parse(d['date']).strftime("%Y-%m-%d")}")
-	        end
-	    outFile.close
+  	def monthly_txt
+	 	@report = GetRequest.report_monthly(5, 11)
+	    Report.new(ReportMonthlyTxt.new(@report, 5)).monthly
+
+	    render json: true
   	end
 
   	private

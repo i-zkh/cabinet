@@ -118,8 +118,8 @@ class AccountsController < ApplicationController
 	# Getter.new(Xls.new("report/11-2013/ТСЖ Советский 137 выгрузка.xls", 123)).create
 	# Getter.new(Xls.new("report/11-2013/Выгрузка ЖСК-265, ЛС.xls", 127)).create
 
-	Getter.new(Ods.new("report/11-2013/приволжское.ods", 49)).create
-	Getter.new(Xls.new("report/11-2013/ручей.xls", 42)).create
+	# Getter.new(Ods.new("report/11-2013/приволжское.ods", 49)).create
+	# Getter.new(Xls.new("report/11-2013/ручей.xls", 42)).create
 
     render json: true
   end
