@@ -206,3 +206,9 @@ td.td_with_image{
 	margin-left: 4px;
 	width: 138px;
 }
+
+.box {
+	display: block;
+	position: relative;
+	float: right;
+}

@@ -7,9 +7,14 @@
   %h3 Счётчики
   = form_tag(counters_url, method: :post, remote: true ) do 
     = select_tag(:month_id, options_for_select([["Январь", 1], ["Февраль", 2], ["Май", 5], ["Июнь", 6], ["Июль", 7], [ "Август", 8], ["Сентябрь", 9], ["Октябрь", 10], ["Ноябрь", 11], ["Декабрь", 12]], DateTime.now.month))
-    #account
-      #users{ data: {users: @user_account.to_json} }
-      = text_field_tag :user_account, nil, placeholder: 'Лицевой счёт'
+    #params
+      #account
+        #users{ data: {users: @user_account.to_json} }
+        = text_field_tag :user_account, nil, placeholder: 'Лицевой счёт'
+      .box
+        - @field_title.each do |d|
+          = d
+          = check_box_tag "field_title[]",  d
     %br
     #button_small= submit_tag "Обновить"
 
@@ -22,7 +27,7 @@
         %th Дата
     %tbody#report
       - if @report
-        - @report.each do |r| 
+        - @report.each do |r|
           - date = DateTime.parse(r["created_at"])
           %tr
             - if  r["snapshot_url"]

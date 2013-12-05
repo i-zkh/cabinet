@@ -1,5 +1,5 @@
 $("#report").html('<%= escape_javascript render("counters/meter")%>');
-$("#account").html('<%= escape_javascript render("counters/account")%>');
+$("#params").html('<%= escape_javascript render("counters/account")%>');
  $(function() {
     $( "#user_account" ).autocomplete({
       source: $('#users').data('users')
