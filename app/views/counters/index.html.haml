@@ -11,7 +11,7 @@
       #account
         #users{ data: {users: @user_account.to_json} }
         = text_field_tag :user_account, nil, placeholder: 'Лицевой счёт'
-      .box
+      .boxews
         - @field_title.each do |d|
           = d
           = check_box_tag "field_title[]",  d
