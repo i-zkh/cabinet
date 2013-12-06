@@ -15,9 +15,9 @@ class GetRequest
 
 	    def report_hourly
 		  	response = HTTParty.get( "http://izkh.ru/api/1.0/report_hourly?auth_token=#{Auth.get}")
-	    	daily = response.parsed_response["payload"]
-	    	daily.each {|d| d["user_account"].gsub!(/^00/, "")}
-	    	daily
+	    	hourly = response.parsed_response["payload"]
+	    	hourly.each {|d| d["user_account"].gsub!(/^00/, "")}
+	    	hourly
 		end
 		
 		def report_monthly(vendor_id, month)

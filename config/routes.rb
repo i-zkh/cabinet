@@ -25,6 +25,8 @@ Project::Application.routes.draw do
   get 'get_payment' => 'payments#create'
   get 'report/monthly/xls' => 'payments#monthly_xls'
   get 'report/monthly/txt' => 'payments#monthly_txt'
+  get 'report/hourly' => 'payments#hourly'
+  
   
   get 'send_report' => 'payments#send_report'
     

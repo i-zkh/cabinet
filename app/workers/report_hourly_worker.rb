@@ -8,7 +8,6 @@ class ReportHourlyWorker
 		logger.info "report: #{@report}"
 	    if @report != []
 			Report.new(Booker.new(@report)).output_report
-			Report.new(Error.new(@report)).output_report
 			send_report_to_vendors(@report)
 		else
 	   		logger.info "no transactions"
@@ -18,6 +17,7 @@ class ReportHourlyWorker
     private
 
   	def send_report_to_vendors(report)
+  		vendors_id = []
 	    report.each { |r| vendors_id << r['vendor_id'] }
 	    vendors_id.uniq.each do |id|
 	      	@data = report.select { |d| d['vendor_id'] == id.to_i }
