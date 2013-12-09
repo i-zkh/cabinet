@@ -4,8 +4,7 @@ class ReportHourlyWorker
   include Sidekiq::Worker
     def perform
     	vendors_id, @report, @data = [], [], []
-		@report = GetRequest.report_hourly
-		logger.info "report: #{@report}"
+		@report = GetRequest.report_hourly.select { |d| d['amount'] > 5 }
 	    if @report != []
 			Report.new(Booker.new(@report)).output_report
 			send_report_to_vendors(@report)
@@ -30,7 +29,7 @@ class ReportHourlyWorker
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
 		        logger.info "transaction: #{vendor.title}-#{@data}"
-		   		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
+		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
 	    	end
 	    end
   	end
