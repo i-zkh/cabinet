@@ -5,6 +5,7 @@ class Error < Payment
     @data = data
   end
 
+  # Daily report
   def output
     error = []
     @data.each do |d|

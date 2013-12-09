@@ -1,5 +1,6 @@
 #encoding: utf-8
 class PaymentsController < ApplicationController
+
   	def create
     	vendors_id, @report, @data, error = [], [], [], []
 		@report = GetRequest.report_daily
@@ -31,20 +32,8 @@ class PaymentsController < ApplicationController
     	render json: @report
   	end
 
-  	def send_report
-   		vendors_id, @report, @data = [], [], []
-		@report = params[:report]
-	    if @report != []
-	    	Report.new(AllPayment.new(@report)).output_report
-			Report.new(Booker.new(@report)).output_report
-			Report.new(Error.new(@report)).output_report
-			# send_report_to_vendors(@report)
-	    end
-	    render json: @report
-  	end
-
 	def monthly_xls
-		vendors_id = GetRequest.report_vendors(DateTime.now.month)
+		vendors_id = GetRequest.report_monthly(DateTime.now.month)
 		vendors_id.each do |id|
 			vendor = Vendor.where(id: id, distribution: true).first
 			unless vendor.nil?
@@ -58,7 +47,7 @@ class PaymentsController < ApplicationController
 	end
 
   	def monthly_txt
-	 	p @report = GetRequest.report_monthly(16, 11)
+	 	p @report = GetRequest.transactions(16, 11)
 	    Report.new(ReportMonthlyTxt.new(@report, 16)).monthly
 
 	    render json: true

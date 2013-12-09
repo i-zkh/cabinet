@@ -3,6 +3,7 @@ class AccountsController < ApplicationController
 
   def create
 	
+	# Date for November
 	# Getter.new(Xls.new("report/11-2013/ТСЖ 247 б.xls", 62)).input
 	# Getter.new(Ods.new("report/11-2013/privol.ods", 49)).input
 	# Getter.new(Xls.new("report/11-2013/Лицевые Счета ЖСК №29.xls", 109)).input
@@ -30,10 +31,10 @@ class AccountsController < ApplicationController
   end
 
   def update
-	# Energosbyt.new("report/11-2013/energo.xls").create
-	# Getter.new(Dbf.new("report/11-2013/N0012010.DBF", 33)).update
+	Energosbyt.new("report/12-2013/Сбыт_Энерго_нояб.xls").update
 
-	Getter.new(Xls.new("report/12-2013/Спорт3 реестр 11 13.xls", 111)).update
+	# Getter.new(Dbf.new("report/11-2013/N0012010.DBF", 33)).update
+	# Getter.new(Xls.new("report/12-2013/Спорт3 реестр 11 13.xls", 111)).update
     render json: true
   end
 end

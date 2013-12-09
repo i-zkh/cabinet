@@ -5,6 +5,7 @@ class Booker < Payment
     @data = data
   end
 
+  # Hourly report for managers
   def output
     bookerFile = File.new("transactions.txt", "w")
       @data.each do |d|

@@ -3,6 +3,7 @@ require 'russian'
 class ReportWorker
   include Sidekiq::Worker
 
+  	# Daily report and errors to out@izkh.ru
     def perform
 		@report = []
 		@report = GetRequest.report_daily

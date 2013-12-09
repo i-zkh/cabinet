@@ -5,8 +5,8 @@ class Energosbyt
 	def initialize(file)
     	@file = file
   	end
-
-	def create
+  	# Parser for Energo-Sbit
+	def update
 	    s = Roo::Excel.new(@file)
 		key, data, hash = ["user_account", "city", "street", "building", "apartment", "bypass", "meter_reading", "invoice_amount", "data"], [], {}
 		(2..s.last_row).each do |i|

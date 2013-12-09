@@ -27,10 +27,6 @@ Project::Application.routes.draw do
   get 'report/monthly/txt' => 'payments#monthly_txt'
   get 'report/hourly' => 'payments#hourly'
   
-  
-  get 'send_report' => 'payments#send_report'
-    
-  
 # Parsing vendor's reports
   get 'accounts/create' => 'accounts#create'
   get 'accounts/update' => 'accounts#update'

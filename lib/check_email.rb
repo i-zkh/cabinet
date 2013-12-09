@@ -17,11 +17,11 @@ class CheckEmail
 				vendor = Vendor.where(email: email.from[0]).first
 				if vendor
 					email.attachments.each do |attachment|
-			    		filename = attachment.filename
-			    		filename =~ /(\w+).(\w+)/
+			    		# filename = attachment.filename
+			    		# filename =~ /(\w+).(\w+)/
 					    begin
-					    	unless File.exist?("report/#{DateTime.now.month}-#{DateTime.now.year}/#{vendor.title}.#{$2}")
-					      		File.open( "report/#{DateTime.now.month}-#{DateTime.now.year}/" + "#{vendor.title}.#{$2}", "w+b", 0644) {|f| f.write attachment.body.decoded} 
+					    	if !File.exist?("report/#{DateTime.now.month}-#{DateTime.now.year}/#{filename}")
+					      		File.open( "report/#{DateTime.now.month}-#{DateTime.now.year}/" + "#{filename}", "w+b", 0644) {|f| f.write attachment.body.decoded} 
 					      	else
 					      		error = "Message from #{vendor.title} at #{email.date}"
 								ReportMail.error(error, "[ERROR] Report have been received").deliver
