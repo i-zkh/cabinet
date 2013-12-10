@@ -209,6 +209,9 @@ td.td_with_image{
 
 .box {
 	display: block;
-	position: relative;
-	float: right;
+	position: absolute;
+	left: 600px;
+	top: 60px;
+
+	line-height: 300%;
 }
