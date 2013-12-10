@@ -17,8 +17,8 @@ class Organization
       array.each do |city_title|
           cities << { id: @cities["#{city_title}"] }
       end
-      geocode = GetRequest.geocode(@data[i]["address"])
-      work_time = @data[i]["work_time"] != nil ? @data[i]["work_time"] : "уточните по телефону"
+      # geocode = GetRequest.geocode(@data[i]["address"])
+      # work_time = @data[i]["work_time"] != nil ? @data[i]["work_time"] : "уточните по телефону"
    	  vendor = Vendor.where(title: @data[i]["title"]).first
       unless vendor
         check_servicetype(@data[i]["servicetype"].mb_chars.capitalize.to_s)
