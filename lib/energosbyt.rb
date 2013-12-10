@@ -5,6 +5,7 @@ class Energosbyt
 	def initialize(file)
     	@file = file
   	end
+  	
   	# Parser for Energo-Sbit
 	def update
 	    s = Roo::Excel.new(@file)

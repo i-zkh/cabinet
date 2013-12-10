@@ -31,7 +31,7 @@ class ReportHourlyWorker
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
 		        logger.info "transaction: #{vendor.title}-#{@data}"
-		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
+		   		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
 	    	end
 	    end
   	end

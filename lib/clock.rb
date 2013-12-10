@@ -37,7 +37,7 @@ module Clockwork
         Report.report_hourly
     end
  
-    every(1.day, 'Report', :at => '18:00') do
+    every(1.day, 'Report', :at => '19:00') do
    		Sidekiq.logger.info "Starting Report hourly"
         Report.report_hourly
     end
