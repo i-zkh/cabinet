@@ -6,9 +6,9 @@ class PaymentsController < ApplicationController
 		@report = GetRequest.report_daily
 		@report = @report.select { |d|  d['amount'] > 5 }
 	    if @report != []
-			# Report.new(AllPayment.new(@report)).output_report
-			Report.new(Booker.new(@report)).output_report
-			# Report.new(Error.new(@report)).output_report
+			Report.new(AllPayment.new(@report)).output_report
+			# Report.new(Booker.new(@report)).output_report
+			Report.new(Error.new(@report)).output_report
 
 	      @report.each do |report|
 	      	vendors_id << report['vendor_id']
@@ -23,7 +23,7 @@ class PaymentsController < ApplicationController
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
+		   		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
 	   		end
 	      end
 	    else
@@ -54,11 +54,11 @@ class PaymentsController < ApplicationController
   	end
 
   	def hourly
-		vendors_id, @report, @data = [], [], []
+		@report = []
 		@report = GetRequest.report_hourly
 	    if @report != []
 			Report.new(Booker.new(@report)).output_report
-			send_report_to_vendors(@report)
+			# send_report_to_vendors(@report)
     	end
     	render json: true
   	end
