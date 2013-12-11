@@ -31,10 +31,14 @@ class AccountsController < ApplicationController
   end
 
   def update
-	Energosbyt.new("report/12-2013/Сбыт_Энерго_нояб.xls").update
-
-	# Getter.new(Dbf.new("report/11-2013/N0012010.DBF", 33)).update
+	# Energosbyt.new("report/12-2013/Сбыт_Энерго_нояб.xls").update
 	# Getter.new(Xls.new("report/12-2013/Спорт3 реестр 11 13.xls", 111)).update
+
+	# Getter.new(Dbf.new("report/12-2013/147.DBF", 33)).update
+	# Getter.new(Dbf.new("report/12-2013/лидер.DBF", 33)).update
+	# Getter.new(Xls.new("report/12-2013/ЖСК - 199 11.xls", 111)).update
+	# Getter.new(Xls.new("report/12-2013/ЖСК - 219 11.xls", 111)).update
+	# Getter.new(Xls.new("report/12-2013/ЖСК - 247 11.xls", 111)).update
     render json: true
   end
 end
