@@ -2,10 +2,8 @@
 require 'russian'
 class ReportHourlyWorker
   include Sidekiq::Worker
-
-  
     def perform
-    	vendors_id, @report, @data = [], [], []
+    	@report = []
 		@report = GetRequest.report_hourly.select { |d| d['amount'] > 5 }
 	    if @report != []
 			Report.new(Booker.new(@report)).output_report

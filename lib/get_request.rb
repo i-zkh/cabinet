@@ -39,7 +39,7 @@ class GetRequest
 		end
 		
 		# Vendor's handbook
-	    # Geocode from yandex for 
+	    # Geocode from yandex for
 		def geocode(address)
 	    	response = HTTParty.get( URI::encode("http://geocode-maps.yandex.ru/1.x/?geocode=#{address}&format=json") )
 	        response["response"]["GeoObjectCollection"]["featureMember"].first["GeoObject"]["Point"]["pos"].gsub!(" ", ",")
