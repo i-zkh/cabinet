@@ -36,9 +36,9 @@ class AccountsController < ApplicationController
 	# Getter.new(Xls.new("report/12-2013/Спорт3 реестр 11 13.xls", 112)).create
 	# Getter.new(Dbf.new("report/12-2013/147.DBF", 111)).create
 	# Getter.new(Dbf.new("report/12-2013/лидер.DBF", 61)).update
-	
-	Getter.new(Xls.new("report/12-2013/ЖСК - 199 11.xls", 63)).update
-	Getter.new(Xls.new("report/12-2013/ЖСК - 219 11.xls", 38)).update
+	# Getter.new(Xls.new("report/12-2013/ЖСК - 199 11.xls", 63)).update
+	# Getter.new(Xls.new("report/12-2013/ЖСК - 219 11.xls", 38)).update
+
 	Getter.new(Xls.new("report/12-2013/ЖСК - 247 11.xls", 129)).update
 	Getter.new(Xls.new("report/12-2013/КЖСК № 298.xls", 50)).update
 
