@@ -55,7 +55,7 @@ class PaymentsController < ApplicationController
 
   	def hourly
 		@report = []
-		@report = GetRequest.report_hourly
+		p @report = GetRequest.report_hourly
 	    if @report != []
 			Report.new(Booker.new(@report)).output_report
 			# send_report_to_vendors(@report)
