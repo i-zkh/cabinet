@@ -5,7 +5,6 @@ class ReportWorker
 
   	# Daily report and errors to out@izkh.ru
     def perform
-		@report = []
 		@report = GetRequest.report_daily
 	    if @report != []
 			Report.new(AllPayment.new(@report)).output_report

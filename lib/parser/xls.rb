@@ -8,7 +8,7 @@ class Xls < Parser
 
 	def input
 		@data = case @vendor_id
-				when 38, 46, 63, 59, 50 						then standard
+				when 38, 46, 63, 59, 50, 129					then standard
 				when 55, 47, 67, 62, 109, 110, 112, 114		 	then two_columns
 				when 92											then sokol
 				when 93											then debt_account
@@ -35,7 +35,16 @@ class Xls < Parser
 	  	super
 	end
 
-	# жск_219, ТСЖ "Уют" (Демократическая, 2), жск 199, 298 
+	# === REPORT IN XLS
+	#
+	# жск_219, ТСЖ "Уют" (Демократическая, 2), жск 199, 298
+	# Date from (7:А) to (7:N)
+	#
+	# == Example
+	#
+	# ЖЭУ	№ л/счета	Адрес					 Фамилия И. О.	  Расчетная площадь	 Кол-во проживающих	 Сальдо на 01/10/13	 Начислено	Период оплаты	Дата оплаты	 Оплачено  Пеня	 Списано сальдо  Сальдо на 30/11/13
+	# 02	00001  		22-ПАРТСЪЕЗДА, 223-0001  ТУЛУМБАСОВА В.А. 65,00				 4					 3287,35			 6612,75	09/13			18.10.2013	 3400,00		 0,00	   		 3259		
+	
 	def standard
 	    s = Roo::Excel.new(@file)
 		key, data, address, hash = ["user_account", "city", "street", "building", "apartment", "invoice_amount"], [], [], {}
@@ -50,7 +59,16 @@ class Xls < Parser
 		data
 	end
 
-	# Сокол
+	# ТСЖ Сокол
+	# Date from (12:2) to (12:10)
+	#
+	# == Example
+	#
+	# Здание													Площ.	Кол-во прож.	Сумма на начало месяца	Итого начис-лено	Итого оплачено	Сумма на конец месяца
+	# Лицевой счет	Кв-ра			Квартиросъемщик						
+	# 446020, Самарская обл, Сызрань г, Комарова ул, дом № 2  	2693,1	82				88708,79				159048,63			83390,05		164367,37
+	# л/с №1		Кв. 1			КНЯЗЕВА АЛЬБИНА СЕРГЕЕВНА	32,3	1				0						2372,46				2372,46	 		0
+	
 	def sokol
 		s = Roo::Excel.new(@file)
 	  	key, data, hash = ["user_account", "invoice_amount"], [], {}
@@ -65,6 +83,13 @@ class Xls < Parser
 	end
 
 	# Серебрянный ручей
+	# Date from (8:2) to (8:25)
+	#
+	# == Example
+	#
+	# № п/п	Лицевой счет							Общая площадь	Итого начислено		Сумма на конец месяца
+	# 1	Кв. 1, Ирикова Ритта Константиновна, л/с №1	49,80			2434,07				2434,07
+
 	def silver_creek
 		s = Roo::Excel.new(@file)
 	  	key, data, hash = ["user_account", "invoice_amount"], [], {}
@@ -79,6 +104,13 @@ class Xls < Parser
 	end
 
 	# ТСЖ Набережное
+	# Date from (3:2) to (3:5)
+	#
+	# == Example
+	#
+	# начисления за сентябрь		№ лицевого счета	№ квартиры ФИО
+	# 3296,70						00000000001			1 Алашеева А.Г.
+
 	def debt_account
 	    s = Roo::Excel.new(@file)
 		  	key, data, hash = ["user_account", "invoice_amount"], [], {}
@@ -92,6 +124,13 @@ class Xls < Parser
 	end
 
 	# Ивушка
+	# Date from (2:1) to (2:2)
+	#
+	# == Example
+	#
+	# л/сч	долг
+	# 01	2 746,24
+
 	def first_four
 	    s = Roo::Excel.new(@file)
 		  	key, data, hash = ["user_account", "invoice_amount"], [], {}
@@ -105,6 +144,15 @@ class Xls < Parser
 	end
 
 	# жск 254
+	# Date from (7:1) to (7:2)
+	#
+	# == Example
+	#
+	#  			Конечный остаток
+	# л/сч		Задолженность
+	# 			208247,25
+	# 161-01	3 119,68
+
 	def three_columns
 		s = Roo::Excel.new(@file)
 	  	key, data, hash = ["user_account", "invoice_amount"], [], {}
