@@ -39,13 +39,13 @@ class AccountsController < ApplicationController
 	# Getter.new(Xls.new("report/12-2013/ЖСК - 199 11.xls", 63)).update
 	# Getter.new(Xls.new("report/12-2013/ЖСК - 219 11.xls", 38)).update
 
-	Getter.new(Xls.new("report/12-2013/ЖСК - 247 11.xls", 129)).update
-	Getter.new(Xls.new("report/12-2013/КЖСК № 298.xls", 50)).update
+	# Getter.new(Xls.new("report/12-2013/ЖСК - 247 11.xls", 129)).update
+	# Getter.new(Xls.new("report/12-2013/КЖСК № 298.xls", 50)).update
 	# Getter.new(Xls.new("report/12-2013/ТСЖ Единство ноябрь.xls", 66)).update
-	Getter.new(Xls.new("report/12-2013/ТСЖ Сокол ноябрь.xls", 92)).update
-	Getter.new(Xls.new("report/12-2013/Ноябрь ТСЖ Ивушка.xls", 56)).update
+	# Getter.new(Xls.new("report/12-2013/ТСЖ Сокол ноябрь.xls", 92)).update
+	# Getter.new(Xls.new("report/12-2013/Ноябрь ТСЖ Ивушка.xls", 56)).update
 	Getter.new(Txt.new("report/12-2013/Цифрал-Самара.TXT", 5)).update
-	Getter.new(Txt.new("report/12-2013/Цифрал-Сервис.TXT", 40)).update
+	# Getter.new(Txt.new("report/12-2013/Цифрал-Сервис.TXT", 40)).update
 
     render json: true
   end
