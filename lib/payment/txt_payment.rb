@@ -8,9 +8,7 @@ class TxtPayment < Payment
 
   def output
     outFile = File.new("#{Vendor.find(@id).title}.txt", "w")
-      @data.each do |d|
-        outFile.puts("#{d['user_account']};#{d['address']};#{d['amount']};#{DateTime.parse(d['date']).strftime("%d.%m.%Y")}")
-      end
+      @data.each { |d| outFile.puts("#{d['user_account']};#{d['address']};#{d['amount']};#{DateTime.parse(d['date']).strftime("%d.%m.%Y")}") }
     outFile.close
   end
 end

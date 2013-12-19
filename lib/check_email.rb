@@ -26,7 +26,7 @@ class CheckEmail
 		p emails = Mail.all
 
 		emails.each do |email|
-			if email.date.strftime("%Y-%m-%d") == DateTime.now.strftime("%Y-%m-%d")
+			if email.date.strftime("%Y-%m-%d") == "#{DateTime.now.strftime("%Y-%m-%d")}"
 				vendor = Vendor.where(email: email.from[0]).first
 				if vendor
 					p email

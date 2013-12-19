@@ -9,7 +9,7 @@ class Xls < Parser
 	def input
 		@data = case @vendor_id
 				when 38, 46, 63, 59, 50, 129					then standard
-				when 55, 47, 67, 62, 109, 110, 112, 114		 	then two_columns
+				when 55, 47, 67, 66, 109, 110, 112, 114			then two_columns
 				when 92											then sokol
 				when 93											then debt_account
 				when 58 										then three_columns
@@ -19,6 +19,7 @@ class Xls < Parser
 				when 42											then silver_creek
 				when 120, 118, 119, 122, 123, 124, 125, 126		then one_column
 				when 127										then one_column2
+				when 62											then first_last
 				else
 					error = "Xls parser don't have method for #{Vendor.find(@vendor_id).title}. Vendor id: #{@vendor_id}"
 					ReportMail.error(error, "[ERROR] Xls parser").deliver
@@ -165,20 +166,34 @@ class Xls < Parser
     	data
 	end
 
-	# PTS, жск 268, птс-сервис, №247 б, Спорт, 29, Бизнес Центр
+	# PTS, жск 268, птс-сервис, Спорт, 29, Бизнес Центр
+	# Date from (1:1)
+	#
+	# == Example
+	#
+	# Лицевые счета
+	# 391001001
+
 	def two_columns
 		s = Roo::Excel.new(@file)
 	  	key, data, hash = ["user_account", "invoice_amount"], [], {}
-	  	p s.cell(1, 1)
 	  	(1..s.last_row).each do |i|
-	  		next if s.cell(i, 1) == 'Л/С' || s.cell(i, 1) == "Лицевые счета"
+	  		next if s.cell(i, 1) == 'Л/С' || s.cell(i, 1) == "Лицевые счета" || s.cell(i, 1).nil? || s.cell(i, 1) == "Ном." || s.cell(i, 1) == "п/п" 
 	  	  	hash =  {key[0] => s.cell(i, 1).to_i, key[1] => s.cell(i, 2)}
 	  	  	data << hash
 	  	end
     	data
 	end
 
-	# Промышленный №261
+
+	# Промышленный №261 г.Самара ул.Губанова
+	# Date from (2:1) to (2:2)
+	#
+	# == Example
+	#
+	# Наименование		долг
+	# Дом 10 кв. 003	355,33
+
 	def other
 		s = Roo::Excel.new(@file)
 		key, data, address, hash = ["user_account", "city", "street", "building", "apartment", "invoice_amount"], [], [], {}
@@ -208,6 +223,13 @@ class Xls < Parser
 	end
 
 	# 138 Only for Samara
+	# Date from (1:1)
+	#
+	# == Example
+	#
+	# ул.Мориса Тореза,139
+	# 00001
+	
 	def one_column
 		s = Roo::Excel.new(@file)
 		key, data, address, hash = ["user_account", "city", "street", "building", "apartment", "invoice_amount"], [], [], {}
@@ -218,6 +240,14 @@ class Xls < Parser
 		end
 		data
 	end
+	
+	# ЖСК №265
+	# Date from (2:2)
+	#
+	# == Example
+	#
+	# Л/С
+	# 1
 
 	def one_column2
 		s = Roo::Excel.new(@file)
@@ -229,5 +259,26 @@ class Xls < Parser
 	  	end
 	    data
 	end
+
+	# ТСЖ №247 Б
+	# Date from (3:1) to (3:4)
+	#
+	# == Example
+	#
+	# Лицевые счета ТСЖ № 247 "Б"   за ноябрь 2013 года			
+	# № л/счёта	 сальдо на начало месяца	начисленно за текущий месяц	 итого к оплате
+	# 30701		 4111,62					3895,37						 8006,99
+
+	def first_last
+		s = Roo::Excel.new(@file)
+		key, data, hash = ["user_account", "invoice_amount"], [], {}
+
+  		(3..s.last_row).each do |i|
+  	  		hash =  {key[0] => s.cell(i, first_column), key[1] => s.cell(i, last_column)}
+  	  		data << hash
+  		end
+    	data
+	end
+
 	
 end

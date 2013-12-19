@@ -110,11 +110,12 @@ class Ovd
 	end
 
 	def self.xls_parser
-		s = Roo::Excel.new("report/база участковых 3.xls")
+		s = Roo::Excel.new("report/ovd_18.12.13.xls")
 		(1..s.last_row).each do |i|
 			address_ovd = s.cell(i, 2).split(", ")
 			full_name 	= s.cell(i, 4).split(" ")
-			sector	 	= s.cell(i, 5).split("; ")
+			name 		= full_name[1].nil? ? "" : full_name[1]
+			sector	 	= s.cell(i, 5).split(";")
 			
 			Precinct.create!(
 					ovd: 				s.cell(i, 1),
@@ -123,13 +124,13 @@ class Ovd
 					ovd_house: 			address_ovd[2],
 					ovd_telnumber: 		s.cell(i, 3) ? s.cell(i, 3).to_i : s.cell(i, 3),
 					surname: 			full_name[0],
-					name: 				full_name[1],
-					middlename: 		full_name[2]
+					name: 				name,
+					middlename: 		full_name[2].nil? ? "" : full_name[2]
 			)
 			sector.each do |ad|
 				address = []
 				address = ad.split(",")
-				Street.create!(street: address[0].lstrip) unless Street.where(street: address[0]).first
+				Street.create!(street: address[0].lstrip) unless Street.where(street: address[0].lstrip).first
 				(1..address.size).each do |i|
 					next if address[i] == nil || address[i] == " "
 					houses = []
@@ -144,9 +145,9 @@ class Ovd
 							  end
 					houses.flatten.each do |house|
 						PrecinctHouse.create!(
-							precinct_id: 		Precinct.where(surname: full_name[0], name: full_name[1]).first.id,
+							precinct_id: 		Precinct.where(surname: full_name[0], name: name).first.id,
 							street_id: 			Street.where(street: address[0].lstrip).first.id,
-					    	house: 				house.lstrip
+					    	house: 				house.lstrip.mb_chars.downcase.to_s
 						)
 					end
 				end

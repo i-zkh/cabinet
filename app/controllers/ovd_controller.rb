@@ -1,7 +1,7 @@
 class OvdController < ApplicationController
 
 	def ovd
-		Ovd.merge
+		Ovd.xls_parser
 		render json: true
 	end
 

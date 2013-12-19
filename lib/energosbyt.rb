@@ -14,9 +14,7 @@ class Energosbyt
 			hash = {key[0] => s.cell(i, 1), key[1] => "Самара", key[2] => s.cell(i, 2), key[3] => s.cell(i, 3), key[4] => s.cell(i, 4), key[5] => s.cell(i, 5), key[6] => s.cell(i, 6), key[7] => s.cell(i, 7), key[8] => s.cell(i, 8)}
 		  	data << hash
 		end
-		p data
 		(0..data.size-1).each do |i|
-
 			account = EnAcccount.where(user_account: data[i]["user_account"]).first
 			if account
 				account.invoice_amount = data[i]["invoice_amount"]

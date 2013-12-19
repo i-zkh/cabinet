@@ -4,9 +4,7 @@ class Parser
 	end
 
 	def create
-		(0..@data.size-1).each do |i|
-			Account.create!(user_account: @data[i]["user_account"], city: @data[i]["city"], street: @data[i]["street"], building: @data[i]["building"], apartment: @data[i]["apartment"], invoice_amount: @data[i]["invoice_amount"], vendor_id: @vendor_id)
-		end
+		(0..@data.size-1).each { |i| Account.create!(user_account: @data[i]["user_account"], city: @data[i]["city"], street: @data[i]["street"], building: @data[i]["building"], apartment: @data[i]["apartment"], invoice_amount: @data[i]["invoice_amount"], vendor_id: @vendor_id) }
 	end
 
 	def update
