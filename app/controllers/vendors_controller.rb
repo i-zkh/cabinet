@@ -16,7 +16,6 @@ class VendorsController < ApplicationController
 
   def update
     @vendor = current_user
-
     respond_to do |format|
       if @vendor.update_attributes(params[:vendor])
         format.html { redirect_to @vendor, notice: 'Данные успешно обновлены.' }

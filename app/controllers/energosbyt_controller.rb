@@ -1,7 +1,8 @@
 #encoding: UTF-8
 class EnergosbytController < ApplicationController
 	before_filter :authorize, only: [:xls]
-	
+	# Only for "Энегросбыт".
+	# Show in service meter readings.
 	def index
 		enacccount = []
 		if params[:user_account]
@@ -11,11 +12,14 @@ class EnergosbytController < ApplicationController
 		render json: enacccount
 	end
 
+	# Create user's handling to service. 
+	# attr: user_account, user_id, remote_ip.
 	def create
 		EnHandling.create!(user_account: params[:user_account], user_id: params[:user_id], remote_ip: params[:remote_ip])
 		render json: {}
 	end
 
+	# Vendor can get handlings in xls.
 	def xls
 		@month = params[:report_month_id] ? params[:report_month_id] : DateTime.now.month
 		@handling = EnHandling.where('extract(month from created_at) = ? ', @month )

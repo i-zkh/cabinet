@@ -1,6 +1,7 @@
 class CountersController < ApplicationController
   before_filter :authorize, only: [:index, :create]
 
+  # Show vendor's meters from service in cabinet.
   def index
     array, field_title = [], []
     @path = "http://izkh.ru/"
@@ -34,19 +35,16 @@ class CountersController < ApplicationController
       end
       @user_account = array.uniq
       @field_title = field_title.uniq
-
       if !params[:field_title].nil?
         data = []
         @report.each { |r| params[:field_title].each { |f| data << r if f == r['field_title'] }}
         @report = data
       end
-
       if params[:user_account] != ""
         data = []
         @report.each { |r| data << r if params[:user_account] == r['user_account'] } 
         @report = data
       end
     end
-    p params[:field_title]
   end
 end
