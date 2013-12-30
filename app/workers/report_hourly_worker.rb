@@ -2,6 +2,8 @@
 require 'russian'
 class ReportHourlyWorker
   include Sidekiq::Worker
+  sidekiq_options :retry => false
+  
     def perform
 		@report = GetRequest.report_hourly.select { |d| d['amount'] > 5 }
 	    if @report != []

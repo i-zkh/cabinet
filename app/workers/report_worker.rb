@@ -2,7 +2,8 @@
 require 'russian'
 class ReportWorker
   include Sidekiq::Worker
-
+  sidekiq_options :retry => false
+  
   	# Daily report and errors to out@izkh.ru
     def perform
 		@report = GetRequest.report_daily
