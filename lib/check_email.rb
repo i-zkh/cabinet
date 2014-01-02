@@ -33,7 +33,6 @@ class CheckEmail
 					email.attachments.each do |attachment|
 			    		filename = attachment.filename
 			    		filename =~ /(\w+).(\w+)/
-			    		p $2
 					    begin
 					    	if !File.exist?("report/#{DateTime.now.month}-#{DateTime.now.year}/#{filename}")
 					      		File.open( "report/#{DateTime.now.month}-#{DateTime.now.year}/" + "#{vendor.title}.#{$2}", "w+b", 0644) {|f| f.write attachment.body.decoded} 
