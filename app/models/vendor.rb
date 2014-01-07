@@ -4,5 +4,5 @@ class Vendor < ActiveRecord::Base
   has_many :user_id_ranges
   has_many :payloads
   has_many :address_ranges
-
+  has_many :accounts
 end

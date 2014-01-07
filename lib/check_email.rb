@@ -76,7 +76,7 @@ class CheckEmail
 					email.attachments.each do |attachment|
 			    		filename = attachment.filename
 					    begin
-					      	File.open( "organizations/" + "#{DateTime.now.strftime("%m-%d")}-#{filename}", "w+b", 0644) {|f| f.write attachment.body.decoded}
+					      	File.open( "organizations/" + "#{DateTime.now.strftime("%y-%m-%d")}-#{filename}", "w+b", 0644) {|f| f.write attachment.body.decoded}
 					    rescue Exception => e
 					    	error = "Unable to save file #{filename} because #{e.message}"
 							ReportMail.error(error, "[ERROR] Organizations").deliver
