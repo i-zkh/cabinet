@@ -19,25 +19,4 @@ class DataProcessing
 		 	PostRequest.payload(array)
 	end
 
-	def self.amount_from_db(vendor_id)
-		response, array, @data, error = [], [], [], []
-		hash = {}
-		response = GetRequest.vendor_id(vendor_id)
-		response.each do |r|
-			account = Account.where(user_account: r, vendor_id: vendor_id).first
-			if account
-				if account.invoice_amount.to_f != 0
-					amount = account.invoice_amount.to_f*(-1)
-					hash = { vendor_id: vendor_id, user_account: account.user_account, amount: amount}
-					array << hash
-				end
-			else
-				hash = { vendor_id: vendor_id, user_account: r }
-				error << hash
-			end
-		end
-		ReportMail.error(error, "[ERROR] user accounts").deliver unless error.empty?
-		PostRequest.payload(array) unless array == []
-	end
-
 end

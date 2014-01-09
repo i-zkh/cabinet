@@ -60,18 +60,5 @@ class PostRequest
 		    	:body => { :payload => data}.to_json,
 		    	:headers => {'Content-Type' => 'application/json'})
 		end
-
-		def precinct(ovd, ovd_town, ovd_street, ovd_house, ovd_telnumber, surname, name, middlename)
-			response = HTTParty.post( "http://izkh.ru/api/1.0/precinct/create?auth_token=#{Auth.get}",
-		    	:body => { :precinct => { ovd: ovd, ovd_town: ovd_town, ovd_street: ovd_street, ovd_house: ovd_house, ovd_telnumber: ovd_telnumber, surname: surname, name: name, middlename: middlename }}.to_json,
-		    	:headers => {'Content-Type' => 'application/json'})
-		end
-
-		def precinct_territory(precinct_id, street, house)
-			response = HTTParty.post( "http://izkh.ru/api/1.0/precinct_territorty/create?auth_token=#{Auth.get}",
-		    	:body => { :precinct_territory => { precinct_id: precinct_id, street: street, house: house }}.to_json,
-		    	:headers => {'Content-Type' => 'application/json'})
-		end
-
 	end
 end

@@ -43,15 +43,20 @@ class AccountsController < ApplicationController
 	# Getter.new(Xls.new("report/12-2013/ТСЖ Сокол ноябрь.xls", 92)).update
 	# Getter.new(Xls.new("report/12-2013/Ноябрь ТСЖ Ивушка.xls", 56)).update
 
-	# Getter.new(Xls.new("report/12-2013/ТСЖ Единство ноябрь.xls", 66)).input
+	Getter.new(Xls.new("report/12-2013/ТСЖ Единство ноябрь.xls", 66)).input
+	Getter.new(Xls.new("report/12-2013/ТСЖ _У Озера-4_.xls", 141)).input
+	Getter.new(Xls.new("report/12-2013/ТСЖ Железнодорожный № 141.xls", 142)).input
+	Getter.new(Xls.new("report/1-2014/Спорт5 реестр 12 13.xls", 137)).input
+	Getter.new(Xls.new("report/1-2014/Спорт3 реестр 12 13.xls", 112)).input
+
 
 	# Getter.new(Xls.new("report/12-2013/ТСЖ Набережное.xls", 93)).update
 	# Getter.new(Xls.new("report/12-2013/ТСЖ 247 Б", 62)).input
 	# Getter.new(Txt.new("report/12-2013/Цифрал-Самара.TXT", 5)).update
 	# Getter.new(Txt.new("report/12-2013/Цифрал-Сервис.TXT", 40)).update
 
-	CheckEmail.get_organizations
-	p Roo::Excel.new("organizations/#{DateTime.now.month}-#{DateTime.now.day}-Organizations.xls")
+	# CheckEmail.get_organizations
+	# p Roo::Excel.new("organizations/#{DateTime.now.month}-#{DateTime.now.day}-Organizations.xls")
 
     render json: true
   end

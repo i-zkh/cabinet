@@ -33,22 +33,24 @@ class PaymentsController < ApplicationController
   	end
 
 	def monthly_xls
-		vendors_id = GetRequest.report_monthly(DateTime.now.month)
-		vendors_id.each do |id|
+		GetRequest.report_monthly(12).each do |id|
+			Report.new(ReportMonthly.new(GetRequest.transactions(id, 12), id)).monthly
 			vendor = Vendor.where(id: id, distribution: true).first
-			unless vendor.nil?
-				p id
-				# p @report = GetRequest.report_monthly(id, DateTime.now.month)
-				# Report.new(ReportMonthly.new(@report, id)).monthly
-				ReportMail.report_monthly("Выгрузка транзакций АйЖКХ за ноябрь}", vendor).deliver if id != 5 || id != 45
-			end
-		end
+			# ReportMail.report_monthly("Выгрузка транзакций АйЖКХ за ноябрь}", vendor).deliver if id != 5 || id != 40 || id != 41 && !vendor.nil?
+		end	
 		render json: true
 	end
 
   	def monthly_txt
-	 	p @report = GetRequest.transactions(16, 11)
-	    Report.new(ReportMonthlyTxt.new(@report, 16)).monthly
+  		p vendors_id = GetRequest.report_monthly(11)
+		vendors_id.each do |id|
+			vendor = Vendor.where(id: id).first
+			unless vendor.nil?
+				p "#{id}"
+	 			p @report = GetRequest.transactions(id, 11)
+	    		Report.new(ReportMonthlyTxt.new(@report, id)).monthly
+			end
+		end
 
 	    render json: true
   	end

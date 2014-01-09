@@ -7,7 +7,7 @@ class ReportMonthlyTxt < Payment
   end
 
   def monthly
-    outFile = File.new("#{Vendor.find(@vendor_id).title}-11.txt", "w")
+    outFile = File.new("report_monthly/#{DateTime.now.month}-#{DateTime.now.year}/" + "#{Vendor.find(@vendor_id).title.gsub!(/"/, "")}.txt", "w")
       @data.each do |d|
         address = Account.where(user_account: d['user_account'], vendor_id: @vendor_id).first
         if address

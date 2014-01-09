@@ -8,18 +8,18 @@ class Xls < Parser
 
 	def input
 		@data = case @vendor_id
-				when 38, 46, 63, 59, 50, 129					then standard
-				when 55, 47, 67, 66, 109, 110, 112, 114			then two_columns
-				when 92											then sokol
-				when 93											then debt_account
-				when 58 										then three_columns
-				when 15											then other
-				when 56 										then first_four
-				when 54 										then receipt
-				when 42											then silver_creek
-				when 120, 118, 119, 122, 123, 124, 125, 126		then one_column
-				when 127										then one_column2
-				when 62											then first_last
+				when 38, 46, 63, 59, 50, 129							then standard
+				when 55, 47, 67, 66, 109, 110, 112, 114, 137, 141, 142	then two_columns
+				when 92													then sokol
+				when 93													then debt_account
+				when 58 												then three_columns
+				when 15													then other
+				when 56 												then first_four
+				when 54 												then receipt
+				when 42													then silver_creek
+				when 120, 118, 119, 122, 123, 124, 125, 126				then one_column
+				when 127												then one_column2
+				when 62													then first_last
 				else
 					error = "Xls parser don't have method for #{Vendor.find(@vendor_id).title}. Vendor id: #{@vendor_id}"
 					ReportMail.error(error, "[ERROR] Xls parser").deliver
@@ -178,7 +178,7 @@ class Xls < Parser
 		s = Roo::Excel.new(@file)
 	  	key, data, hash = ["user_account", "invoice_amount"], [], {}
 	  	(1..s.last_row).each do |i|
-	  		next if s.cell(i, 1) == 'Л/С' || s.cell(i, 1) == "Лицевые счета" || s.cell(i, 1).nil? || s.cell(i, 1) == "Ном." || s.cell(i, 1) == "п/п" 
+	  		next if s.cell(i, 1) == 'Л/С' || s.cell(i, 1) == 'Л/с' || s.cell(i, 1) == "Лицевые счета" || s.cell(i, 1) == "Ном." || s.cell(i, 1) == "п/п" || s.cell(i, 1).nil? 
 	  	  	hash =  {key[0] => s.cell(i, 1).to_i, key[1] => s.cell(i, 2)}
 	  	  	data << hash
 	  	end
@@ -252,7 +252,7 @@ class Xls < Parser
 	def one_column2
 		s = Roo::Excel.new(@file)
 		key, data, hash = ["user_account"], [], {}
-
+	  	
 	  	(2..s.last_row).each do |i|
 	  	  	hash =  {key[0] => s.cell(i, 2).to_i}
 	  	  	data << hash

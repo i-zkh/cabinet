@@ -18,8 +18,9 @@ Project::Application.routes.draw do
   post 'energosbyt' => 'energosbyt#create'
   get 'energosbyt_report' => 'energosbyt#xls'
 
-  # get 'address_range' => "user_check#address"
-  # get 'user_account' => "user_check#account"
+# Server can check user's data
+  get 'address_range' => "user_check#address"
+  get 'user_account' => "user_check#account"
   
 # Report
   get 'get_payment' => 'payments#create'
