@@ -3,7 +3,7 @@
 ####get
 Получает ключ авторизации с сервиром izkh.
 
-###Класс check_email
+###Класс check\_email
 
 ####get_reports
 Ищет на почте system@izkh.ru выгрузки от поставщиков за текущий день по email и добавляет их в папку report/#{DateTime.now.month}	#{DateTime.now.year}/#{filename}. Название файла соотвествует названию организации.
@@ -13,7 +13,7 @@
 
 ###Класс DataProcessing
 
-####amount_to_service(data, vendor_id)
+####amount\_to\_service(data, vendor_id)
 	Обновляет на сервере задолжности уже существующих пользователей из выгрузок поставщиков.
 
 ###Класс Energosbyt
@@ -21,7 +21,7 @@
 ####update
 Парсер для выгрузки Энегро-Сбыта. 
 Обновляет и создает данные о пользователях в моделе EnAcccount.
-Данные: "user_account", "city", "street", "building", "apartment", "bypass", "meter_reading", "invoice_amount", "data".
+Данные: "user\_account", "city", "street", "building", "apartment", "bypass", "meter\_reading", "invoice\_amount", "data".
 
 ###Класс Freelancer
 
@@ -41,18 +41,18 @@
 
 ####report_daily
 Запрашивает данные о транзакциях за день с сервиса. Используется для отправки на почту out@izkh.ru реестра транзакций.
-Данные: {payload: amount, date, address, vendor_id, user_account}
+Данные: {payload: amount, date, address, vendor\_id, user\_account}
 
 ####report_hourly
 Запрашивает данные о транзакциях за последние три часа с сервиса. Используется для отправки транзакций менеджерам и поставщикамуслуг.
-Данные: {payload: amount, date, address, vendor_id, user_account}
+Данные: {payload: amount, date, address, vendor\_id, user\_account}
 
 
 ####report_monthly(month)
 Запрашивает данные о транзакциях за текущий месяц с сервиса. Используется для отправки реестра транзакций поставщикам услуг.
-Данные: {payload: amount, date, address, vendor_id, user_account}
+Данные: {payload: amount, date, address, vendor\_id, user\_account}
 		
-####transactions(vendor_id, month)
+####transactions(vendor\_id, month)
 Запрашивает данные о транзакциях за месяц с сервиса по отпределенному поставщику. Используется в личном кабинете поставщиков для вывода всех транзакций.
 
 ####meters(vendor_id, month)
@@ -70,7 +70,7 @@
 ####cities
 Запрашивает данные о существующих городах на izkh. Используется при создание новых поставщиков.
 
-####vendor_id(vendor_id)
+####vendor\_id(vendor\_id)
 Запрашивает сушествующие аккаунты пользователей на сервисе. Используется для обновление задолжностей существующих пользователей из выгрузок поставщиков.
 
 ####freelancecategories
@@ -82,40 +82,40 @@
 
 ###Класс PostRequest
 	
-####non_utility_service_type(title)
+####non\_utility\_service\_type(title)
 Создает новый сервис на izkh для справочника поставщиков из выгрузки менеджеров. Используется при создание новых поставщиков.Отсылается название сервиса.
-:non_utility_service_type => { title: }
+:non\_utility\_service\_type => { title: }
 
 ####ervicetype(title)
 Создает новый сервис на izkh. Используется при создание новых поставщиков из выгрузки менеджеров. Отсылается название сервиса.
 :service_type => { title: }
 	
-####non_utility_vendor(title, phone, work_time, address, non_utility_service_type_id, geocode)
+####non\_utility\_vendor(title, phone, work\_time, address, non\_utility\_service\_type\_id, geocode)
 Создает нового поставщика в справочнике поставщиков на izkh. Отсылается название организации, телефон, время работы, адресс, url карта места нахождения поставщика. На static-maps.yandex.ru отсылается доглота и широта, которые формируюся в методе geocode. Ответом будет url на статическую картинку. Данные берутся из выгрузки менеджеров.
-:non_utility_vendor => { title:, phone:, work_time:, address:, non_utility_service_type_id: },
+:non\_utility\_vendor => { title:, phone:, work\_time:, address:, non\_utility\_service\_type\_id: },
 :picture => { url: "http://static-maps.yandex.ru/1.x/?ll=#{geocode}&z=15&l=map&size=300,200&pt=#{geocode}" }
 
-####non_utility_vendor_with_image(title, phone, work_time, address, non_utility_service_type_id, image)
+####non\_utility\_vendor\_with\_image(title, phone, work\_time, address, non\_utility\_service\_type\_id, image)
 Создает нового поставщика в справочнике поставщиков на izkh. Отсылается название организации, телефон, время работы, адресс, url карта места нахождения поставщика. В url записывается место нахождения картинки. Используется при случае, когда static-maps.yandexru работает некорректно на заданный в выгрузке адресс. Данные берутся из выгрузки менеджеров.
-:non_utility_vendor => { title:, phone:, work_time:, address:, non_utility_service_type_id: },
+:non\_utility\_vendor => { title:, phone:, work\_time:, address:, non\_utility\_service\_type\_id: },
 :picture => { url: image }
 
-####vendor(title, service_type_id, commission, cities)
+####vendor(title, service\_type\_id, commission, cities)
 Создает нового поставщика поставщиков на izkh. Отсылается название организации, сервис id, активность поставщика, комиссия, merchant id, psk и список городов, в которых дейтвует данный поставщик. Некоторые данные берутся из выгрузки менеджеров, другие заданны системой.
-:vendor =>  { title:, service_type_id:, is_active: true, commission: commission, merchant_id: 43222, psk: "e45a8c7b-b0bd-4bdd-93d3-859b463daf81" },
+:vendor =>  { title:, service_type_id:, is\_active: true, commission: commission, merchant\_id: 43222, psk: "e45a8c7b-b0bd-4bdd-93d3-859b463daf81" },
 :cities => cities }
 
-####field_template(tariff_template_id)
+####field\_template(tariff\_template\_id)
 Создает поле доступа к поставщику на izkh. Все поля заданны автоматически. Испоьзуется при создание нового поставщика. 
-:field_template => { title: "Минимальная сумма платежа", value: 0, is_for_calc: false, tariff_template_id: tariff_template_id, field_type: "text_field", field_units: "руб"}
+:field\_template => { title: "Минимальная сумма платежа", value: 0, is\_for\_calc: false, tariff\_template\_id: tariff\_template\_id, field\_type: "text\_field", field\_units: "руб"}
 
-####tariff_template(vendor_id, service_type_id)
+####tariff\_template(vendor\_id, service\_type\_id)
 Создает тариф к поставщику на izkh. Передается название тарифа и id сервиса.
-:tariff_template => { title:, vendor_id:, has_readings: false, service_type_id: }
+:tariff\_template => { title:, vendor\_id:, has\_readings: false, service\_type\_id: }
 
-####freelancer(freelance_category_id, description, phone, title, name)
+####freelancer(freelance\_category\_id, description, phone, title, name)
 Создает новых фрисансеров в izkh. Данные берутся из выгрузок менеджеров по фрилансерам. Отсылается категория, к которой относиться фрилансер, описание, телефон, заголовок в приложение, время работы, имя.
-freelancer: { freelance_category_id:, description:, phone:, title:, work_time:, name:}
+freelancer: { freelance\_category\_id:, description:, phone:, title:, work\_time:, name:}
 
 ####payload(data)
 Создание задолжностей на izkh. Данные берутся из базы, сформированной выгрузками.
@@ -123,18 +123,18 @@ freelancer: { freelance_category_id:, description:, phone:, title:, work_time:, 
 ###Класс Organization
 
 ####add_vendors
-Обновляет сервисы в izkh и справочнике поставщиков. Добавляет новых поставщиков в базу серсиса izkh, базу личного кабинета поставщиков, в справочник поставщиков. К сервису izkh добавляет тариф(tariff_template), поле доступа(field_template) и города, в которых действует поставщик. Высылает письмо поставщику при наличии email с ключом доступа в личный кабинет.
+Обновляет сервисы в izkh и справочнике поставщиков. Добавляет новых поставщиков в базу серсиса izkh, базу личного кабинета поставщиков, в справочник поставщиков. К сервису izkh добавляет тариф(tariff\_template), поле доступа(field\_template) и города, в которых действует поставщик. Высылает письмо поставщику при наличии email с ключом доступа в личный кабинет.
 
-####check_servicetype(title)
+####check\_servicetype(title)
 Обновляет данные о сервисах в izkh по выгрузки менеджеров при создание новых поставщиков.
 
-####check_non_utility_service_types(title)
+####check\_non\_utility\_service\_types(title)
 Обновляет данные о сервисах справочника поставщиков в izkh по выгрузки менеджеров при создание новых поставщиков.
 
-####parsing_file(file)
+####parsing\_file(file)
 Парсит выгрузку менеджеров. Используется при заведение новых поставщиков.
 
-####get_type(type)
+####get\_type(type)
 Создает список сервисов используемых в выгрузки менеджеров. Ипользуется для обновления сервисов в izkh и справочнике поставщиков.
 
 ####cities
@@ -142,23 +142,23 @@ freelancer: { freelance_category_id:, description:, phone:, title:, work_time:, 
 
 ###Класс Ovd
 
-####xml_parser
+####xml\_parser
 Парсер выгрузки участковых из xml в базу по таблицам Precinct, Street, PrecinctHouse. Добавляет следующие данные:
-в Precinct (ovd:, ovd_town:, ovd_street:, ovd_house:, ovd_telnumber:, surname:, name:, middlename:),
+в Precinct (ovd:, ovd\_town:, ovd\_street:, ovd\_house:, ovd\_telnumber:, surname:, name:, middlename:),
 в Street   (street:),
-в PrecinctHouse (precinct_id:, street_id:, house:)
+в PrecinctHouse (precinct\_id:, street\_id:, house:)
 
-####xls_parser
+####xls\_parser
 Парсер выгрузки участковых из xls в базу по таблицам Precinct, Street, PrecinctHouse. Добавляет следующие данные:
-в Precinct (ovd:, ovd_town:, ovd_street:, ovd_house:, ovd_telnumber:, surname:, name:, middlename:),
+в Precinct (ovd:, ovd\_town:, ovd\_street:, ovd\_house:, ovd\_telnumber:, surname:, name:, middlename:),
 в Street   (street:),
-в PrecinctHouse (precinct_id:, street_id:, house:)
+в PrecinctHouse (precinct\_id:, street\_id:, house:)
 
-####xml_to_xsl 
+####xml\_to\_xsl 
 Выводит папку с выгрузками участковых xml в единым xls файл по следующим столбцам: Управляющий пункт, Адресс, Телефон, Участковый, Участок.
 
 ####merge
-Объединяет две выгрузки участковых. Заменяет данные первого файла file_ovd_1 на file_manager при условии, что участковый и его участок неизменен.
+Объединяет две выгрузки участковых. Заменяет данные первого файла file\_ovd\_1 на file\_manager при условии, что участковый и его участок неизменен.
 
 ###Класс Getter
 Абстрактный класс для парсеров.
@@ -178,13 +178,13 @@ freelancer: { freelance_category_id:, description:, phone:, title:, work_time:, 
 Абстрактным метод. 
 
 ####create
-Создает новые аккаунты пользователей по определенной ораганизации из выгрузок поставщика в таблицу Account. Добавляет следующие данные: user_account, city, street, building, apartment, invoice_amount, vendor_id.
+Создает новые аккаунты пользователей по определенной ораганизации из выгрузок поставщика в таблицу Account. Добавляет следующие данные: user\_account, city, street, building, apartment, invoice\_amount, vendor\_id.
 
 ####update
-Обновляет аккаунты пользователей по определенной ораганизации из выгрузок поставщика и добавляет новых в таблицу Account. Добавляет следующие данные: user_account, city, street, building, apartment, invoice_amount, vendor_id.
+Обновляет аккаунты пользователей по определенной ораганизации из выгрузок поставщика и добавляет новых в таблицу Account. Добавляет следующие данные: user\_account, city, street, building, apartment, invoice\_amount, vendor\_id.
 
 ###Класс Dbf
-Парсер для dbf файлов – выгрузки от поставщиков. Данные записывает в таблицу Accounts с следующими полями "user_account", "city", "street", "building", "apartment", "invoice_amount".
+Парсер для dbf файлов – выгрузки от поставщиков. Данные записывает в таблицу Accounts с следующими полями "user\_account", "city", "street", "building", "apartment", "invoice\_amount".
 
 ####input
 Выводит эти данные в консоль.
@@ -196,7 +196,7 @@ freelancer: { freelance_category_id:, description:, phone:, title:, work_time:, 
 Обновляет данные в базу и добавляет новые.
 
 ###Класс Txt
-Парсер для txt файлов – выгрузки от поставщиков. Данные записывает в таблицу Accounts с следующими полями "user_account", "city", "street", "building", "apartment", "invoice_amount".
+Парсер для txt файлов – выгрузки от поставщиков. Данные записывает в таблицу Accounts с следующими полями "user\_account", "city", "street", "building", "apartment", "invoice\_amount".
 
 ####input
 Выводит эти данные в консоль.
@@ -208,7 +208,7 @@ freelancer: { freelance_category_id:, description:, phone:, title:, work_time:, 
 Обновляет данные в базу и добавляет новые.
 
 ###Класс Ods
-Парсер для ods файлов – выгрузки от поставщиков. Данные записывает в таблицу Accounts с следующими полями "user_account", "invoice_amount".
+Парсер для ods файлов – выгрузки от поставщиков. Данные записывает в таблицу Accounts с следующими полями "user\_account", "invoice\_amount".
 
 ####input
 Ищет какой метод парсинга приметить для заданного поставщика услуг. Выводит эти данные в консоль.
@@ -219,14 +219,14 @@ freelancer: { freelance_category_id:, description:, phone:, title:, work_time:, 
 ####update
 Обновляет данные в базу и добавляет новые.
 
-####first_colomn
+####first\_colomn
 Данные находятся в первой и третей конолке.
 
 ####privolga
 Данные находятся в первой и шестой конолке.
 
 ###Класс Xls
-Парсер для xls файлов – выгрузки от поставщиков. Данные записывает в таблицу Accounts с следующими полями "user_account", "city", "street", "building", "apartment", "invoice_amount".
+Парсер для xls файлов – выгрузки от поставщиков. Данные записывает в таблицу Accounts с следующими полями "user\_account", "city", "street", "building", "apartment", "invoice\_amount".
 
 ####input
 Ищет какой метод парсинга приметить для заданного поставщика услуг. Выводит эти данные в консоль.
@@ -238,7 +238,7 @@ freelancer: { freelance_category_id:, description:, phone:, title:, work_time:, 
 Обновляет данные в базу и добавляет новые.
 
 ####standard
-Парсер для жск_219, ТСЖ "Уют" (Демократическая, 2), жск 199, 298
+Парсер для жск\_219, ТСЖ "Уют" (Демократическая, 2), жск 199, 298
 Date from (7:А) to (7:N)
 
 #####Пример
@@ -268,7 +268,7 @@ Date from (8:2) to (8:25)
 	№ п/п	Лицевой счет							Общая площадь	Итого начислено		Сумма на конец месяца
 	1	Кв. 1, Ирикова Ритта Константиновна, л/с №1	49,80			2434,07				2434,07
 
-####debt_account
+####debt\_account
 Парсер для ТСЖ Набережное
 Date from (3:2) to (3:5)
 
@@ -277,7 +277,7 @@ Date from (3:2) to (3:5)
 	начисления за сентябрь		№ лицевого счета	№ квартиры ФИО
 	3296,70						00000000001			1 Алашеева А.Г.
 
-####first_four
+####first\_four
 Парсер для Ивушка
 Date from (2:1) to (2:2)
 
@@ -286,7 +286,7 @@ Date from (2:1) to (2:2)
 	л/сч	долг
 	01	2 746,24
 
-####three_columns
+####three\_columns
 Парсер для жск 254
 Date from (7:1) to (7:2)
 
@@ -297,7 +297,7 @@ Date from (7:1) to (7:2)
 				208247,25
 	161-01	3 119,68
 
-####two_columns
+####two\_columns
 Парсер для PTS, жск 268, птс-сервис, Спорт, 29, Бизнес Центр
 Date from (1:1)
 
@@ -315,7 +315,7 @@ Date from (2:1) to (2:2)
 	Наименование		долг
 	Дом 10 кв. 003	355,33
 
-####one_column
+####one\_column
 Парсер для 138
 Date from (1:1)
 
@@ -324,7 +324,7 @@ Date from (1:1)
 	ул.Мориса Тореза,139
 	00001
 
-####one_column2
+####one\_column2
 Парсер для ЖСК №265
 Date from (2:2)
 
@@ -333,7 +333,7 @@ Date from (2:2)
 	Л/С
 	1
 
-####first_last
+####first\_last
 Парсер для ТСЖ №247 Б
 Date from (3:1) to (3:4)
 
@@ -357,7 +357,7 @@ Date from (3:1) to (3:4)
 
 ###Класс Report
 
-####output_report
+####output\_report
 Используется для создания и отправки реесторов о транзакциях.
 
 ####monthly
@@ -366,7 +366,7 @@ Date from (3:1) to (3:4)
 ####report
 Запускает через sidekiq и clockwork ежедневную отправку транзакций за день на out@izkh.ru в 1:00. Также высылает список не найденных в системе аккаунтов пользователей. (отсутствуют данные аккаунты в выгрузках)
 
-####report_hourly
+####report\_hourly
 Запускает через sidekiq и clockwork отправку транзакций за последние три часа менеджерам и поставщикам услуг в 1:00, 4:00, 8:00, 11:00, 14:00, 17:00, 20:00, 23:00.
 
 ###Класс AllPayment
@@ -387,7 +387,7 @@ Date from (3:1) to (3:4)
 ###Класс ReportMonthly
 
 ####output
-Создает xls файл с данными о транзакциях за месяц и сохраняет их в report_monthly/#{DateTime.now.month}-#{DateTime.now.year}/ по заданному поставщику. Столбцы: Лицевой счет, Сумма, Дата.
+Создает xls файл с данными о транзакциях за месяц и сохраняет их в report\_monthly/#{DateTime.now.month}-#{DateTime.now.year}/ по заданному поставщику. Столбцы: Лицевой счет, Сумма, Дата.
 
 ###Класс ReportMonthlyTxt
 
