@@ -10,5 +10,6 @@ class AllPayment < Payment
     @data.each { |d| reportFile.puts("#{d['user_account']};#{d['address']};#{d['amount']};#{DateTime.parse(d['date']).strftime("%Y-%m-%d")};#{d['vendor_id']}") }
     reportFile.close
     ReportMail.report_to_out.deliver
+    ReportMail.report_to_manager.deliver
   end
 end

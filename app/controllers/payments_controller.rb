@@ -42,15 +42,13 @@ class PaymentsController < ApplicationController
 	end
 
   	def monthly_txt
-  		p vendors_id = GetRequest.report_monthly(11)
-		vendors_id.each do |id|
-			vendor = Vendor.where(id: id).first
+		# GetRequest.report_monthly(11).each do |id|
+			vendor = Vendor.where(id: 121).first
 			unless vendor.nil?
-				p "#{id}"
-	 			p @report = GetRequest.transactions(id, 11)
-	    		Report.new(ReportMonthlyTxt.new(@report, id)).monthly
+	 			p @report = GetRequest.transactions(121, 12)
+	    		p Report.new(ReportMonthlyTxt.new(@report, 121)).monthly
 			end
-		end
+		# end
 
 	    render json: true
   	end

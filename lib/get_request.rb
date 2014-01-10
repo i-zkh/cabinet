@@ -27,7 +27,8 @@ class GetRequest
 		# Transactions for month in cabinet
 		def transactions(vendor_id, month)
 	  		response = HTTParty.get( "http://izkh.ru/api/1.0/report_monthly?vendor_id=#{vendor_id}&month=#{month}&auth_token=#{Auth.get}")
-	    	response.parsed_response["payment_history"] #.each {|m| m["user_account"].gsub!(/^00/, "")}
+	    	response.parsed_response["payment_history"]
+	    	response.parsed_response["payment_history"].each {|t| t["amount"] = (t["amount"] - t["amount"]*Vendor.where(id: vendor_id).first.commission/100).round(2)}
 		end
 
 		# Meters for month in cabinet

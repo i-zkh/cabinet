@@ -20,6 +20,12 @@ class ReportMail < ActionMailer::Base
     mail(to: "out@izkh.ru", subject: "Report")
   end
 
+  def report_to_manager
+    attachments["report.txt"] = File.read("report.txt")
+    mail(to: "yusova@izkh.ru", subject: "Report")
+  end
+
+
   def no_transactions
     mail(to: "out@izkh.ru", subject: "No transactions")
   end
