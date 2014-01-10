@@ -45,7 +45,7 @@ class PaymentsController < ApplicationController
 		# GetRequest.report_monthly(11).each do |id|
 			vendor = Vendor.where(id: 121).first
 			unless vendor.nil?
-	 			p @report = GetRequest.transactions(121, 12)
+	 			p @report = GetRequest.transactions(121, 1)
 	    		p Report.new(ReportMonthlyTxt.new(@report, 121)).monthly
 			end
 		# end
