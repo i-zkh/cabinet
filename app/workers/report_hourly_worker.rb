@@ -8,7 +8,7 @@ class ReportHourlyWorker
 		@report = GetRequest.report_hourly.select { |d| d['amount'] > 5 }
 	    if @report != []
 			Report.new(Booker.new(@report)).output_report
-			send_report_to_vendors(@report)
+			# send_report_to_vendors(@report)
 		else
 	   		logger.info "no transactions"
     	end
