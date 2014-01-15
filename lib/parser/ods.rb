@@ -3,7 +3,7 @@ class Ods < Parser
 
   	def initialize(file, vendor_id)
     	@file = file
-    	@vendor_id = vendor_id
+    	@vendor_id = vendor_id.to_i
   	end
 
 	def input
@@ -11,9 +11,7 @@ class Ods < Parser
 				when 64, 65, 99 then first_colomn
 				when 49 		then privolga
 				else
-					error = "Xls parser don't have method for #{Vendor.find(@vendor_id).title}. Vendor id: #{@vendor_id}"
-					ReportMail.error(error, "[ERROR] Xls parser").deliver
-					return
+					ReportMail.error("Ods parser don't have method for #{Vendor.find(@vendor_id).title}. Vendor id: #{@vendor_id}", "[ERROR] Xls parser").deliver
 				end
 	end
 

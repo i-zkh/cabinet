@@ -3,10 +3,11 @@ class Xls < Parser
 
 	def initialize(file, vendor_id)
     	@file = file
-    	@vendor_id = vendor_id
+    	@vendor_id = vendor_id.to_i
   	end
 
 	def input
+		@vendor_id
 		@data = case @vendor_id
 				when 38, 46, 63, 59, 50, 129							then standard
 				when 55, 47, 67, 66, 109, 110, 112, 114, 137, 141, 142	then two_columns
@@ -21,8 +22,7 @@ class Xls < Parser
 				when 127												then one_column2
 				when 62													then first_last
 				else
-					error = "Xls parser don't have method for #{Vendor.find(@vendor_id).title}. Vendor id: #{@vendor_id}"
-					ReportMail.error(error, "[ERROR] Xls parser").deliver
+					ReportMail.error("Xls parser don't have method for #{Vendor.find(@vendor_id).title}. Vendor id: #{@vendor_id}", "[ERROR] Xls parser").deliver
 				end
 	end
 

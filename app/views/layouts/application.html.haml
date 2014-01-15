@@ -11,9 +11,7 @@
     = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"
     = javascript_include_tag "jquery.fancybox.pack.js"
     = javascript_include_tag "http://code.jquery.com/ui/1.10.3/jquery-ui.js"
-    = csrf_meta_tags
-    - if !current_user
-      %body{ :style => "background-color: #3498DB;" }
+    = csrf_meta_tag
   %body
     - if current_user
       .navigation

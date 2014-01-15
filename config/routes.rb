@@ -1,5 +1,7 @@
 Project::Application.routes.draw do
 
+  get "manager/index"
+
   resources :vendors
   resources :transactions
   resources :counters
@@ -50,5 +52,9 @@ Project::Application.routes.draw do
 
 # Jiguli
   get 'osmp' => 'request#osmp'
+
+# Interface for managers
+  get 'manager/report' => 'manager#index'
+  post 'manager' => 'manager#import'
 
 end

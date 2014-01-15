@@ -1,0 +1,16 @@
+<div class="span9">
+	<%= select_month(Date.today) %>
+	<%= select_year(Date.today, :start_year => 2013, :end_year => Time.now.year + 10) %>
+	<%= form_tag manager_url, multipart: true do %>
+	<%= notice %></br>
+	
+	<% Vendor.all.each do |v| %>
+		<%= radio_button_tag(:vendor, v.id) %>
+		<%= label_tag(:vendor, v.title) %></br>
+	<% end %>
+	
+	<%= file_field_tag :file %>
+	<%= submit_tag "Загрузить" %>
+	<% end %>
+</div>
+
