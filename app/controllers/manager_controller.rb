@@ -5,7 +5,7 @@ class ManagerController < ApplicationController
 
   def import
     spreadsheet = open_spreadsheet(params[:file])
-  	redirect_to manager_report_url, notice: "Выгрузка добавлена"
+  	redirect_to manager_report_url
   end
 
 	def open_spreadsheet(file)
