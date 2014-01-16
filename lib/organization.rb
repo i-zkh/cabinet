@@ -47,14 +47,14 @@ class Organization
     # end
     (0..@data.size-1).each do |i|
     cities, array = [], []
-       array =  @data[i]["city"].split(',')
-       array.each do |city_title|
-           cities << { id: @cities["#{city_title}"] }
-       end
-       # geocode = GetRequest.geocode(@data[i]["address"])
-       # work_time = @data[i]["work_time"] != nil ? @data[i]["work_time"] : "уточните по телефону"
-        vendor = Vendor.where(title: @data[i]["title"]).first
-       unless vendor
+      array =  @data[i]["city"].split(',')
+      array.each do |city_title|
+          cities << { id: @cities["#{city_title}"] }
+      end
+      geocode = GetRequest.geocode(@data[i]["address"])
+      work_time = @data[i]["work_time"] != nil ? @data[i]["work_time"] : "уточните по телефону"
+      vendor = Vendor.where(title: @data[i]["title"]).first
+      unless vendor
         check_servicetype(@data[i]["servicetype"].mb_chars.capitalize.to_s)
         vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"].to_i, cities)
         vendor_id.parsed_response
@@ -66,10 +66,10 @@ class Organization
         ven  = Vendor.new(title: @data[i]["title"], vendor_type: @data[i]["servicetype"].mb_chars.capitalize.to_s, service_type_id: @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], commission: @data[i]["commission"], email: @data[i]["email"], auth_key: vendor_key, distribution: bool)
         ven.id = vendor_id["vendor"]["id"].to_i
         ven.save!
-         # check_non_utility_service_types(@data[i]["servicetype"].mb_chars.capitalize.to_s)
-         # PostRequest.non_utility_vendor(@data[i]["title"], @data[i]["phone"].to_i.to_s, work_time, @data[i]["address"], @non_utility_service_types[@data[i]["servicetype"].mb_chars.capitalize.to_s], geocode)
-          end
+          check_non_utility_service_types(@data[i]["servicetype"].mb_chars.capitalize.to_s)
+          PostRequest.non_utility_vendor(@data[i]["title"], @data[i]["phone"].to_i.to_s, work_time, @data[i]["address"], @non_utility_service_types[@data[i]["servicetype"].mb_chars.capitalize.to_s], geocode)
       end
+    end
   end
 
   # Add servicetypes and non_utility_service_types 

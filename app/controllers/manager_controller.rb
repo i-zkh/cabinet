@@ -1,15 +1,19 @@
 class ManagerController < ApplicationController
   def index
-  # p params[:date]['year']
+  # p params[:month]
+  # p @list = File.basename("report/#{DateTime.now.year}-#{DateTime.now.month}/#{v.title}", ".*")
+  @vendors = Vendor.all.select{ |v| p !File.exists?(File.basename("report/#{DateTime.now.year}-#{DateTime.now.month}/#{v.title}", ".*")) }
+  p @list = vendors_with_report
   end
 
   def import
+    @vendors = Vendor.all.select{ |v| !File.exists?(v.title) }
     spreadsheet = open_spreadsheet(params[:file])
   	redirect_to manager_report_url
   end
 
 	def open_spreadsheet(file)
-		FileUtils.mkpath "report/#{DateTime.now.year}-#{DateTime.now.month}/"
+		FileUtils.mkpath "report/#{DateTime.now.year}-#{DateTime.now.month}"
     filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: params[:vendor]).first.title}" + "#{File.extname("#{file.original_filename}")}"
 		File.open(File.join(filename), "wb") { |f| f.write(file.read) }
     begin
@@ -27,4 +31,13 @@ class ManagerController < ApplicationController
         ReportMail.error("Unable to save data from #{filename} because #{e.message}. Ip address: #{request.remote_ip}.", "[ERROR] report").deliver
     end
 	end
+
+  def vendors_with_report
+    # vendors_with_report = []
+    # Dir.foreach('report/#{DateTime.now.year}-#{DateTime.now.month}') do |file|
+    #   next if file == '.' or file == '..'
+    #   p file
+    #   # vendors_with_report << Vendor.where(title: File.basename("file", ".*").first)
+    # end
+  end
 end
