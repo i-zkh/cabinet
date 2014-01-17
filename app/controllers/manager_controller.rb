@@ -39,7 +39,7 @@ class ManagerController < ApplicationController
 
   def vendors_with_report
     vendors_with_report = []
-    directory = params.has_key?(:month) ? "report/#{DateTime.now.year}-#{DateTime.now.month}" : "report"
+    directory = params.has_key?(:date) ? "report/#{params[:date][:year]}-#{params[:date][:month]}" : "report/#{DateTime.now.year}-#{DateTime.now.month}"
     Dir.foreach(directory) do |file|
       next if file == '.' or file == '..'
       vendors_with_report << Vendor.where(title: File.basename(file, ".*")).first
