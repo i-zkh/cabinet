@@ -215,3 +215,27 @@ td.td_with_image{
 	margin-left: 5px;
 	line-height: 300%;
 }
+.radio{
+	width: 230px;
+	float: left;
+}
+
+.radio input {
+float: left;
+display: auto;
+}
+
+input {
+	width: 13px;
+	margin: 2%;
+}
+
+.button{
+	display: block;
+}
+button .button {
+	width: 130px;
+}
+input[type="file"]{
+	width: 100px;
+}

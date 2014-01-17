@@ -1,16 +1,29 @@
 <div class="span9">
-	<%= select_month(Date.today, :field_name => 'month') %>
-	<%= select_year(Date.today, :start_year => 2013, :end_year => Time.now.year + 10) %>
+	<%= form_tag manager_report_url, method: :post, remote: true do %>
+		<%= select_month(Date.today) %>
+		<%= select_year(Date.today, :start_year => 2013, :end_year => Time.now.year + 10) %>
+		<%= submit_tag "Обновить" %>
+	<% end %>
 	<%= form_tag manager_url, multipart: true do %>
 	<%= notice %></br>
-	
-	<% @vendors.each do |v| %>
-		<%= radio_button_tag(:vendor, v.id) %>
-		<%= label_tag(:vendor, v.title) %></br>
+	<div class="vendors">
+		<div> Выгрузки существуют по поставщикам: </div>
+		<% @vendors_with_report.each do |v| %>
+		<%= v.title if !v.nil? %></br>
+		<% end %></br>
+		<div> Для добавления выгрузки выберите поставщика:</div></br>
+		<% @vendors.each do |v| %>
+			<p class="radio">
+				<%= radio_button_tag(:vendor, v.id) %>
+				<%= label_tag(:vendor, v.title) %>
+			</p>
+		<% end %>
+	</div>
+	<div>
+		<%= file_field_tag :file %>
+		<%= submit_tag "Загрузить" %>
+	</div>	
 	<% end %>
 	
-	<%= file_field_tag :file %>
-	<%= submit_tag "Загрузить" %>
-	<% end %>
 </div>
 

@@ -1,0 +1,9 @@
+<% @vendors_with_report.each do |v| %>
+<%= v.title if !v.nil? %></br>
+<% end %></br>
+<% @vendors.each do |v| %>
+	<p class="radio">
+		<%= radio_button_tag(:vendor, v.id) %>
+		<%= label_tag(:vendor, v.title) %>
+	</p>
+<% end %>

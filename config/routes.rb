@@ -55,6 +55,7 @@ Project::Application.routes.draw do
 
 # Interface for managers
   get 'manager/report' => 'manager#index'
+  post 'manager/report' => 'manager#create'
   post 'manager' => 'manager#import'
 
 end

@@ -1,9 +1,14 @@
 class ManagerController < ApplicationController
   def index
-  # p params[:month]
-  # p @list = File.basename("report/#{DateTime.now.year}-#{DateTime.now.month}/#{v.title}", ".*")
-  @vendors = Vendor.all.select{ |v| p !File.exists?(File.basename("report/#{DateTime.now.year}-#{DateTime.now.month}/#{v.title}", ".*")) }
-  p @list = vendors_with_report
+  @vendors_with_report = vendors_with_report
+  @vendors = Vendor.all - @vendors_with_report
+  
+  end
+
+  def create
+  @vendors_with_report = vendors_with_report
+  @vendors = Vendor.all - @vendors_with_report
+  respond_to { |f| f.js { render "manager/create" }}
   end
 
   def import
@@ -33,11 +38,12 @@ class ManagerController < ApplicationController
 	end
 
   def vendors_with_report
-    # vendors_with_report = []
-    # Dir.foreach('report/#{DateTime.now.year}-#{DateTime.now.month}') do |file|
-    #   next if file == '.' or file == '..'
-    #   p file
-    #   # vendors_with_report << Vendor.where(title: File.basename("file", ".*").first)
-    # end
+    vendors_with_report = []
+    directory = params.has_key?(:month) ? "report/#{DateTime.now.year}-#{DateTime.now.month}" : "report"
+    Dir.foreach(directory) do |file|
+      next if file == '.' or file == '..'
+      vendors_with_report << Vendor.where(title: File.basename(file, ".*")).first
+    end
+    vendors_with_report.uniq
   end
 end
