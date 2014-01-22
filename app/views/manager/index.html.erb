@@ -2,6 +2,7 @@
 	<%= form_tag manager_report_url, method: :post, remote: true do %>
 		<%= select_month(Date.today) %>
 		<%= select_year(Date.today, :start_year => 2013, :end_year => Time.now.year + 10) %>
+		<%= select_tag "vendor", options_for_select(@vendors.map { |v| [v.title, v.id] }) %>
 		<%= submit_tag "Обновить" %>
 	<% end %>
 	<%= form_tag manager_url, multipart: true do %>
@@ -12,12 +13,12 @@
 		<%= v.title if !v.nil? %></br>
 		<% end %></br>
 		<div> Для добавления выгрузки выберите поставщика:</div></br>
-		<% @vendors.each do |v| %>
+<!--		<% @vendors.each do |v| %>
 			<p class="radio">
 				<%= radio_button_tag(:vendor, v.id) %>
 				<%= label_tag(:vendor, v.title) %>
 			</p>
-		<% end %>
+		<% end %>-->
 	</div>
 	<div>
 		<%= file_field_tag :file %>

@@ -6,6 +6,7 @@ class ManagerController < ApplicationController
   end
 
   def create
+    p params[:vendor]
   @vendors_with_report = vendors_with_report
   @vendors = Vendor.all - @vendors_with_report
   respond_to { |f| f.js { render "manager/create" }}
