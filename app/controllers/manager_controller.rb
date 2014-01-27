@@ -1,13 +1,11 @@
 class ManagerController < ApplicationController
   def index
-  @vendors_with_report = vendors_with_report
+  p @vendors_with_report = vendors_with_report
   @vendors = Vendor.all - @vendors_with_report
-  
   end
 
   def create
-    p params[:vendor]
-  @vendors_with_report = vendors_with_report
+  p @vendors_with_report = vendors_with_report
   @vendors = Vendor.all - @vendors_with_report
   respond_to { |f| f.js { render "manager/create" }}
   end
@@ -15,26 +13,26 @@ class ManagerController < ApplicationController
   def import
     @vendors = Vendor.all.select{ |v| !File.exists?(v.title) }
     spreadsheet = open_spreadsheet(params[:file])
+    @notice = "Данные успешно добавлены"
   	redirect_to manager_report_url
   end
 
 	def open_spreadsheet(file)
-		FileUtils.mkpath "report/#{DateTime.now.year}-#{DateTime.now.month}"
+    FileUtils.mkpath "report/#{DateTime.now.year}-#{DateTime.now.month}"
     filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: params[:vendor]).first.title}" + "#{File.extname("#{file.original_filename}")}"
-		File.open(File.join(filename), "wb") { |f| f.write(file.read) }
+    File.open(File.join(filename), "wb") { |f| f.write(file.read) }
     begin
-  	  case File.extname(file.original_filename)
-  	  when ".TXT"  then Getter.new(Txt.new(filename, params[:vendor])).input
-  	  when ".txt"  then Getter.new(Txt.new(filename, params[:vendor])).input
-  	  when ".xls"  then Getter.new(Xls.new(filename, params[:vendor])).input
-  	  when ".xlsx" then Getter.new(Xls.new(filename, params[:vendor])).input
-      when ".DBF"  then Getter.new(Dbf.new(filename, params[:vendor])).input
-      when ".ods"  then Getter.new(Ods.new(filename, params[:vendor])).input
-  	  else
+      case File.extname(file.original_filename).downcase
+      when ".txt" then Getter.new(Txt.new(filename, params[:vendor])).input
+      when ".xls", ".xlsx"  then Getter.new(Xls.new(filename, params[:vendor])).input
+      when ".dbf" then Getter.new(Dbf.new(filename, params[:vendor])).input
+      when ".ods" then Getter.new(Ods.new(filename, params[:vendor])).input
+      else
         ReportMail.error("Unknown file type: filename", "[ERROR] report").deliver
-  	  end
+      end
     rescue Exception => e
-        ReportMail.error("Unable to save data from #{filename} because #{e.message}. Ip address: #{request.remote_ip}.", "[ERROR] report").deliver
+      @notice = "Формат данной выгрузки не соответсвует предъявленным ранее."
+      ReportMail.error("Unable to save data from #{filename} because #{e.message}. Ip address: #{request.remote_ip}.", "[ERROR] report").deliver
     end
 	end
 
