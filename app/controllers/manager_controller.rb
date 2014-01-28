@@ -4,16 +4,15 @@ class ManagerController < ApplicationController
   @vendors = Vendor.all - @vendors_with_report
   end
 
-  def create
-  p @vendors_with_report = vendors_with_report
-  @vendors = Vendor.all - @vendors_with_report
-  respond_to { |f| f.js { render "manager/create" }}
-  end
+  # def create
+  # p @vendors_with_report = vendors_with_report
+  # @vendors = Vendor.all - @vendors_with_report
+  # respond_to { |f| f.js { render "manager/create" }}
+  # end
 
   def import
     @vendors = Vendor.all.select{ |v| !File.exists?(v.title) }
     spreadsheet = open_spreadsheet(params[:file])
-    @notice = "Данные успешно добавлены"
   	redirect_to manager_report_url
   end
 
@@ -31,7 +30,6 @@ class ManagerController < ApplicationController
         ReportMail.error("Unknown file type: filename", "[ERROR] report").deliver
       end
     rescue Exception => e
-      @notice = "Формат данной выгрузки не соответсвует предъявленным ранее."
       ReportMail.error("Unable to save data from #{filename} because #{e.message}. Ip address: #{request.remote_ip}.", "[ERROR] report").deliver
     end
 	end

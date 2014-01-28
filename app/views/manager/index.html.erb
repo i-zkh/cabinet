@@ -1,9 +1,19 @@
+ <script>
+$(function() {
+    $( "#user_account" ).autocomplete({
+      source: $('#users').data('users')
+    });
+  });
+hoverer();
+ </script>
+
 <div class="span9">
-	<%= form_tag manager_report_url, method: :post, remote: true do %>
+	<%= form_tag manager_report_url, method: :post do %>
 		<%= select_month(Date.today) %>
 		<%= select_year(Date.today, :start_year => 2013, :end_year => Time.now.year + 10) %>
 		<%= submit_tag "Обновить" %>
 	<% end %>
+
 	<%= form_tag manager_url, multipart: true do %>
 	<%= @notice %></br>
 	<div class="vendors">
@@ -11,13 +21,14 @@
 			<% @vendors_with_report.each do |v| %>
 				<%= v.title if !v.nil? %></br>
 			<% end %></br>
-	</div>
+	
 		<p>
 			Для добавления новой выгрузки выберите поставщика:
-			<%= select_tag "vendor", options_for_select(@vendors.map { |v| [v.title, v.id] }) %>
+			<%= text_field_tag "vendor", options_for_select(@vendors.map { |v| [v.title] }) %>
 		</p>
+	</div>
 		<%= file_field_tag :file %>
 		<%= submit_tag "Добавить" %>
-	<% end %>
+		<% end %>
 </div>
 
