@@ -1,7 +1,7 @@
 class ManagerController < ApplicationController
   def index
     @vendors_with_report = vendors_with_report
-    @vendors = (Vendor.all - @vendors_with_report).each { |v| v.title.gsub!("ООО", "") && v.title.gsub!("ООО", "")}
+    @vendors = Vendor.all - @vendors_with_report
     @month   = params.has_key?(:date) ? params[:date][:month].to_i : Date.today
     @year    = params.has_key?(:date) ? params[:date][:year].to_i  : Date.today 
   end
