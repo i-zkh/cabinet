@@ -1,7 +1,9 @@
 class ManagerController < ApplicationController
   def index
-  p @vendors_with_report = vendors_with_report
-  @vendors = Vendor.all - @vendors_with_report
+    @vendors_with_report = vendors_with_report
+    @vendors = (Vendor.all - @vendors_with_report).each { |v| v.title.gsub!("ООО", "") && v.title.gsub!("ООО", "")}
+    @month   = params.has_key?(:date) ? params[:date][:month].to_i : Date.today
+    @year    = params.has_key?(:date) ? params[:date][:year].to_i  : Date.today 
   end
 
   # def create
@@ -18,7 +20,7 @@ class ManagerController < ApplicationController
 
 	def open_spreadsheet(file)
     FileUtils.mkpath "report/#{DateTime.now.year}-#{DateTime.now.month}"
-    filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: params[:vendor]).first.title}" + "#{File.extname("#{file.original_filename}")}"
+    filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: params[:vendor][:vendor_id]).first.title}" + "#{File.extname("#{file.original_filename}")}"
     File.open(File.join(filename), "wb") { |f| f.write(file.read) }
     begin
       case File.extname(file.original_filename).downcase

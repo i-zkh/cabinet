@@ -1,6 +1,10 @@
 #encoding: UTF-8
 class AccountsController < ApplicationController
 
+  def edit
+  	
+  end 
+
   def create
 	
 	# Date for November
@@ -47,12 +51,13 @@ class AccountsController < ApplicationController
 	# Getter.new(Xls.new("report/12-2013/ТСЖ Набережное.xls", 93)).update
 	# Getter.new(Xls.new("report/12-2013/ТСЖ 247 Б", 62)).input
 
-	Getter.new(Txt.new("report/12-2013/Цифрал-Автоград.TXT", 43)).update
-	Getter.new(Txt.new("report/1-2014/Цифрал-Сервис.TXT", 43)).update
-	Getter.new(Xls.new("report/1-2014/Спорт5 реестр 12 13.xls", 137)).update
-	Getter.new(Xls.new("report/1-2014/Спорт3 реестр 12 13.xls", 112)).update
+	# Getter.new(Txt.new("report/12-2013/Цифрал-Автоград.TXT", 43)).update
+	# Getter.new(Txt.new("report/1-2014/Цифрал-Сервис.TXT", 43)).update
+	# Getter.new(Xls.new("report/1-2014/Спорт5 реестр 12 13.xls", 137)).update
+	# Getter.new(Xls.new("report/1-2014/Спорт3 реестр 12 13.xls", 112)).update
 
-	Getter.new(Xls.new("report/12-2013/ТСЖ Железнодорожный № 141.xls", 142)).update
+	# Getter.new(Xls.new("report/12-2013/ТСЖ Железнодорожный № 141.xls", 142)).update
+
 	# CheckEmail.get_organizations
 	# p Roo::Excel.new("organizations/#{DateTime.now.month}-#{DateTime.now.day}-Organizations.xls")
 

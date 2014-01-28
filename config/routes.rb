@@ -3,6 +3,7 @@ Project::Application.routes.draw do
   get "manager/index"
 
   resources :vendors
+  resources :accounts
   resources :transactions
   resources :counters
   resources :address_ranges
@@ -57,5 +58,11 @@ Project::Application.routes.draw do
   get 'manager/report' => 'manager#index'
   post 'manager/report' => 'manager#index'
   post 'manager' => 'manager#import'
+
+# Add report to vendor
+  get 'report' => 'vendors#report'
+  post 'report' => 'vendors#import'
+  get 'show_report' => 'vendors#show'
+
 
 end

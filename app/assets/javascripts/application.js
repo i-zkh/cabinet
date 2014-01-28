@@ -11,8 +11,10 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require chosen-jquery
 //= require jquery_ujs
 //= require_tree .
+
 hoverer = function(){
     $(document).ready(function() {
         $('.fancybox').fancybox();
@@ -22,3 +24,7 @@ hoverer = function(){
     $(document).ready(function() {
         $('.fancybox').fancybox();
     });
+
+$(function($){
+	$('#vendor_vendor_id').chosen();
+});

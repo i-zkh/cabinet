@@ -1,0 +1,7 @@
+<div class="span9">
+	<%= form_tag report_url, multipart: true do %>
+	<h3>Добавьте файл с выгрузкой</h3>
+		<%= file_field_tag :file %>
+		<%= submit_tag "Добавить" %>
+	<% end %>
+</div>

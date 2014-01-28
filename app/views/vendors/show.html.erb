@@ -1,9 +1,29 @@
 <div class="span9">
- <div class="form"> 
- 	<p id="notice"><%= notice %></p>
-<p>
-  <b>Название:</b>
-  <%= @vendor.title %>
-</p>
-<div class="link"><%= link_to 'Редактировать', edit_vendor_path(@vendor) %>
-</div></div></div>
+	<p>
+	  <h3>
+	  	Поставщик: <%= @vendor.title %>
+	  </h3>
+	</p>
+	<table>
+	<thead>
+		<th>Аккаунт</th>
+		<th>Город</th>
+		<th>Улица</th>
+		<th>Дом</th>
+		<th>Квартира</th>
+		<th>Задолжность</th>
+	</thead>
+	<tbody>
+		<% @accounts.each do |a| %>
+		<tr>
+			<td><%= a.user_account %></td>
+			<td><%=a.city %></td>
+			<td><%= a.street %></td>
+			<td><%=a.building %></td>
+			<td><%=a.apartment %></td>
+			<td><%=a.invoice_amount %></td>
+		</tr>
+		<% end %>
+	</tbody>
+	</table>
+</div>

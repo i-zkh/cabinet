@@ -1,34 +1,27 @@
- <script>
-$(function() {
-    $( "#user_account" ).autocomplete({
-      source: $('#users').data('users')
-    });
-  });
-hoverer();
- </script>
-
 <div class="span9">
 	<%= form_tag manager_report_url, method: :post do %>
-		<%= select_month(Date.today) %>
+		<%= select_month(@month) %>
 		<%= select_year(Date.today, :start_year => 2013, :end_year => Time.now.year + 10) %>
 		<%= submit_tag "Обновить" %>
 	<% end %>
 
 	<%= form_tag manager_url, multipart: true do %>
-	<%= @notice %></br>
-	<div class="vendors">
-			Выгрузки существуют по поставщикам: 
-			<% @vendors_with_report.each do |v| %>
-				<%= v.title if !v.nil? %></br>
-			<% end %></br>
-	
-		<p>
-			Для добавления новой выгрузки выберите поставщика:
-			<%= text_field_tag "vendor", options_for_select(@vendors.map { |v| [v.title] }) %>
-		</p>
-	</div>
-		<%= file_field_tag :file %>
-		<%= submit_tag "Добавить" %>
+		<%= @notice %></br>
+		Выгрузки существуют по поставщикам: 
+		<% @vendors_with_report.each do |v| %>
+			<p>
+				<%= v.title if !v.nil? %>
+			</p>
 		<% end %>
+		<% if @month == Date.today %>
+			<p>
+				Для добавления новой выгрузки выберите поставщика:
+					<%= collection_select :vendor, :vendor_id, @vendors, :id, :title %>
+			</p>
+	
+			<%= file_field_tag :file %>
+			<%= submit_tag "Добавить" %>
+		<% end %>
+	<% end %>
 </div>
 
