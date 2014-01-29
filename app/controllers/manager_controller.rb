@@ -1,3 +1,4 @@
+# coding: utf-8
 class ManagerController < ApplicationController
   def index
     @vendors_with_report = vendors_with_report

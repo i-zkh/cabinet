@@ -37,7 +37,7 @@ body{
 .control-group .uneditable-input{
 	width:255px;
 }
-input{
+input, input[type="file"]{
 	outline: none;
 	color:white;	
 	-webkit-transition: border .25s linear, color .25s linear;
@@ -46,11 +46,13 @@ input{
 	transition: border .25s linear, color .25s linear;
 	width:255px;
 }
+#file input[type="file"] {	
+}
 .login {
 	width: 323px;
 	margin: 90px auto;
 }
-#button input, .link a, #button_small input {
+#button input, .link a, #button_small input, #file_button {
 	height: 30px;
 	margin-left: 5px;
 	width: 268px;
@@ -176,7 +178,6 @@ select,
 input[type="file"] {
   height: 30px;
   margin: 10px 4px;
-  line-height: 30px;
   outline: none;
   color: #34495e;
   box-shadow: none;
@@ -191,6 +192,7 @@ select {
 #button_small input {
 	width:150px;
 }
+
 .update{
 	margin-left: -4px;
 }
@@ -237,6 +239,6 @@ input {
 button .button {
 	width: 130px;
 }
-input[type="file"]{
-	width: 100px;
+#file_button {
+	width: 130px;
 }

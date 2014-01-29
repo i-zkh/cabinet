@@ -1,3 +1,4 @@
+# coding: utf-8
 #encoding: UTF-8
 class VendorsController < ApplicationController
   before_filter :authorize, only: [:edit, :update, :report]
@@ -32,8 +33,12 @@ class VendorsController < ApplicationController
 
   def import
     @vendors = Vendor.all.select{ |v| !File.exists?(v.title) }
-    spreadsheet = open_spreadsheet(params[:file])
-    redirect_to report_url
+    if params.has_key?(:file)
+      spreadsheet = open_spreadsheet(params[:file])
+      redirect_to report_url
+    else
+      redirect_to report_url, notice: "Необходимо выбрать файл. "
+    end
   end
 
   def open_spreadsheet(file)
