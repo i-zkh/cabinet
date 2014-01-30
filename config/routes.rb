@@ -30,6 +30,10 @@ Project::Application.routes.draw do
   get 'report/monthly/xls' => 'payments#monthly_xls'
   get 'report/monthly/txt' => 'payments#monthly_txt'
   get 'report/hourly' => 'payments#hourly'
+
+# Report for manager
+  get 'report_daily' => 'payments#xls_report_daily'
+  get 'xls' => 'payments#xls'
   
 # Parsing vendor's reports
   get 'accounts/create' => 'accounts#create'

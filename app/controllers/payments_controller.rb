@@ -1,6 +1,14 @@
 #encoding: utf-8
 class PaymentsController < ApplicationController
 
+	def xls_report_daily
+		@report = GetRequest.report_daily
+	end
+
+	def xls
+		Report.new(ReportForManager.new(GetRequest.report_daily)).output_report
+		send_file 'transactions.xls'
+	end
   	# Daily report and errors to out@izkh.ru
     def create
 		@report = GetRequest.report_daily

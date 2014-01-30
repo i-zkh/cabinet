@@ -1,0 +1,23 @@
+<div class="span9"><table border="1" class="table table-striped table-hover">
+  <tr>
+    <th>Название организации</th>
+    <th>Лицевой счет</th>
+    <th>Город</th>
+    <th>Адрес</th>
+    <th>Сумма платежа</th>
+    <th>Дата транзакции</th>
+  </tr>
+  <% @report.each do |report| %>
+  <% address = report['address'].split(',') %>
+  <tr>
+    <td><%= Vendor.find(report['vendor_id']).title %></td>
+    <td><%= report['user_account'] %></td>
+    <td><%= address[0] %></td>
+    <td><%= address[1] + "," + address[2] + "," + address[3] %></td>
+    <td><%= report['amount'] %></td>
+    <td><%= DateTime.parse(report['date']).strftime("%d.%m.%Y")%></td>
+  </tr>
+  <% end %>
+</table>
+<div class="link"><%= link_to "Скачать", xls_url %></div>
+</div>
