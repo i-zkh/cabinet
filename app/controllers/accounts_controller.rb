@@ -36,7 +36,7 @@ class AccountsController < ApplicationController
 
   def update
 	# Energosbyt.new("report/1-2014/Сбыт_Энерго_дек.xls").update
-
+	Getter.new(Xls.new("report/11-2013/254.xls", 58)).input
 	# Getter.new(Xls.new("report/12-2013/Спорт3 реестр 11 13.xls", 112)).create
 	# Getter.new(Dbf.new("report/12-2013/147.DBF", 111)).create
 	# Getter.new(Dbf.new("report/12-2013/лидер.DBF", 61)).update
@@ -45,16 +45,16 @@ class AccountsController < ApplicationController
 	# Getter.new(Xls.new("report/12-2013/ЖСК - 247 11.xls", 129)).update
 	# Getter.new(Xls.new("report/12-2013/КЖСК № 298.xls", 50)).update
 	# Getter.new(Xls.new("report/12-2013/ТСЖ Сокол ноябрь.xls", 92)).update
-	# Getter.new(Xls.new("report/12-2013/Ноябрь ТСЖ Ивушка.xls", 56)).update
+	Getter.new(Xls.new("report/12-2013/Ноябрь ТСЖ Ивушка.xls", 56)).input
 	# Getter.new(Xls.new("report/12-2013/ТСЖ Единство ноябрь.xls", 66)).update
-	# Getter.new(Xls.new("report/12-2013/ТСЖ _У Озера-4_.xls", 141)).update
+	# Getter.new(Xls.new("report/12-2013/ТСЖ _У Озера-4_.xls", 141)).input
 	# Getter.new(Xls.new("report/12-2013/ТСЖ Набережное.xls", 93)).update
 	# Getter.new(Xls.new("report/12-2013/ТСЖ 247 Б", 62)).input
 
 	# Getter.new(Txt.new("report/12-2013/Цифрал-Автоград.TXT", 43)).update
 	# Getter.new(Txt.new("report/1-2014/Цифрал-Сервис.TXT", 43)).update
-	# Getter.new(Xls.new("report/1-2014/Спорт5 реестр 12 13.xls", 137)).update
-	# Getter.new(Xls.new("report/1-2014/Спорт3 реестр 12 13.xls", 112)).update
+	# Getter.new(Xls.new("report/1-2014/Спорт5 реестр 12 13.xls", 137)).input
+	# Getter.new(Xls.new("report/1-2014/Спорт3 реестр 12 13.xls", 112)).input
 
 	# Getter.new(Xls.new("report/12-2013/ТСЖ Железнодорожный № 141.xls", 142)).update
 

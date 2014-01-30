@@ -38,7 +38,7 @@ class PostRequest
 
 		def field_template(tariff_template_id)
 			response = HTTParty.post( "http://izkh.ru/api/1.0/field_template?auth_token=#{Auth.get}",
-	    		:body => { :field_template => { title: "Минимальная сумма платежа", value: 0, is_for_calc: false, tariff_template_id: tariff_template_id, field_type: "text_field", field_units: "руб"}}.to_json,
+	    		:body => { :field_template => { title: "Минимальная сумма платежа", value: 100, is_for_calc: false, tariff_template_id: tariff_template_id, field_type: "text_field", field_units: "руб"}}.to_json,
 	    		:headers => {'Content-Type' => 'application/json'})
 		end
 

@@ -3,7 +3,7 @@ Project::Application.routes.draw do
   get "manager/index"
 
   resources :vendors
-  resources :accounts
+  # resources :accounts
   resources :transactions
   resources :counters
   resources :address_ranges
