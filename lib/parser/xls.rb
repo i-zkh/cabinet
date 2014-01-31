@@ -10,16 +10,14 @@ class Xls < Parser
 	def input
 		@vendor_id
 		@@data = case @vendor_id
-				when 38, 46, 63, 59, 50, 129								then standard
-				when 55, 67, 66, 109, 110, 112, 114, 137, 141, 142, 58		then two_columns
-				when 47, 56													then two_columns_with_int
-				when 93														then naber
-				when 92														then sokol
-				when 15														then promsh
-				when 42														then silver_creek
-				when 120, 118, 119, 122, 123, 124, 125, 126					then one_column
-				when 127													then one_column2
-				when 62														then first_last
+				when 38, 46, 63, 59, 50, 129				then standard
+				when 55, 67, 109, 110, 114, 141, 142, 58	then two_columns
+				when 47, 56, 112, 66, 137					then two_columns_with_int
+				when 93										then naber
+				when 92										then sokol
+				when 15										then promsh
+				when 42										then silver_creek
+				when 62										then first_last
 				else
 					ReportMail.error("Xls parser don't have method for #{Vendor.find(@vendor_id).title}. Vendor id: #{@vendor_id}", "[ERROR] Xls parser").deliver
 				end
@@ -102,7 +100,7 @@ class Xls < Parser
 
 	def two_columns
 	  	(1..@file.last_row).each do |i|
-	  		next if @file.cell(i, 1).nil? || @file.cell(i, 1) == 'л/с' || @file.cell(i, 1) == 'Л/С' || @file.cell(i, 1) == 'Л/с' || @file.cell(i, 1) == 'л/сч' || @file.cell(i, 1) == "лицевые счета" || @file.cell(i, 1) == "Ном." || @file.cell(i, 1) == "п/п" || @file.cell(i, 1) == "Итого"
+	  		next if @file.cell(i, 1).nil? || @file.cell(i, 1) == 'л/с' || @file.cell(i, 1) == 'Л/С' || @file.cell(i, 1) == 'Л/с' || @file.cell(i, 1) == 'л/сч' || @file.cell(i, 1) == "лицевые счета" || @file.cell(i, 1) == "Итого"
 	  	  	@data << {@key[0] => @file.cell(i, 1), @key[5] => @file.cell(i, 2)}
 	  	end
     	@data
@@ -110,7 +108,7 @@ class Xls < Parser
 
 	def two_columns_with_int
 	  	(1..@file.last_row).each do |i|
-	  		next if @file.cell(i, 1).nil? || @file.cell(i, 1) == 'л/сч' || @file.cell(i, 1) == "Итого"
+	  		next if @file.cell(i, 1).nil? || @file.cell(i, 1) == 'л/сч' || @file.cell(i, 1) == "Итого" || @file.cell(i, 1) == "Ном." || @file.cell(i, 1) == "п/п"
 	  	  	@data << {@key[0] => @file.cell(i, 1).to_i, @key[5] => @file.cell(i, 2)}
 	  	end
     	@data
@@ -140,40 +138,6 @@ class Xls < Parser
 		@data
 	end
 
-	# 138 Only for Samara
-	# Date from (1:1)
-	#
-	# == Example
-	#
-	# ул.Мориса Тореза,139
-	# 00001
-	
-	def one_column
-		address = @file.cell(1, 1).to_s.split(",")
-		(2..@file.last_row).each do |i|
-			@data << {@key[0] => @file.cell(i, 1).to_i, @key[1] => "Самара", @key[2] => address[0], @key[3] => address[1], @key[4] => @file.cell(i, 1).to_i, @key[5] => ""}
-		end
-		@data
-	end
-	
-	# ЖСК №265
-	# Date from (2:2)
-	#
-	# == Example
-	#
-	# Л/С
-	# 1
-
-	def one_column2
-		@key, @data, @hash = ["user_account"], [], {}
-	  	
-	  	(2..@file.last_row).each do |i|
-	  	  	@hash =  {@key[0] => @file.cell(i, 2).to_i}
-	  	  	@data << @hash
-	  	end
-	    @data
-	end
-
 	# ТСЖ №247 Б
 	# Date from (3:1) to (3:4)
 	#
@@ -185,7 +149,7 @@ class Xls < Parser
 
 	def first_last
   		(3..@file.last_row).each do |i|
-  	  		@data <<  {@key[0] => @file.cell(i, first_column), @key[5] => @file.cell(i, last_column)}
+  	  		@data <<  {@key[0] => @file.cell(i, @file.first_column).to_i, @key[5] => @file.cell(i, @file.last_column)}
   		end
     	@data
 	end

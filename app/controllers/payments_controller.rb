@@ -1,6 +1,7 @@
 #encoding: utf-8
 class PaymentsController < ApplicationController
 
+	# Daily report for managers
 	def xls_report_daily
 		@report = GetRequest.report_daily
 	end

@@ -76,15 +76,20 @@ class AccountsController < ApplicationController
 	# Getter.new(Xls.new("report/sample/#{Vendor.find(50).title}.xls", 50)).input
 	# Getter.new(Ods.new("report/sample/#{Vendor.find(49).title}.ods", 49)).input
 	# Getter.new(Xls.new("report/sample/#{Vendor.find(15).title}.xls", 15)).input
-	Getter.new(Xls.new("report/sample/#{Vendor.find(112).title}.xls", 112)).input
-
-
-
-
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(112).title}.xls", 112)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(42).title}.xls", 42)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(66).title}.xls", 66)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(129).title}.xls", 129)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(137).title}.xls", 137)).input
 	# Getter.new(Xls.new("report/sample/#{Vendor.find(93).title}.xls", 93)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(62).title}.xls", 62)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(62).title}.xlsx", 62)).input
 
-
+    fuke = File.new("vendors.txt", "w")
+        Vendor.all.each do |v|
+         	fuke.puts("#{v.title}") if Account.where("user_account IS NOT NULL AND vendor_id = #{v.id}").first
+     	end
+        
+     fuke.close
 
     render json: true
   end
