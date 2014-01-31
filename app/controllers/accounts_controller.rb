@@ -60,8 +60,32 @@ class AccountsController < ApplicationController
 
 	# CheckEmail.get_organizations
 	# p Roo::Excel.new("organizations/#{DateTime.now.month}-#{DateTime.now.day}-Organizations.xls")
-	p @report = GetRequest.report_daily
-	Report.new(ReportForManager.new(@report)).output_report
+
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(58).title}.xls", 58)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(38).title}.xls", 38)).input
+	# Getter.new(Ods.new("report/sample/#{Vendor.find(65).title}.ods", 65)).input
+	# Getter.new(Dbf.new("report/sample/#{Vendor.find(61).title}.DBF", 61)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(47).title}.xls", 47)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(46).title}.xls", 46)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(59).title}.xls", 59)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(63).title}.xls", 63)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(92).title}.xls", 92)).input
+
+
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(56).title}.xls", 56)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(50).title}.xls", 50)).input
+	# Getter.new(Ods.new("report/sample/#{Vendor.find(49).title}.ods", 49)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(15).title}.xls", 15)).input
+	Getter.new(Xls.new("report/sample/#{Vendor.find(112).title}.xls", 112)).input
+
+
+
+
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(93).title}.xls", 93)).input
+	# Getter.new(Xls.new("report/sample/#{Vendor.find(62).title}.xls", 62)).input
+
+
+
     render json: true
   end
 end
