@@ -9,18 +9,18 @@ class Xls < Parser
 
 	def input
 		@vendor_id
-		@@data = case @vendor_id
-				when 38, 46, 63, 59, 50, 129				then standard
-				when 55, 67, 109, 110, 114, 141, 142, 58	then two_columns
-				when 47, 56, 112, 66, 137					then two_columns_with_int
-				when 93										then naber
-				when 92										then sokol
-				when 15										then promsh
-				when 42										then silver_creek
-				when 62										then first_last
+		@data = case @vendor_id
+				when 38, 46, 63, 59, 50, 129									then standard
+				when 55, 67, 109, 110, 114, 141, 142, 58, 137, 47, 56, 112, 66	then two_columns
+				when 93															then naber
+				when 92															then sokol
+				when 15															then promsh
+				when 42															then silver_creek
+				when 62															then first_last
 				else
 					ReportMail.error("Xls parser don't have method for #{Vendor.find(@vendor_id).title}. Vendor id: #{@vendor_id}", "[ERROR] Xls parser").deliver
 				end
+		CheckParsers.check(@data)
 	end
 
 	def create
@@ -100,16 +100,9 @@ class Xls < Parser
 
 	def two_columns
 	  	(1..@file.last_row).each do |i|
-	  		next if @file.cell(i, 1).nil? || @file.cell(i, 1) == 'л/с' || @file.cell(i, 1) == 'Л/С' || @file.cell(i, 1) == 'Л/с' || @file.cell(i, 1) == 'л/сч' || @file.cell(i, 1) == "лицевые счета" || @file.cell(i, 1) == "Итого"
-	  	  	@data << {@key[0] => @file.cell(i, 1), @key[5] => @file.cell(i, 2)}
-	  	end
-    	@data
-	end
-
-	def two_columns_with_int
-	  	(1..@file.last_row).each do |i|
-	  		next if @file.cell(i, 1).nil? || @file.cell(i, 1) == 'л/сч' || @file.cell(i, 1) == "Итого" || @file.cell(i, 1) == "Ном." || @file.cell(i, 1) == "п/п"
-	  	  	@data << {@key[0] => @file.cell(i, 1).to_i, @key[5] => @file.cell(i, 2)}
+	  		next if @file.cell(i, 1).nil? || @file.cell(i, 1) == 'л/с' || @file.cell(i, 1) == 'Л/С' || @file.cell(i, 1) == 'Л/с' || @file.cell(i, 1) == 'л/сч' || @file.cell(i, 1) == "лицевые счета" || @file.cell(i, 1) == "Итого" || @file.cell(i, 1) == "Ном." || @file.cell(i, 1) == "п/п"
+	  	  	account = @file.cell(i, 1).class == Float ? @file.cell(i, 1).to_i : @file.cell(i, 1)
+	  	  	@data << {@key[0] => account, @key[5] => @file.cell(i, 2)}
 	  	end
     	@data
 	end

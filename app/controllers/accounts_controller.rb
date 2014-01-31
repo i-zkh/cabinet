@@ -54,7 +54,7 @@ class AccountsController < ApplicationController
 	# Getter.new(Txt.new("report/12-2013/Цифрал-Автоград.TXT", 43)).update
 	# Getter.new(Txt.new("report/1-2014/Цифрал-Сервис.TXT", 43)).update
 	# Getter.new(Xls.new("report/1-2014/Спорт5 реестр 12 13.xls", 137)).input
-	# Getter.new(Xls.new("report/1-2014/Спорт3 реестр 12 13.xls", 112)).input
+	Getter.new(Xls.new("report/1-2014/test.xls", 112)).input
 
 	# Getter.new(Xls.new("report/12-2013/ТСЖ Железнодорожный № 141.xls", 142)).update
 
@@ -70,8 +70,6 @@ class AccountsController < ApplicationController
 	# Getter.new(Xls.new("report/sample/#{Vendor.find(59).title}.xls", 59)).input
 	# Getter.new(Xls.new("report/sample/#{Vendor.find(63).title}.xls", 63)).input
 	# Getter.new(Xls.new("report/sample/#{Vendor.find(92).title}.xls", 92)).input
-
-
 	# Getter.new(Xls.new("report/sample/#{Vendor.find(56).title}.xls", 56)).input
 	# Getter.new(Xls.new("report/sample/#{Vendor.find(50).title}.xls", 50)).input
 	# Getter.new(Ods.new("report/sample/#{Vendor.find(49).title}.ods", 49)).input
@@ -83,13 +81,6 @@ class AccountsController < ApplicationController
 	# Getter.new(Xls.new("report/sample/#{Vendor.find(137).title}.xls", 137)).input
 	# Getter.new(Xls.new("report/sample/#{Vendor.find(93).title}.xls", 93)).input
 	# Getter.new(Xls.new("report/sample/#{Vendor.find(62).title}.xlsx", 62)).input
-
-    fuke = File.new("vendors.txt", "w")
-        Vendor.all.each do |v|
-         	fuke.puts("#{v.title}") if Account.where("user_account IS NOT NULL AND vendor_id = #{v.id}").first
-     	end
-        
-     fuke.close
 
     render json: true
   end
