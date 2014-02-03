@@ -18,6 +18,7 @@ class Txt < Parser
 			@data << hash
 		end
 		@data
+		super
   	end
 
   	def create

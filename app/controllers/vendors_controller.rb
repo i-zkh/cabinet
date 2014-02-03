@@ -34,18 +34,28 @@ class VendorsController < ApplicationController
   def import
     @vendors = Vendor.all.select{ |v| !File.exists?(v.title) }
     if params.has_key?(:file)
-      spreadsheet = open_spreadsheet(params[:file])
-      redirect_to report_url
+      begin
+        spreadsheet = open_spreadsheet(params[:file])
+      rescue ArgumentError
+        redirect_to report_url, notice: "Формат данной выгрузки не соответствует абразцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Абразец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
+      rescue Exception => e
+        ReportMail.error("Unable to save data from #{filename} because #{e.message}. Ip address: #{request.remote_ip}.", "[ERROR] report").deliver
+      else 
+        redirect_to report_url, notice: "Файл успешно добавлен."
+      end
     else
-      redirect_to report_url, notice: "Необходимо выбрать файл. "
+      redirect_to report_url, notice: "Необходимо выбрать файл."
     end
+  end
+
+  def sample
+    send_file 'report/sample/ТСЖ "Спорт-3".xls'
   end
 
   def open_spreadsheet(file)
     FileUtils.mkpath "report/#{DateTime.now.year}-#{DateTime.now.month}"
     filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: current_user.id).first.title}" + "#{File.extname("#{file.original_filename}")}"
     File.open(File.join(filename), "wb") { |f| f.write(file.read) }
-    begin
       case File.extname(file.original_filename).downcase
       when ".txt" then Getter.new(Txt.new(filename, current_user.id)).input
       when ".xls", ".xlsx" then Getter.new(Xls.new(filename, current_user.id)).input
@@ -54,8 +64,5 @@ class VendorsController < ApplicationController
       else
         ReportMail.error("Unknown file type: filename", "[ERROR] report").deliver
       end
-    rescue Exception => e
-      ReportMail.error("Unable to save data from #{filename} because #{e.message}. Ip address: #{request.remote_ip}.", "[ERROR] report").deliver
-    end
   end
 end

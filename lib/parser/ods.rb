@@ -13,6 +13,7 @@ class Ods < Parser
 				else
 					ReportMail.error("Ods parser don't have method for #{Vendor.find(@vendor_id).title}. Vendor id: #{@vendor_id}", "[ERROR] Xls parser").deliver
 				end
+		super
 	end
 
 	def first_colomn

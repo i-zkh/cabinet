@@ -65,6 +65,7 @@ Project::Application.routes.draw do
 
 # Add report to vendor
   get 'report' => 'vendors#report'
+  get 'sample' => 'vendors#sample'
   post 'report' => 'vendors#import'
   get 'show_report' => 'vendors#show'
 

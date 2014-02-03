@@ -26,23 +26,27 @@ class PaymentsController < ApplicationController
     end
 
 	def monthly_xls
-		GetRequest.report_monthly(12).each do |id|
-			Report.new(ReportMonthly.new(GetRequest.transactions(id, 12), id)).monthly
+		GetRequest.report_monthly(1).each do |id|
+			Report.new(ReportMonthly.new(GetRequest.transactions(id, 1), id)).monthly
 			vendor = Vendor.where(id: id, distribution: true).first
-			# ReportMail.report_monthly("Выгрузка транзакций АйЖКХ за ноябрь}", vendor).deliver if id != 5 || id != 40 || id != 41 && !vendor.nil?
+			unless vendor.nil?
+				ReportMail.report_monthly("Произошла ошибка рассылки реестор, приносим наши извинения. Выгрузка транзакций АйЖКХ за январь}", vendor).deliver if id != 5 || id != 40 || id != 41 || id != 159 || id !=135 || id != 107
+			end
 		end	
 		render json: true
 	end
 
   	def monthly_txt
-		# GetRequest.report_monthly(11).each do |id|
-			vendor = Vendor.where(id: 121).first
-			unless vendor.nil?
-	 			p @report = GetRequest.transactions(121, 1)
-	    		p Report.new(ReportMonthlyTxt.new(@report, 121)).monthly
-			end
+		# GetRequest.report_monthly(1).each do |id|
+		# 	if id == 5 || id == 40 || id == 41 || id == 146
+		# 		vendor = Vendor.where(id: id).first
+		# 		unless vendor.nil?
+	 # 				@report = GetRequest.transactions(id, 1)
+	 #    			Report.new(ReportMonthlyTxt.new(@report, id)).monthly
+		# 		end
+		# 	end
 		# end
-
+		Report.new(Factorial.new(GetRequest.transactions(150, 1))).output_report
 	    render json: true
   	end
 
@@ -70,7 +74,7 @@ class PaymentsController < ApplicationController
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
+		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{Vendor.find(@id).title}.txt")
 		   		logger.info "transaction: #{vendor.title}-#{@data}"
 	    	end
 	    end

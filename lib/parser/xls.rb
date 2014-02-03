@@ -8,7 +8,6 @@ class Xls < Parser
   	end
 
 	def input
-		@vendor_id
 		@data = case @vendor_id
 				when 38, 46, 63, 59, 50, 129									then standard
 				when 55, 67, 109, 110, 114, 141, 142, 58, 137, 47, 56, 112, 66	then two_columns
@@ -20,7 +19,7 @@ class Xls < Parser
 				else
 					ReportMail.error("Xls parser don't have method for #{Vendor.find(@vendor_id).title}. Vendor id: #{@vendor_id}", "[ERROR] Xls parser").deliver
 				end
-		CheckParsers.check(@data)
+		super
 	end
 
 	def create

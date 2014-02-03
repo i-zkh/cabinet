@@ -29,10 +29,12 @@ class ReportWorker
 		        case id
 		    	when 5, 44, 40
 		          	Report.new(TxtCheckAddress.new(@data, id)).output_report
+		        when 150
+		        	Report.new(Factorial.new(@data, id)).output_report
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{vendor.title}.txt")
+		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{Vendor.find(@id).title}.txt")
 		   		logger.info "transaction: #{vendor.title}-#{@data}"
 	    	end
 	    end

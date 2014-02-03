@@ -5,13 +5,13 @@ class ReportMail < ActionMailer::Base
 
   def report(message, vendor)
     @message = message
-    attachments["#{vendor.title}.txt"] = File.read("#{vendor.title}.txt")
+    attachments["transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{Vendor.find(@id).title}.txt"] = File.read("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{Vendor.find(@id).title}.txt")
     mail(to: vendor.email, subject: "АйЖКХ")
   end
 
   def report_monthly(message, vendor)
     @message = message
-    attachments["#{vendor.title}.xls"] = File.read("report_monthly/12-2013/#{vendor.title.gsub(/"/, "")}.xls")
+    attachments["#{vendor.title}.xls"] = File.read("report_monthly/1-2014/#{vendor.title.gsub(/"/, "")}.xls")
     mail(to: vendor.email, subject: "АйЖКХ")
   end
 

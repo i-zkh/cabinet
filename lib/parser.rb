@@ -1,6 +1,7 @@
 class Parser
 	
 	def input
+		CheckParsers.check(@data)
 	end
 
 	def create

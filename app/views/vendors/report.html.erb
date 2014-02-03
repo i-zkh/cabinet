@@ -1,12 +1,13 @@
 <div class="span9">
 	<%= form_tag report_url, multipart: true do %>
 	<h3>Добавить файл с выгрузкой задолжностей жильцов</h3>
+		<%= file_field_tag :file %>
+		<%= submit_tag "Добавить", id: "file_button" %>
+	<% end %>
 	<% if flash[:notice] %>
 	<p class="error">
 		<%= notice %><a href="">x</a>
+		<div class="link"><%= link_to "Скачать", sample_url %></div>
 	<p>
-	<% end %>
-		<%= file_field_tag :file %>
-		<%= submit_tag "Добавить", id: "file_button" %>
 	<% end %>
 </div>
