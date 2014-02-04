@@ -12,6 +12,7 @@ class PaymentsController < ApplicationController
 	end
 
 	def report_with_gibbon
+		
 
 	end
 
