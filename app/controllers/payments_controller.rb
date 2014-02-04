@@ -12,8 +12,36 @@ class PaymentsController < ApplicationController
 	end
 
 	def report_with_gibbon
-		
+		gb = Gibbon::API.new("df5b5ea75168dc2f5d3d105aefbd807a-us3")
 
+	  	list_id = "e4067d51da"
+
+			gb.lists.subscribe({:id => list_id, 
+	    	:email => {
+	    		:email => "out@izkh.ru" }, 
+	    		:merge_vars => {:FNAME => 'Nastya Ivanova', 
+	    			:LNAME => ''
+	    			}, 
+	    			:double_optin => false})
+	end
+
+	def new_report
+		gb = Gibbon::API.new("df5b5ea75168dc2f5d3d105aefbd807a-us3")
+		list_id = "e4067d51da"
+
+		campaign_id = gb.campaigns.create({type: "regular", options: 
+		    		{ list_id: list_id, 
+	    				subject: "АйЖКХ",
+	    				from_email: "out@izkh.ru",
+	    				from_name: "Сервис АйЖКХ",
+	    				generate_text: true
+	    			}, 
+		    	content: {html: "<html><head></head><body><h1>Foo</h1><p>Bar</p></body></html>"}
+	    })
+ 
+    	gb.campaigns.sent({cid: campaign_id})
+
+		render json: true
 	end
 
   	# Daily report and errors to out@izkh.ru

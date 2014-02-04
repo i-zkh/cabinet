@@ -32,6 +32,7 @@ Project::Application.routes.draw do
   get 'report/hourly' => 'payments#hourly'
 
   get 'report/gibbon' => 'payments#report_with_gibbon'
+  get 'new_report' => 'payments#new_report'
 
 # Report for manager
   get 'report_daily' => 'payments#xls_report_daily'
