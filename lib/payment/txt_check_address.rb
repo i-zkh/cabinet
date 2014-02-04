@@ -7,10 +7,14 @@ class TxtCheckAddress < Payment
   end
 
   def output
-    outFile = File.new("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{Vendor.find(@id).title}.txt", "w")
+    outFile = File.new("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{@id}.txt", "w")
       @data.each do |d|
         address = Account.where(user_account: d['user_account'], vendor_id: d['vendor_id']).first
-        outFile.puts("#{d['user_account']};#{address['city']}, #{address['street']}, #{address['building']}, #{address['apartment']};#{d['amount']};#{ DateTime.parse(d['date']).strftime("%d.%m.%Y")}") unless address.nil?
+        if address.nil?
+          outFile.puts("#{d['user_account']};#{d['address']};#{d['amount']};#{DateTime.parse(d['date']).strftime("%d.%m.%Y")}")
+        else
+          outFile.puts("#{d['user_account']};#{address['city']}, #{address['street']}, #{address['building']}, #{address['apartment']};#{d['amount']};#{ DateTime.parse(d['date']).strftime("%d.%m.%Y")}")
+        end
       end
     outFile.close
   end

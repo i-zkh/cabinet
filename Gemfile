@@ -23,6 +23,8 @@ gem 'haml'
 gem 'sass'
 gem 'axlsx'
 gem "dbf"
+gem 'gibbon'
+
 
 
 # Gems used only for assets and not required

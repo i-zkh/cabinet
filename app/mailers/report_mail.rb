@@ -5,7 +5,7 @@ class ReportMail < ActionMailer::Base
 
   def report(message, vendor)
     @message = message
-    attachments["transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{Vendor.find(@id).title}.txt"] = File.read("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{Vendor.find(@id).title}.txt")
+    attachments["transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{vendor.id}.txt"] = File.read("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{vendor.id}.txt")
     mail(to: vendor.email, subject: "АйЖКХ")
   end
 
