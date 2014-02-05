@@ -29,17 +29,20 @@ class PaymentsController < ApplicationController
 		gb = Gibbon::API.new("df5b5ea75168dc2f5d3d105aefbd807a-us3")
 		list_id = "e4067d51da"
 
-		campaign_id = gb.campaigns.create({type: "regular", options: 
-		    		{ list_id: list_id, 
-	    				subject: "АйЖКХ",
-	    				from_email: "out@izkh.ru",
-	    				from_name: "Сервис АйЖКХ",
-	    				generate_text: true
-	    			}, 
-		    	content: {html: "<html><head></head><body><h1>Foo</h1><p>Bar</p></body></html>"}
+		cid = gb.campaigns.create({
+				type: "regular", 
+				options: { list_id: list_id, 
+	    					subject: "АйЖКХ",
+	    					from_email: "out@izkh.ru",
+	    					from_name: "Сервис АйЖКХ",
+	    					generate_text: true
+	    				 },
+		    	content: {html: "<html><head></head><body><h1>Foo</h1><p>Bar</p></body></html>",
+		    			  url: "http://www.sunhome.ru/UsersGallery/042012/kotik.jpg"}
 	    })
  
-    	gb.campaigns.sent({cid: campaign_id})
+    	gb.campaigns.send(cid: cid['id'])
+    	# gb.campaigns.schedule(cid: cid['id'], schedule_time: "2014-02-05 15:00:00")
 
 		render json: true
 	end
@@ -70,7 +73,7 @@ class PaymentsController < ApplicationController
 
   	def monthly_txt
 		GetRequest.report_monthly(1).each do |id|
-			if id == 5 || id == 40 || id == 41 || id == 146
+			if id == 43 || id == 44 #id == 5 || id == 40 || id == 41 || id == 146 
 				vendor = Vendor.where(id: id).first
 				unless vendor.nil?
 	 				@report = GetRequest.transactions(id, 1)
@@ -107,7 +110,7 @@ class PaymentsController < ApplicationController
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{id}.txt")
+		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{id}.txt")
 	    	end
 	    end
   	end
