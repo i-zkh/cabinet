@@ -7,7 +7,9 @@
 	<% if flash[:notice] %>
 	<p class="error">
 		<%= notice %><a href="">x</a>
-		<div class="link"><%= link_to "Скачать", sample_url %></div>
+		<% if @button %>
+			<%= link_to "Скачать", sample_url, class: "link" %>
+		<% end %>
 	<p>
 	<% end %>
 </div>

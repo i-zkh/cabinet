@@ -14,7 +14,7 @@ class PaymentsController < ApplicationController
 	def report_with_gibbon
 		gb = Gibbon::API.new("df5b5ea75168dc2f5d3d105aefbd807a-us3")
 
-	  	list_id = "e4067d51da"
+	  	list_id = "592b42a4a7"
 
 			gb.lists.subscribe({:id => list_id, 
 	    	:email => {
@@ -23,11 +23,13 @@ class PaymentsController < ApplicationController
 	    			:LNAME => ''
 	    			}, 
 	    			:double_optin => false})
+
+		render json: true
 	end
 
 	def new_report
 		gb = Gibbon::API.new("df5b5ea75168dc2f5d3d105aefbd807a-us3")
-		list_id = "e4067d51da"
+		list_id = "592b42a4a7"
 
 		cid = gb.campaigns.create({
 				type: "regular", 
@@ -37,12 +39,12 @@ class PaymentsController < ApplicationController
 	    					from_name: "Сервис АйЖКХ",
 	    					generate_text: true
 	    				 },
-		    	content: {html: "<html><head></head><body><h1>Foo</h1><p>Bar</p></body></html>",
-		    			  url: "http://www.sunhome.ru/UsersGallery/042012/kotik.jpg"}
+		    	content: {archive: "mail.zip"
+		    	}
 	    })
  
     	gb.campaigns.send(cid: cid['id'])
-    	# gb.campaigns.schedule(cid: cid['id'], schedule_time: "2014-02-05 15:00:00")
+    	# gb.campaigns.schedule(cid: cid['id'], schedule_time: "2014-02-06 20:30:00")
 
 		render json: true
 	end
@@ -52,8 +54,8 @@ class PaymentsController < ApplicationController
 		@report = GetRequest.report_daily
 	    if @report != []
 	    	send_report_to_vendors(@report)
-			# Report.new(AllPayment.new(@report)).output_report
-			# Report.new(Error.new(@report)).output_report
+			Report.new(AllPayment.new(@report)).output_report
+			Report.new(Error.new(@report)).output_report
 	    else
 	   		ReportMail.no_transactions.deliver
 	    end
@@ -72,11 +74,11 @@ class PaymentsController < ApplicationController
 	end
 
   	def monthly_txt
-		GetRequest.report_monthly(1).each do |id|
-			if id == 43 || id == 44 #id == 5 || id == 40 || id == 41 || id == 146 
+		GetRequest.report_monthly(2).each do |id|
+			if id = 121 #id == 43 || id == 44 id == 5 || id == 40 || id == 41 || id == 146 
 				vendor = Vendor.where(id: id).first
 				unless vendor.nil?
-	 				@report = GetRequest.transactions(id, 1)
+	 				@report = GetRequest.transactions(id, 2)
 	    			Report.new(ReportMonthlyTxt.new(@report, id)).monthly
 				end
 			end

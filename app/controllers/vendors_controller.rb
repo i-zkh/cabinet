@@ -33,11 +33,13 @@ class VendorsController < ApplicationController
 
   def import
     @vendors = Vendor.all.select{ |v| !File.exists?(v.title) }
+    @button = false
     if params.has_key?(:file)
       begin
         spreadsheet = open_spreadsheet(params[:file])
       rescue ArgumentError
         redirect_to report_url, notice: "Формат данной выгрузки не соответствует абразцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Абразец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
+        @button = true
       rescue Exception => e
         ReportMail.error("Unable to save data from #{filename} because #{e.message}. Ip address: #{request.remote_ip}.", "[ERROR] report").deliver
       else 
