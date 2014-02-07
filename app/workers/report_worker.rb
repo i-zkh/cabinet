@@ -19,7 +19,7 @@ class ReportWorker
 
     private
 
-  	def send_report_to_vendors(report)
+	def send_report_to_vendors(report)
   		vendors_id = []
 	    report.each { |r| vendors_id << r['vendor_id'] }
 	    vendors_id.uniq.each do |id|
@@ -34,8 +34,8 @@ class ReportWorker
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{Vendor.find(@id).title}.txt")
-		   		logger.info "transaction: #{vendor.title}-#{@data}"
+		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{id}.txt")
+	    		logger.info "transaction: #{vendor.title}-#{@data}"
 	    	end
 	    end
   	end
