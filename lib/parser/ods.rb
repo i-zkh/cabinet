@@ -11,7 +11,7 @@ class Ods < Parser
 				when 64, 65, 99 then first_colomn
 				when 49 		then privolga
 				else
-					ReportMail.error("Ods parser don't have method for #{Vendor.find(@vendor_id).title}. Vendor id: #{@vendor_id}", "[ERROR] Xls parser").deliver
+					raise ArgumentError, 'report don\'t have sample'
 				end
 		super
 	end

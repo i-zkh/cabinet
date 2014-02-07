@@ -5,7 +5,7 @@ class VendorsController < ApplicationController
 
   def show
     @vendor   = Vendor.find(params[:vendor_id])
-    p @accounts = Account.where("vendor_id = ?", params[:vendor_id])
+    @accounts = Account.where("vendor_id = ?", params[:vendor_id])
   end
 
   def edit
@@ -33,25 +33,24 @@ class VendorsController < ApplicationController
 
   def import
     @vendors = Vendor.all.select{ |v| !File.exists?(v.title) }
-    @button = false
     if params.has_key?(:file)
       begin
         spreadsheet = open_spreadsheet(params[:file])
       rescue ArgumentError
         redirect_to report_url, notice: "Формат данной выгрузки не соответствует абразцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Абразец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
-        @button = true
       rescue Exception => e
         ReportMail.error("Unable to save data from #{filename} because #{e.message}. Ip address: #{request.remote_ip}.", "[ERROR] report").deliver
+        redirect_to report_url, notice: "Формат данной выгрузки не соответствует абразцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Абразец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
       else 
         redirect_to report_url, notice: "Файл успешно добавлен."
       end
     else
-      redirect_to report_url, notice: "Необходимо выбрать файл."
+      redirect_to report_url, notice: "Необходимо выбрать файл. Абразец выгрузки можно скачать ниже."
     end
   end
 
   def sample
-    send_file 'report/sample/ТСЖ "Спорт-3".xls'
+    send_file "report/sample/#{Vendor.where(id: current_user.id).first.title}.xls"
   end
 
   def open_spreadsheet(file)
@@ -64,7 +63,7 @@ class VendorsController < ApplicationController
       when ".dbf" then Getter.new(Dbf.new(filename, current_user.id)).input
       when ".ods" then Getter.new(Ods.new(filename, current_user.id)).input
       else
-        ReportMail.error("Unknown file type: filename", "[ERROR] report").deliver
+        raise ArgumentError, 'report don\'t have sample'
       end
   end
 end

@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   	redirect_to login_url if current_user.nil?
   end
 
-  def session_auth 
+  def session_auth
     response = HTTParty.post( "https://izkh.ru/users/sign_in.json",
     :body => { :user =>  { :email => "iva.anastya@gmail.com", :password => "slastenka3677" }}.to_json,
     :headers => { 'Content-Type' => 'application/json' })

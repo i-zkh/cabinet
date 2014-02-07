@@ -17,7 +17,7 @@ class Xls < Parser
 				when 42															then silver_creek
 				when 62															then first_last
 				else
-					ReportMail.error("Xls parser don't have method for #{Vendor.find(@vendor_id).title}. Vendor id: #{@vendor_id}", "[ERROR] Xls parser").deliver
+					raise ArgumentError, 'report don\'t have sample'
 				end
 		super
 	end
