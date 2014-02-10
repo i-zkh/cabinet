@@ -70,6 +70,7 @@ Project::Application.routes.draw do
   get 'report' => 'vendors#report'
   get 'sample' => 'vendors#sample'
   post 'report' => 'vendors#import'
+  post 'report_test' => 'vendors#import_test'
   get 'show_report' => 'vendors#show'
 
 

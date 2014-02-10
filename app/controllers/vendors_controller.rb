@@ -1,7 +1,9 @@
 # coding: utf-8
 #encoding: UTF-8
+require 'iconv' unless String.method_defined?(:encode)
+
 class VendorsController < ApplicationController
-  before_filter :authorize, only: [:edit, :update, :report]
+  before_filter :authorize, only: [:edit, :update, :report, :report_test]
 
   def show
     @vendor   = Vendor.find(params[:vendor_id])
@@ -46,6 +48,20 @@ class VendorsController < ApplicationController
       end
     else
       redirect_to report_url, notice: "Необходимо выбрать файл. Абразец выгрузки можно скачать ниже."
+    end
+  end
+
+  def import_test
+    file = request.body.read
+    File.open(File.join("wwwwwwow-xls.xls"), "wb") do |f| 
+      if String.method_defined?(:encode)
+        f.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '')
+        f.encode!('UTF-8', 'UTF-16')
+      else
+        ic = Iconv.new('UTF-8', 'UTF-8//IGNORE')
+        file_contents = ic.iconv(f)
+      end
+      p f.write(file_contents) 
     end
   end
 

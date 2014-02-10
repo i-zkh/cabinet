@@ -3,6 +3,7 @@
 	<h3>Добавить файл с выгрузкой задолжностей жильцов</h3>
 		<%= file_field_tag :file %>
 		<div id="filedrag">или перенесите файл сюда</div><br>
+		<output id="list"></output>
 		<%= submit_tag "Добавить", id: "file_button" %>
 	<% end %>
 	<% if flash[:notice] %>
