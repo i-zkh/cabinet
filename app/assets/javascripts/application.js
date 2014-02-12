@@ -22,7 +22,7 @@ hoverer = function(){
 
     $(document).ready(function() {
         $('.fancybox').fancybox();
-			Init();
+			   Init();
     });
 
 // initialize
@@ -31,9 +31,7 @@ function Init() {
  var dropZone = document.getElementById('filedrag');
   dropZone.addEventListener('dragover', handleDragOver, false);
   dropZone.addEventListener('drop', handleFileSelect, false);
-
 }
-
 
 // file drag hover
 function handleDragOver(evt) {
@@ -45,24 +43,25 @@ function handleDragOver(evt) {
 // file selection
 function handleFileSelect(evt) {
 
-evt.stopPropagation();
-    evt.preventDefault();
+  evt.stopPropagation();
+  evt.preventDefault();
 
 	var files = evt.target.files || evt.dataTransfer.files; // FileList object.
 
-    // files is a FileList of File objects. List some properties.
-    var output = [];
-    for (var i = 0, f; f = files[i]; i++) {
+  // files is a FileList of File objects. List some properties.
+  var output = [];
+  for (var i = 0, f; f = files[i]; i++) {
     	
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", 'report_test', true);
-	// xhr.setRequestHeader("X_FILENAME", files[0].name);
+	xhr.open("POST", 'report', true);
+  xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+	xhr.setRequestHeader("X_FILENAME", f.name);
 	xhr.send(f);
 
-      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+  output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
                   f.size, ' bytes, last modified: ',
                   f.lastModifiedDate.toLocaleDateString(), '</li>');
-    }
+}
     document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
 
 }

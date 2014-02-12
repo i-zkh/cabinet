@@ -1,8 +1,10 @@
 # coding: utf-8
 class ManagerController < ApplicationController
   def index
+    @vendor_title = []
     @vendors_with_report = vendors_with_report
-    @vendors = Vendor.all - @vendors_with_report
+    (Vendor.all - @vendors_with_report).each { |v| @vendor_title << v.title }
+    p @vendor_title
     @month   = params.has_key?(:date) ? params[:date][:month].to_i : Date.today
     @year    = params.has_key?(:date) ? params[:date][:year].to_i  : Date.today 
   end

@@ -1,6 +1,6 @@
 # coding: utf-8
 #encoding: UTF-8
-require 'iconv' unless String.method_defined?(:encode)
+
 
 class VendorsController < ApplicationController
   before_filter :authorize, only: [:edit, :update, :report, :report_test]
@@ -34,39 +34,41 @@ class VendorsController < ApplicationController
   end
 
   def import
-    @vendors = Vendor.all.select{ |v| !File.exists?(v.title) }
-    if params.has_key?(:file)
+    file = !params.has_key?(:file) ? request.headers['HTTP_X_FILENAME'] : params[:file]
+    if !file.nil?
       begin
+        save_file(file)
         spreadsheet = open_spreadsheet(params[:file])
       rescue ArgumentError
-        redirect_to report_url, notice: "Формат данной выгрузки не соответствует абразцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Абразец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
+        redirect_to report_url, notice: "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Образец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
       rescue Exception => e
         ReportMail.error("Unable to save data from #{filename} because #{e.message}. Ip address: #{request.remote_ip}.", "[ERROR] report").deliver
-        redirect_to report_url, notice: "Формат данной выгрузки не соответствует абразцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Абразец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
+        redirect_to report_url, notice: "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Образец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
       else 
         redirect_to report_url, notice: "Файл успешно добавлен."
       end
     else
-      redirect_to report_url, notice: "Необходимо выбрать файл. Абразец выгрузки можно скачать ниже."
+      redirect_to report_url, notice: "Необходимо выбрать файл. Образец выгрузки можно скачать ниже."
     end
   end
 
   def import_test
-    file = request.body.read
-    File.open(File.join("wwwwwwow-xls.xls"), "wb") do |f| 
-      if String.method_defined?(:encode)
-        f.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '')
-        f.encode!('UTF-8', 'UTF-16')
-      else
-        ic = Iconv.new('UTF-8', 'UTF-8//IGNORE')
-        file_contents = ic.iconv(f)
-      end
-      p f.write(file_contents) 
+    file = request.body
+    p request.headers['HTTP_X_FILENAME']
+    File.open(File.join("wwwwwwow-xls11.xls"), "wb") do |f| 
+      f.write(file.read)
     end
+    render text: true
   end
 
   def sample
     send_file "report/sample/#{Vendor.where(id: current_user.id).first.title}.xls"
+  end
+
+  def save_file(file)
+    FileUtils.mkpath "report/#{DateTime.now.year}-#{DateTime.now.month}"
+    filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: current_user.id).first.title}" + "#{File.extname("#{file.original_filename}")}"
+    File.open(File.join(filename), "wb") { |f| f.write(file.read) }
   end
 
   def open_spreadsheet(file)

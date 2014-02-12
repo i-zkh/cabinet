@@ -13,7 +13,7 @@ class GetRequest
 		def report_daily_for_vendor
 		  	response = HTTParty.get( "http://izkh.ru/api/1.0/report_daily?auth_token=#{Auth.get}")
 	    	daily = response.parsed_response["payload"]
-	    	daily.each {|t| t["amount"] = (t["amount"]*100/(Vendor.where(id: vendor_id).first.commission+100)).round(2)}
+	    	daily.each {|t| t["amount"] = (t["amount"]*100/(Vendor.where(id: t['vendor_id']).first.commission+100)).round(2)}
 	    	daily
 		end
 

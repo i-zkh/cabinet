@@ -1,3 +1,10 @@
+<script>
+	$(document).ready(function(){
+		$("#vendor").autocomplete({
+			source: $('#vendors').data('vendors')
+		});
+	});
+</script>
 <div class="span9">
 	<%= form_tag manager_report_url, method: :post do %>
 		<%= select_month(@month) %>
@@ -15,10 +22,11 @@
 		<% end %>
 		<% if @month == Date.today %>
 			<p>
+				<%= content_tag "div", id: "vendors", data: {vendors: @vendor_title.to_json} do %>
+				<% end %>
 				Для добавления новой выгрузки выберите поставщика:
-					<%= collection_select :vendor, :vendor_id, @vendors, :id, :title %>
+				<%= text_field_tag "vendor" %>
 			</p>
-	
 			<%= file_field_tag :file %>
 			<%= submit_tag "Добавить" %>
 		<% end %>

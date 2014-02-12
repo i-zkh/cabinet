@@ -51,11 +51,11 @@ class PaymentsController < ApplicationController
 
   	# Daily report and errors to out@izkh.ru
     def create
-		@report = GetRequest.report_daily
+		@report = GetRequest.report_daily_for_vendor
 	    if @report != []
 	    	send_report_to_vendors(@report)
-			Report.new(AllPayment.new(@report)).output_report
-			Report.new(Error.new(@report)).output_report
+			# Report.new(AllPayment.new(@report)).output_report
+			# Report.new(Error.new(@report)).output_report
 	    else
 	   		ReportMail.no_transactions.deliver
 	    end
@@ -112,7 +112,7 @@ class PaymentsController < ApplicationController
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{id}.txt")
+		   		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{id}.txt")
 	    	end
 	    end
   	end

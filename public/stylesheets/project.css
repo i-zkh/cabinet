@@ -9,7 +9,6 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require chosen
  *= require_tree .
  */
 
@@ -213,7 +212,10 @@ td.td_with_image{
 	margin-left: 4px;
 	width: 138px;
 }
-
+#vendor{
+	margin-left: 4px;
+	width: 200px;
+}
 .box {
 	margin-left: 5px;
 	line-height: 300%;
