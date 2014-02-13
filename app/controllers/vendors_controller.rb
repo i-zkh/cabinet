@@ -31,57 +31,49 @@ class VendorsController < ApplicationController
     @vendor = current_user
     @month  = params.has_key?(:date) ? params[:date][:month].to_i : Date.today
     @year   = params.has_key?(:date) ? params[:date][:year].to_i  : Date.today
-  end
-
-  def import
-    file = !params.has_key?(:file) ? request.headers['HTTP_X_FILENAME'] : params[:file]
-    if !file.nil?
-      begin
-        save_file(file)
-        spreadsheet = open_spreadsheet(params[:file])
-      rescue ArgumentError
-        redirect_to report_url, notice: "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Образец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
-      rescue Exception => e
-        ReportMail.error("Unable to save data from #{filename} because #{e.message}. Ip address: #{request.remote_ip}.", "[ERROR] report").deliver
-        redirect_to report_url, notice: "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Образец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
-      else 
-        redirect_to report_url, notice: "Файл успешно добавлен."
-      end
-    else
-      redirect_to report_url, notice: "Необходимо выбрать файл. Образец выгрузки можно скачать ниже."
-    end
-  end
-
-  def import_test
-    file = request.body
-    p request.headers['HTTP_X_FILENAME']
-    File.open(File.join("wwwwwwow-xls11.xls"), "wb") do |f| 
-      f.write(file.read)
-    end
-    render text: true
+    FileUtils.mkpath "report/#{DateTime.now.year}-#{DateTime.now.month}"
   end
 
   def sample
-    send_file "report/sample/#{Vendor.where(id: current_user.id).first.title}.xls"
+    send_file "#{Dir["report/sample/#{Vendor.where(id: current_user.id).first.title}.*"][0]}"
   end
 
-  def save_file(file)
-    FileUtils.mkpath "report/#{DateTime.now.year}-#{DateTime.now.month}"
-    filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: current_user.id).first.title}" + "#{File.extname("#{file.original_filename}")}"
-    File.open(File.join(filename), "wb") { |f| f.write(file.read) }
+  def import
+    if params.has_key?(:file)
+      filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: current_user.id).first.title}" + "#{File.extname("#{params[:file].original_filename}")}"
+      File.open(File.join(filename), "wb") { |f| f.write(params[:file].read) }
+      open_spreadsheet(filename)
+    else
+      redirect_to report_url, notice: "Необходимо выбрать файл."
+    end
   end
 
-  def open_spreadsheet(file)
-    FileUtils.mkpath "report/#{DateTime.now.year}-#{DateTime.now.month}"
-    filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: current_user.id).first.title}" + "#{File.extname("#{file.original_filename}")}"
-    File.open(File.join(filename), "wb") { |f| f.write(file.read) }
-      case File.extname(file.original_filename).downcase
+  def import_drag
+    filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: current_user.id).first.title}" + "#{File.extname("#{request.headers['HTTP_X_FILENAME']}")}"
+    File.open(File.join(filename), "wb") { |f| f.write(request.body.read) }
+    open_spreadsheet(filename)
+  end
+
+  def open_spreadsheet(filename)
+    begin
+      case File.extname(filename).downcase
       when ".txt" then Getter.new(Txt.new(filename, current_user.id)).input
       when ".xls", ".xlsx" then Getter.new(Xls.new(filename, current_user.id)).input
       when ".dbf" then Getter.new(Dbf.new(filename, current_user.id)).input
       when ".ods" then Getter.new(Ods.new(filename, current_user.id)).input
       else
-        raise ArgumentError, 'report don\'t have sample'
+        raise ArgumentError, 'file have not a sample'
       end
+    rescue ArgumentError
+      if Dir["report/sample/#{Vendor.where(id: current_user.id).first.title}.*"] == []
+        redirect_to report_url, notice: "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru "
+      else
+        redirect_to report_url, notice: "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Образец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
+      end
+    rescue Exception => e
+      redirect_to report_url, notice: "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru "
+    else 
+      redirect_to report_url, notice: "Файл успешно добавлен."
+    end
   end
 end
