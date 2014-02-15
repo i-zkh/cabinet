@@ -50,13 +50,13 @@ function handleFileSelect(evt) {
   var output = [];
   for (var i = 0, f; f = files[i]; i++) {
 	  var xhr = new XMLHttpRequest();
-	  xhr.open("POST", 'report_drag', true);
+	  xhr.open("POST", 'report_drag', false);
     xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
     xhr.setRequestHeader("X_FILENAME", "file." + f.name.split('.').pop());
 	  xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
 	  xhr.send(f);
   
-    output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+    output.push('<li><strong>', escape(flash.notice), '</strong> (', f.type || 'n/a', ') - ',
                     f.size, ' bytes, last modified: ',
                     f.lastModifiedDate.toLocaleDateString(), '</li>');
   }

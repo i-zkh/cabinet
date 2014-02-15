@@ -8,7 +8,7 @@
 <div class="span9">
 	<%= form_tag manager_report_url, method: :post do %>
 		<%= select_month(@month) %>
-		<%= select_year(Date.today, :start_year => 2013, :end_year => Time.now.year + 1) %>
+		<%= select_year(@year, :start_year => 2014, :end_year => Time.now.year + 1) %>
 		<%= submit_tag "Обновить", id: "file_button" %>
 	<% end %>
 
@@ -20,7 +20,7 @@
 				<%= v.title if !v.nil? %>
 			</p>
 		<% end %>
-		<% if @month == Date.today %>
+		<% if @month == Date.today.month && @year == Date.today.year %>
 			<p>
 				<%= content_tag "div", id: "vendors", data: {vendors: @vendor_title.to_json} do %>
 				<% end %>

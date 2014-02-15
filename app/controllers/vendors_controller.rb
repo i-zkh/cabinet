@@ -27,6 +27,12 @@ class VendorsController < ApplicationController
     end
   end
 
+  def destroy
+    @vendor = Post.find(params[:id])
+    @vendor.destroy
+    redirect_to show_report_url
+  end
+
   def report
     @vendor = current_user
     @month  = params.has_key?(:date) ? params[:date][:month].to_i : Date.today
@@ -52,7 +58,7 @@ class VendorsController < ApplicationController
     filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: current_user.id).first.title}" + "#{File.extname("#{request.headers['HTTP_X_FILENAME']}")}"
     File.open(File.join(filename), "wb") { |f| f.write(request.body.read) }
     open_spreadsheet(filename)
-  end
+    end
 
   def open_spreadsheet(filename)
     begin

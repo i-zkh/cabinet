@@ -7,17 +7,11 @@ class Txt < Parser
 	end
 
  	def input
-		@data, row, key = [], [], ["user_account", "city", "street", "building", "apartment", "invoice_amount"]
-		File.open(@file, 'r:windows-1251:utf-8').each do |r|
-			row << r
+ 		p @data = case @vendor_id
+		when 5, 40, 43, 44, 146 then parser
+		else
+			raise ArgumentError, 'report don\'t have sample'
 		end
-		row.each do |num|
-			num.gsub!(", ", ';')
-			array = num.split(";")
- 			hash = { key[0] => array[0], key[1] => array[1], key[2] => array[2], key[3] => array[3], key[4] => array[4], key[5] => array[5]}
-			@data << hash
-		end
-		@data
 		super
   	end
 
@@ -31,4 +25,17 @@ class Txt < Parser
 	  	super
 	end
 
+	def parser
+		@data, row, key = [], [], ["user_account", "city", "street", "building", "apartment", "invoice_amount"]
+		File.open(@file, 'r:windows-1251:utf-8').each do |r|
+			row << r
+		end
+		row.each do |num|
+			num.gsub!(", ", ';')
+			array = num.split(";")
+ 			hash = { key[0] => array[0], key[1] => array[1], key[2] => array[2], key[3] => array[3], key[4] => array[4], key[5] => array[5]}
+			@data << hash
+		end
+		@data
+	end
 end

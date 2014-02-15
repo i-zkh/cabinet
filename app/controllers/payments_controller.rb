@@ -54,8 +54,8 @@ class PaymentsController < ApplicationController
 		@report = GetRequest.report_daily_for_vendor
 	    if @report != []
 	    	send_report_to_vendors(@report)
-			# Report.new(AllPayment.new(@report)).output_report
-			# Report.new(Error.new(@report)).output_report
+			Report.new(AllPayment.new(@report)).output_report
+			Report.new(Error.new(@report)).output_report
 	    else
 	   		ReportMail.no_transactions.deliver
 	    end
@@ -105,14 +105,14 @@ class PaymentsController < ApplicationController
 	      	vendor = Vendor.where(id: id, distribution: true).first
 	      	if vendor
 		        case id
-		    	when 5, 44, 40
+		    	when 5, 44, 40, 146
 		          	Report.new(TxtCheckAddress.new(@data, id)).output_report
 		        when 150
 		        	Report.new(Factorial.new(@data, id)).output_report
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		# ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{id}.txt")
+		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{id}.txt")
 	    	end
 	    end
   	end

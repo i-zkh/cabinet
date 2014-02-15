@@ -30,7 +30,7 @@ class AccountsController < ApplicationController
 	# Getter.new(Txt.new("report/12-2013/Цифрал-Автоград.TXT", 43)).update
 	# Getter.new(Txt.new("report/1-2014/Цифрал-Сервис.TXT", 43)).update
 	# Getter.new(Xls.new("report/1-2014/Спорт5 реестр 12 13.xls", 137)).input
-	Getter.new(Xls.new("report/1-2014/test.xls", 112)).input
+	# Getter.new(Xls.new("report/1-2014/test.xls", 112)).input
 
 	# Getter.new(Xls.new("report/12-2013/ТСЖ Железнодорожный № 141.xls", 142)).update
 

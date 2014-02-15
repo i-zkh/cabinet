@@ -73,5 +73,7 @@ Project::Application.routes.draw do
   post 'report_drag' => 'vendors#import_drag'
   get 'show_report' => 'vendors#show'
 
+  get '/vendors/:id', to: 'vendors#destroy'
+
 
 end
