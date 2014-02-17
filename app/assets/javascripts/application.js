@@ -55,11 +55,9 @@ function handleFileSelect(evt) {
     xhr.setRequestHeader("X_FILENAME", "file." + f.name.split('.').pop());
 	  xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
 	  xhr.send(f);
-  
-    output.push('<li><strong>', escape(flash.notice), '</strong> (', f.type || 'n/a', ') - ',
-                    f.size, ' bytes, last modified: ',
-                    f.lastModifiedDate.toLocaleDateString(), '</li>');
+    // output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+    //                 f.size, ' bytes, last modified: ',
+    //                 f.lastModifiedDate.toLocaleDateString(), '</li>');
   }
-    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-
+    // document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
 }

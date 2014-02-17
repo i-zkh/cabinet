@@ -30,33 +30,11 @@ class AccountsController < ApplicationController
 	# Getter.new(Txt.new("report/12-2013/Цифрал-Автоград.TXT", 43)).update
 	# Getter.new(Txt.new("report/1-2014/Цифрал-Сервис.TXT", 43)).update
 	# Getter.new(Xls.new("report/1-2014/Спорт5 реестр 12 13.xls", 137)).input
-	# Getter.new(Xls.new("report/1-2014/test.xls", 112)).input
 
 	# Getter.new(Xls.new("report/12-2013/ТСЖ Железнодорожный № 141.xls", 142)).update
 
 	# CheckEmail.get_organizations
 	# p Roo::Excel.new("organizations/#{DateTime.now.month}-#{DateTime.now.day}-Organizations.xls")
-
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(58).title}.xls", 58)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(38).title}.xls", 38)).input
-	# Getter.new(Ods.new("report/sample/#{Vendor.find(65).title}.ods", 65)).input
-	# Getter.new(Dbf.new("report/sample/#{Vendor.find(61).title}.DBF", 61)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(47).title}.xls", 47)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(46).title}.xls", 46)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(59).title}.xls", 59)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(63).title}.xls", 63)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(92).title}.xls", 92)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(56).title}.xls", 56)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(50).title}.xls", 50)).input
-	# Getter.new(Ods.new("report/sample/#{Vendor.find(49).title}.ods", 49)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(15).title}.xls", 15)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(112).title}.xls", 112)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(42).title}.xls", 42)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(66).title}.xls", 66)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(129).title}.xls", 129)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(137).title}.xls", 137)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(93).title}.xls", 93)).input
-	# Getter.new(Xls.new("report/sample/#{Vendor.find(62).title}.xlsx", 62)).input
 
     render json: true
   end

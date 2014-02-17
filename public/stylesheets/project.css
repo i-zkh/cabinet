@@ -252,7 +252,17 @@ button .button {
 	padding: 50px 0;
 	margin: 1em 0;
 	color: #555;
-	border: 1px solid #555;
-	border-radius: 7px;
+	border: 2px solid #3498DB;
+	border-radius: 4px;
 	cursor: default;
+}
+
+.notice
+{
+	border: 2px solid #E74C3C;
+	font-size: 15px;
+	line-height: 1.467;
+	padding: 8px 12px;
+	border-radius: 4px;
+	margin-bottom: 3%;
 }

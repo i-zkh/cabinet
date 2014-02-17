@@ -24,21 +24,29 @@ class ManagerController < ApplicationController
   def open_spreadsheet(filename, vendor)
     begin
       case File.extname(filename).downcase
-      when ".txt" then Getter.new(Txt.new(filename, vendor.id)).input
-      when ".xls", ".xlsx" then Getter.new(Xls.new(filename, vendor.id)).input
-      when ".dbf" then Getter.new(Dbf.new(filename, vendor.id)).input
-      when ".ods" then Getter.new(Ods.new(filename, vendor.id)).input
+      when ".txt" then Getter.new(Txt.new(filename, vendor.id)).update
+      when ".xls", ".xlsx" then Getter.new(Xls.new(filename, vendor.id)).update
+      when ".dbf" then Getter.new(Dbf.new(filename, vendor.id)).update
+      when ".ods" then Getter.new(Ods.new(filename, vendor.id)).update
       else
         raise ArgumentError, 'file have not a sample'
       end
     rescue ArgumentError
       if Dir["report/sample/#{Vendor.where(id: vendor.id).first.title}.*"] == []
-        Xls.new(filename, vendor.id).manager
-        redirect_to manager_report_url, notice: "Файл успешно добавлен."
+        begin
+          Xls.new(filename, vendor.id).manager
+        rescue Exception => e
+          File.delete(filename)
+          redirect_to manager_report_url, notice: "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru "
+        else
+          redirect_to manager_report_url, notice: "Файл успешно добавлен."
+        end
       else
+        File.delete(filename)
         redirect_to manager_report_url, notice: "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Образец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
       end
     rescue Exception => e
+      File.delete(filename)
       redirect_to manager_report_url, notice: "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru "
     else 
       redirect_to manager_report_url, notice: "Файл успешно добавлен."
