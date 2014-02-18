@@ -22,6 +22,7 @@ set :ssh_options, {:keys => ["/vagrant/project/aws.pem"]}
 namespace :deploy do
   task :symlink_uploads do
     run "ln -nfs #{shared_path}/uploads  #{release_path}/public/uploads"
+    run "ln -nfs #{shared_path}/report  #{release_path}/public/report"
   end
 
   task :restart do
