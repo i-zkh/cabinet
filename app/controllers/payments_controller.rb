@@ -39,11 +39,10 @@ class PaymentsController < ApplicationController
 	    					from_name: "Сервис АйЖКХ",
 	    					generate_text: true
 	    				 },
-		    	content: {archive: "mail.zip"
-		    	}
+		    	content: {html: "<html><head></head><body><h1>Foo</h1><p>Bar</p></body></html>"}
 	    })
  
-    	gb.campaigns.send(cid: cid['id'])
+    	gb.campaigns.send({cid: cid['id']})
     	# gb.campaigns.schedule(cid: cid['id'], schedule_time: "2014-02-06 20:30:00")
 
 		render json: true
