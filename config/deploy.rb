@@ -47,7 +47,7 @@ namespace :clockwork do
   end
  
   desc "Restart clockwork"
-  task :restart, :roles => clockwork_roles, :on_no_matching_servers => :continue do
+  task :restart, :roles => clockwork_roles, :on_no_matching_servers => :continue
     stop
     start
   end
