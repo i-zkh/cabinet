@@ -21,7 +21,7 @@ set :ssh_options, {:keys => ["/vagrant/project/aws.pem"]}
 set :clockwork_roles, :app
 set :cw_log_file, "#{current_path}/log/clockwork.log"
 set :cw_pid_file, "#{current_path}/tmp/pids/clockwork.pid"
-set :rails_env, ENV['rails_env'] || ''
+set :rails_env, "production"
 
 namespace :deploy do
   task :symlink_uploads do
@@ -41,7 +41,7 @@ namespace :clockwork do
  
   desc "Start clockwork"
   task :start, :roles => clockwork_roles, :on_no_matching_servers => :continue do
-    run "daemon --inherit --name=clockwork --env='#{rails_env}' --output=#{cw_log_file} --pidfile=#{cw_pid_file} -D #{current_path} -- bundle exec clockwork lib/clockwork.rb"
+    run "daemon --inherit --name=clockwork --env='#{rails_env}' --output=#{cw_log_file} --pidfile=#{cw_pid_file} -D #{current_path}/lib -- bundle exec clockworkd -c clock.rb start"
   end
  
   desc "Restart clockwork"
