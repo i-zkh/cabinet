@@ -74,7 +74,7 @@ class PaymentsController < ApplicationController
 
   	def monthly_txt
 		GetRequest.report_monthly(2).each do |id|
-			if id = 121 || id == 43 || id == 44 id == 5 || id == 40 || id == 41 || id == 146 
+			if id = 121 || id == 43 || id == 44 || id == 5 || id == 40 || id == 41 || id == 146 
 				vendor = Vendor.where(id: id).first
 				unless vendor.nil?
 	 				@report = GetRequest.transactions(id, 2)
