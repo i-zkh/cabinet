@@ -36,7 +36,7 @@ end
 namespace :clockwork do
   desc "Stop clockwork"
   task :stop, :roles => clockwork_roles, :on_error => :continue, :on_no_matching_servers => :continue do
-  run "ps -ef | grep PROCESS | grep -v grep | awk '{print $2}' | xargs kill -9"
+  run "ps -ef | grep clockwork | grep -v grep | awk '{print $2}' | xargs kill -9"
   end
  
   desc "Start clockwork"
