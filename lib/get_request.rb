@@ -73,8 +73,14 @@ class GetRequest
 		end
 
 		# Vendor's ids for update users amount in service
-		def vendor_id(vendor_id)
+		def user_accounts(vendor_id)
 			response = HTTParty.get( "http://izkh.ru/api/1.0/user_accounts/#{vendor_id}?auth_token=#{Auth.get}") 
+	    	response.parsed_response
+		end
+
+		# notification user abount amount
+		def users_data(vendor_id)
+			response = HTTParty.get( "http://izkh.ru/api/1.0/users_data/#{vendor_id}?auth_token=#{Auth.get}") 
 	    	response.parsed_response
 		end
 
