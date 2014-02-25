@@ -33,7 +33,7 @@ namespace :deploy do
   end
 end
 
-nnamespace :clockwork do
+namespace :clockwork do
   desc "Stop clockwork"
   task :stop, :roles => clockwork_roles, :on_error => :continue, :on_no_matching_servers => :continue do
     run "if [ -d #{current_path} ] && [ -f #{cw_pid_file} ]; then cd #{current_path} && kill -INT `cat #{cw_pid_file}` ; fi"
