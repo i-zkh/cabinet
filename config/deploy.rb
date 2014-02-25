@@ -36,7 +36,7 @@ end
 namespace :clockwork do
   desc "Stop clockwork"
   task :stop, :roles => clockwork_roles, :on_error => :continue, :on_no_matching_servers => :continue do
-	run "daemon --inherit --name=clockwork --env='#{rails_env}' --output=#{log_file} --pidfile=#{pid_file} -D #{current_path} --stop || true"
+	run "daemon --inherit --name=clockwork --env='#{rails_env}' --output=#{cw_log_file} --pidfile=#{cw_pid_file} -D #{current_path} --stop || true"
   end
  
   desc "Start clockwork"
