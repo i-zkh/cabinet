@@ -51,6 +51,4 @@ namespace :clockwork do
   end
 end
 
-after "deploy:stop", "clockwork:stop"
-after "deploy:start", "clockwork:start"
 after "deploy:restart", "clockwork:restart"
