@@ -41,7 +41,9 @@ namespace :clockwork do
  
   desc "Start clockwork"
   task :start, :roles => clockwork_roles, :on_no_matching_servers => :continue do
-    run "daemon --inherit --name=clockwork --env='#{rails_env}' --output=#{cw_log_file} --pidfile=#{cw_pid_file} -D #{current_path}/lib -- bundle exec clockworkd -c clock.rb start"
+	run "cd #{current_path}; nohup bundle exec clockwork lib/clock.rb -e #{rails_env} >> #{current_path}/log/clockwork.log 2>&1 &", :pty => false
+    # get process id
+    run "ps -eo pid,command | grep clockwork | grep -v grep | awk '{print $1}' > #{cw_pid_file}"
   end
  
   desc "Restart clockwork"
