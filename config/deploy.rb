@@ -33,20 +33,19 @@ namespace :deploy do
   end
 end
 
-namespace :clockwork do
+nnamespace :clockwork do
   desc "Stop clockwork"
-  task :stop, :roles => :app, :on_no_matching_servers => :continue do
-    run "if [ -d #{current_path} ] && [ -f #{cw_pid_file} ]; then cd #{current_path} && kill -int $(cat #{cw_pid_file}) 2>/dev/null; else echo 'clockwork was not running' ; fi"
+  task :stop, :roles => clockwork_roles, :on_error => :continue, :on_no_matching_servers => :continue do
+    run "if [ -d #{current_path} ] && [ -f #{cw_pid_file} ]; then cd #{current_path} && kill -INT `cat #{cw_pid_file}` ; fi"
   end
  
   desc "Start clockwork"
-  task :start, :roles => :app, :on_no_matching_servers => :continue do
-    run "cd #{current_path}; nohup bundle exec clockwork config/clockwork.rb -e #{rails_env} >> #{current_path}/log/clockwork.log 2>&1 &", :pty => false
-    run "ps -eo pid,command | grep clockwork | grep -v grep | awk '{print $1}' > #{cw_pid_file}"
+  task :start, :roles => clockwork_roles, :on_no_matching_servers => :continue do
+    run "daemon --inherit --name=clockwork --env='#{rails_env}' --output=#{cw_log_file} --pidfile=#{cw_pid_file} -D #{current_path} -- bundle exec clockwork lib/clockwork.rb"
   end
  
   desc "Restart clockwork"
-  task :restart, :roles => :app, :on_no_matching_servers => :continue do
+  task :restart, :roles => clockwork_roles, :on_no_matching_servers => :continue do
     stop
     start
   end
