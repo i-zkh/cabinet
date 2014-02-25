@@ -35,7 +35,9 @@ class AccountsController < ApplicationController
 
 	# CheckEmail.get_organizations
 	# p Roo::Excel.new("organizations/#{DateTime.now.month}-#{DateTime.now.day}-Organizations.xls")
-	DataProcessing.send_user("nastya", "iva.anastya@gmail.com", 100)
+	# DataProcessing.user_notifications(144)
+	OrganizationController.auth_keys
 
+	render json: true
   end
 end

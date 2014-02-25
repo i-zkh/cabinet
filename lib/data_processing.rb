@@ -12,9 +12,11 @@ class DataProcessing
 	def self.user_notifications(vendor_id)
 		paid_accounts = []
 		GetRequest.report_daily.each {|r| paid_accounts << r['user_account'] if r['vendor_id'] == vendor_id }
-		(GetRequest.users_data(vendor_id) - paid_accounts).each do 
+        p paid_accounts
+        paid_accounts.each { |p| p GetRequest.users_data(vendor_id) }
+		# (GetRequest.users_data(vendor_id) - paid_accounts).each do 
 
-		end
+		# end
 
 	end
 
