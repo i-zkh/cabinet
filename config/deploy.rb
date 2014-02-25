@@ -34,21 +34,11 @@ namespace :deploy do
 end
 
 namespace :clockwork do
-  desc "Stop clockwork"
-  task :stop, :roles => clockwork_roles, :on_error => :continue, :on_no_matching_servers => :continue do
-  run "ps -ef | grep clockwork | grep -v grep | awk '{print $2}' | xargs kill -9"
-  end
- 
-  desc "Start clockwork"
-  task :start, :roles => clockwork_roles, :on_no_matching_servers => :continue do
-	run "cd #{current_path}/lib; RAILS_ENV=#{rails_env} clockworkd -c clock.rb start >> #{current_path}/log/clockwork.log 2>&1 &", :pty => false
-    run "ps -eo pid,command | grep clockwork | grep -v grep | awk '{print $1}' > #{cw_pid_file}"
-  end
- 
   desc "Restart clockwork"
   task :restart, :roles => clockwork_roles, :on_no_matching_servers => :continue do
-    stop
-    start
+    run "ps -ef | grep clockwork | grep -v grep | awk '{print $2}' | xargs kill -9"
+    run "cd #{current_path}/lib; RAILS_ENV=#{rails_env} clockworkd -c clock.rb start >> #{current_path}/log/clockwork.log 2>&1 &", :pty => false
+    run "ps -eo pid,command | grep clockwork | grep -v grep | awk '{print $1}' > #{cw_pid_file}"
   end
 end
 
