@@ -41,7 +41,7 @@ namespace :clockwork do
  
   desc "Start clockwork"
   task :start, :roles => clockwork_roles, :on_no_matching_servers => :continue do
-    run "daemon --inherit --name=clockwork --env='#{rails_env}' --output=#{cw_log_file} --pidfile=#{cw_pid_file} -D #{current_path} -- bundle exec clockwork lib/clockwork.rb"
+    run "daemon --inherit --name=clockwork --env='#{rails_env}' --output=#{cw_log_file} --pidfile=#{cw_pid_file} -D #{current_path}/lib -- RAILS_ENV=production clockworkd -c clock.rb start"
   end
  
   desc "Restart clockwork"
