@@ -19,7 +19,6 @@ set :ssh_options, {:auth_methods => "publickey"}
 set :ssh_options, {:keys => ["/vagrant/project/aws.pem"]}
  
 set :clockwork_roles, :app
-set :cw_log_file, "#{current_path}/log/clockwork.log"
 set :cw_pid_file, "#{current_path}/tmp/pids/clockwork.pid"
 set :rails_env, "production"
 
