@@ -1,0 +1,4 @@
+<%= form_tag organization_add_vendors_url, multipart: true do %>
+	<%= file_field_tag :file %>
+	<%= submit_tag "Добавить", id: "file_button" %>
+<% end %>
