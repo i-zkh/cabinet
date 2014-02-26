@@ -14,7 +14,7 @@
 
 	<%= form_tag manager_url, multipart: true do %>
 		<%= @notice %></br>
-		Выгрузки существуют по поставщикам: 
+		Выгрузки существуют по поставщикам:
 		<% @vendors_with_report.each do |v| %>
 			<p>
 				<%= v.title if !v.nil? %>

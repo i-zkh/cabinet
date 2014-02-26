@@ -35,7 +35,6 @@ class AccountsController < ApplicationController
 
 	# CheckEmail.get_organizations
 	# p Roo::Excel.new("organizations/#{DateTime.now.month}-#{DateTime.now.day}-Organizations.xls")
-	DataProcessing.user_notifications(144)
 
 	render json: true
   end

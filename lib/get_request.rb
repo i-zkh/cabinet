@@ -90,7 +90,6 @@ class GetRequest
 	    	response.parsed_response
 		end
 
-
 		def vendors
 			response = HTTParty.get( "http://izkh.ru/api/1.0/vendors?auth_token=#{Auth.get}")
 	    	response.parsed_response

@@ -4,7 +4,7 @@ class ManagerController < ApplicationController
     @vendor_title = []
     @month = params.has_key?(:date) ? params[:date][:month].to_i : Date.today.month
     @year  = params.has_key?(:date) ? params[:date][:year].to_i  : Date.today.year
-    FileUtils.mkpath "public/report/#{@year}-#{@month}"
+    FileUtils.mkpath "/home/ubuntu/apps/project/shared/report/#{@year}-#{@month}"
     @vendors_with_report = vendors_with_report
     (Vendor.all - @vendors_with_report).each { |v| @vendor_title << v.title }
   end
@@ -13,8 +13,8 @@ class ManagerController < ApplicationController
     @vendors = Vendor.all.select{ |v| !File.exists?(v.title) }
     vendor = Vendor.where(title: params[:vendor]).first
     if params.has_key?(:file) && vendor
-      filename = "public/report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{params[:vendor]}" + "#{File.extname("#{params[:file].original_filename}")}"
-      File.open(File.join(filename), "wb") { |f| f.write(params[:file].read) }
+      filename = "/home/ubuntu/apps/project/shared/report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{params[:vendor]}" + "#{File.extname("#{params[:file].original_filename}")}"
+      File.open(File.join(filename), "wb") {|f| f.write(params[:file].read)}
       open_spreadsheet(filename, vendor)
     else
       redirect_to manager_report_url, notice: "Необходимо выбрать файл и поставщика."
@@ -37,7 +37,7 @@ class ManagerController < ApplicationController
         raise ArgumentError, 'file have not a sample'
       end
     rescue ArgumentError
-      if Dir["public/report/sample/#{Vendor.where(id: vendor.id).first.title}.*"] == []
+      if Dir["public/sample/#{Vendor.where(id: vendor.id).first.title}.*"] == []
         begin
           Xls.new(filename, vendor.id).manager
         rescue Exception => e
@@ -60,7 +60,7 @@ class ManagerController < ApplicationController
 
   def vendors_with_report
     vendors_with_report = []
-    directory = params.has_key?(:date) ? "public/report/#{params[:date][:year]}-#{params[:date][:month]}" : "public/report/#{DateTime.now.year}-#{DateTime.now.month}"
+    directory = params.has_key?(:date) ? "/home/ubuntu/apps/project/shared/report/#{params[:date][:year]}-#{params[:date][:month]}" : "/home/ubuntu/apps/project/shared/report/#{DateTime.now.year}-#{DateTime.now.month}"
     Dir.foreach(directory) do |file|
       next if file == '.' or file == '..'
       vendors_with_report << Vendor.where(title: File.basename(file, ".*").gsub("й", "й")).first

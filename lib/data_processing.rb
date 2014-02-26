@@ -15,11 +15,11 @@ class DataProcessing
         GetRequest.users_data(vendor_id).each do |u_d| 
             amount = Account.where('vendor_id = ? AND user_account = ?', vendor_id, u_d['user_account']).first
             if !paid_accounts.include?(u_d["user_account"]) && amount
-                users_data << { user_name: u_d['user_name'], user_email: u_d['user_email'], amount: amount }
+                amount = amount.invoice_amount.to_f <= 0 ? 0 : amount.invoice_amount.to_f*(-1)
+                users_data << { "user_name" => u_d['user_name'], "user_email" => u_d['user_email'], "amount" => amount } if amount != 0
             end
         end
-        p users_data
-        users_data.each {|u_d| send_user(u_d['user_name'], "iva.anastya@gmail.com", u_d['amount'])}
+        users_data.each {|u_d| send_user(u_d['user_name'], u_d['user_email'], u_d['amount'])}
 	end
 
 	def self.send_user(name, email, amount)

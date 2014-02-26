@@ -12,43 +12,8 @@ module Clockwork
  	end
     
     # Clock for hourly report
- 	every(1.day, 'Report', :at => '4:00') do
+ 	every(1.day, 'Report', :at => ['4:00', '07:00', '10:00', '13:00', '16:00', '19:00', '22:00', '01:00']) do
     	Sidekiq.logger.info "Starting Report hourly"
-        Report.report_hourly
-    end
- 
-    every(1.day, 'Report', :at => '07:00') do
-     	Sidekiq.logger.info "Starting Report hourly"
-        Report.report_hourly
-    end
- 
-    every(1.day, 'Report', :at => '10:00') do
-     	Sidekiq.logger.info "Starting Report hourly"
-        Report.report_hourly
-    end
- 
-    every(1.day, 'Report', :at => '13:00') do
-    	Sidekiq.logger.info "Starting Report hourly"
-        Report.report_hourly
-    end
- 
-    every(1.day, 'Report', :at => '16:00') do
-    	Sidekiq.logger.info "Starting Report hourly"
-        Report.report_hourly
-    end
- 
-    every(1.day, 'Report', :at => '19:00') do
-   		Sidekiq.logger.info "Starting Report hourly"
-        Report.report_hourly
-    end
-
-    every(1.day, 'Report', :at => '22:00') do
-        Sidekiq.logger.info "Starting Report hourly"
-        Report.report_hourly
-    end
-
-    every(1.day, 'Report', :at => '01:00') do
-        Sidekiq.logger.info "Starting Report hourly"
         Report.report_hourly
     end
 end
