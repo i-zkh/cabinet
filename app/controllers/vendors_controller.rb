@@ -37,16 +37,16 @@ class VendorsController < ApplicationController
     @vendor = current_user
     @month  = params.has_key?(:date) ? params[:date][:month].to_i : Date.today
     @year   = params.has_key?(:date) ? params[:date][:year].to_i  : Date.today
-    FileUtils.mkpath "public/report/#{DateTime.now.year}-#{DateTime.now.month}"
+    FileUtils.mkpath "/home/ubuntu/apps/project/shared/report/#{DateTime.now.year}-#{DateTime.now.month}"
   end
 
   def sample
-    send_file "#{Dir["public/report/sample/#{Vendor.where(id: current_user.id).first.title}.*"][0]}"
+    send_file "#{Dir["public/sample/#{Vendor.where(id: current_user.id).first.title}.*"][0]}"
   end
 
   def import
     if params.has_key?(:file)
-      filename = "public/report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: current_user.id).first.title}" + "#{File.extname("#{params[:file].original_filename}")}"
+      filename = "/home/ubuntu/apps/project/shared/report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: current_user.id).first.title}" + "#{File.extname("#{params[:file].original_filename}")}"
       File.open(File.join(filename), "wb") { |f| f.write(params[:file].read) }
       open_spreadsheet(filename)
     else
@@ -55,10 +55,10 @@ class VendorsController < ApplicationController
   end
 
   def import_drag
-    filename = "public/report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: current_user.id).first.title}" + "#{File.extname("#{request.headers['HTTP_X_FILENAME']}")}"
+    filename = "/home/ubuntu/apps/project/shared/report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{Vendor.where(id: current_user.id).first.title}" + "#{File.extname("#{request.headers['HTTP_X_FILENAME']}")}"
     File.open(File.join(filename), "wb") { |f| f.write(request.body.read) }
     open_spreadsheet(filename)
-    end
+  end
 
   def open_spreadsheet(filename)
     begin
@@ -71,7 +71,7 @@ class VendorsController < ApplicationController
         raise ArgumentError, 'file have not a sample'
       end
     rescue ArgumentError
-      if Dir["public/report/sample/#{Vendor.where(id: current_user.id).first.title}.*"] == []
+      if Dir["public/sample/#{Vendor.where(id: current_user.id).first.title}.*"] == []
         redirect_to report_url, notice: "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru "
       else
         redirect_to report_url, notice: "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Образец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."

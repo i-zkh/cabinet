@@ -42,17 +42,17 @@ class ManagerController < ApplicationController
           Xls.new(filename, vendor.id).manager
         rescue Exception => e
           File.delete(filename)
-          redirect_to manager_report_url, notice: "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru "
+          redirect_to manager_report_url, notice: "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru"
         else
           redirect_to manager_report_url, notice: "Файл успешно добавлен."
         end
       else
         File.delete(filename)
-        redirect_to manager_report_url, notice: "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Образец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
+        redirect_to manager_report_url, notice: "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Образец можно скачать ниже."
       end
     rescue Exception => e
       File.delete(filename)
-      redirect_to manager_report_url, notice: "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru "
+      redirect_to manager_report_url, notice: "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru"
     else 
       redirect_to manager_report_url, notice: "Файл успешно добавлен."
     end
