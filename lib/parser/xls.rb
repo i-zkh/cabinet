@@ -8,7 +8,7 @@ class Xls < Parser
   	end
 
 	def input
-		p @data = case @vendor_id
+		@data = case @vendor_id
 				when 38, 46, 63, 59, 50, 129									then standard
 				when 55, 67, 109, 110, 114, 141, 142, 58, 137, 47, 56, 112, 66	then two_columns
 				when 93															then naber

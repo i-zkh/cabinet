@@ -63,10 +63,10 @@ class VendorsController < ApplicationController
   def open_spreadsheet(filename)
     begin
       case File.extname(filename).downcase
-      when ".txt" then Getter.new(Txt.new(filename, current_user.id)).update
-      when ".xls", ".xlsx" then Getter.new(Xls.new(filename, current_user.id)).update
-      when ".dbf" then Getter.new(Dbf.new(filename, current_user.id)).update
-      when ".ods" then Getter.new(Ods.new(filename, current_user.id)).update
+      when ".txt" then Getter.new(Txt.new(filename, current_user.id)).create 
+      when ".xls", ".xlsx" then Getter.new(Xls.new(filename, current_user.id)).create
+      when ".dbf" then Getter.new(Dbf.new(filename, current_user.id)).create
+      when ".ods" then Getter.new(Ods.new(filename, current_user.id)).create
       else
         raise ArgumentError, 'file have not a sample'
       end
