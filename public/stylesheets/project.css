@@ -9,6 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
+ *= require jquery.ui.datepicker
  *= require_tree .
  */
 
@@ -208,9 +209,15 @@ td.td_with_image{
 	height: 100px;
 }
 
-#user_account{
-	margin-left: 4px;
+#user_account, #user_address, #from, #to{
+	margin: 2% 5px;
 	width: 138px;
+	height: 10px;
+	float: left;
+	position: relative;
+}
+#user_address{
+	width: 200px;
 }
 #vendor{
 	margin-left: 4px;

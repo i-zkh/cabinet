@@ -1,0 +1,11 @@
+- if @report
+  - @report.each do |r|
+    - date = DateTime.parse(r["created_at"])
+    %tr
+      %td= r["user_id"]
+      %td= r["energy_phase_one"]
+      %td= r["energy_phase_two"]
+      %td= r["gas"]
+      %td= r["water_cold"]
+      %td= r["water_hot"]
+      %td= date.strftime("%Y-%m-%d")

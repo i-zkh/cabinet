@@ -1,0 +1,30 @@
+.span9
+  = form_tag(meters_url, method: :post, remote: true ) do 
+    #user_address_data
+      #address{ data: {address: @user.to_json} }
+      = text_field_tag :user_address, nil, placeholder: 'Адрес'
+    = text_field_tag :from, nil, placeholder: "#{@from}"
+    = text_field_tag :to, nil, placeholder: "#{@to}"
+    #button_small= submit_tag "Обновить"
+    %table.table.table-striped.table-hover
+      %thead
+        %tr
+          %th Адрес
+          %th Элекричество день
+          %th Элекричество ночь
+          %th Газ
+          %th Горячая вода
+          %th Холодная вода
+          %th Дата
+      %tbody#meters_data
+        - if @report
+          - @report.each do |r|
+            - date = DateTime.parse(r["created_at"])
+            %tr
+              %td= r["user_id"]
+              %td= r["energy_phase_one"]
+              %td= r["energy_phase_two"]
+              %td= r["gas"]
+              %td= r["water_cold"]
+              %td= r["water_hot"]
+              %td= date.strftime("%Y-%m-%d")  

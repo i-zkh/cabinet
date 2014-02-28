@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.datepicker
 //= require_tree .
 
 hoverer = function(){
@@ -22,6 +23,9 @@ hoverer = function(){
 
     $(document).ready(function() {
         $('.fancybox').fancybox();
+        $("#user_address").autocomplete({
+          source: $('#address').data('address')
+        });
 			   Init();
     });
 

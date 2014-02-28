@@ -1,11 +1,10 @@
 Project::Application.routes.draw do
 
-  get "manager/index"
-
   resources :vendors
   # resources :accounts
   resources :transactions
   resources :counters
+  resources :meters
   resources :address_ranges
   resources :sessions
 
@@ -75,6 +74,4 @@ Project::Application.routes.draw do
   get 'show_report' => 'vendors#show'
 
   get '/vendors/:id', to: 'vendors#destroy'
-
-
 end

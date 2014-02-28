@@ -1,0 +1,7 @@
+$("#meters_data").html('<%= escape_javascript render("meters/meter")%>');
+$("#user_address_data").html('<%= escape_javascript render("meters/account")%>');
+ $(function() {
+    $("#user_address").autocomplete({
+        source: $('#address').data('address')
+    });
+  });

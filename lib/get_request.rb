@@ -39,6 +39,11 @@ class GetRequest
 		end
 
 		# Meters for month in cabinet
+		def utility_metrics(vendor_id, from, to)
+	  		response = HTTParty.get( "http://izkh.ru/utility_metrics/report?vendor_id=#{vendor_id}&from=#{from}&to=#{to}&auth_token=#{Auth.get}")
+		    response.parsed_response
+		end
+
 		def meters(vendor_id, month)
 	  		response = HTTParty.get( "http://izkh.ru/api/1.0/meterreadings",
 	    		:body => { :meter_reading =>  { :vendor_id => vendor_id, :month => month }}.to_json,
