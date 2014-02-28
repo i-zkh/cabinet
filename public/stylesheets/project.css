@@ -52,7 +52,7 @@ input, input[type="file"]{
 	width: 323px;
 	margin: 90px auto;
 }
-#button input, .link a, #button_small input, #file_button, #checkbox_all {
+#button input, .link a, #button_small input, #file_button, #checkbox_all input{
 	height: 30px;
 	margin-left: 5px;
 	width: 268px;
@@ -77,6 +77,7 @@ input, input[type="file"]{
 #checkbox_all{
 	float: right;
 }
+
 thead{
 	background-color: #3498DB;
 }

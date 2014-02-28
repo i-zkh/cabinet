@@ -6,6 +6,7 @@
     = text_field_tag :from, nil, placeholder: "#{@from}"
     = text_field_tag :to, nil, placeholder: "#{@to}"
     #button_small= submit_tag "Обновить"
+    #checkbox_all= submit_tag "Принять все показания", :onclick => "javascript:toggle(this)"
     %table.table.table-striped.table-hover
       %thead
         %tr
@@ -28,4 +29,5 @@
               %td= r["gas"]
               %td= r["water_cold"]
               %td= r["water_hot"]
-              %td= date.strftime("%Y-%m-%d")  
+              %td= date.strftime("%Y-%m-%d")
+              %td#foo= check_box_tag 'take_readings'

@@ -29,6 +29,17 @@ hoverer = function(){
 			   Init();
     });
 
+function checkAll() {
+     var checkboxes = new Array();
+     checkboxes = document.getElementsByTagName('foo');
+
+     for (var i = 0; i < checkboxes.length; i++) {
+         if (checkboxes[i].type == 'checkbox') {
+             checkboxes[i].setAttribute('checked', true)
+         }
+     }
+ }
+
 // initialize
 function Init() {
  var dropZone = document.getElementById('filedrag');

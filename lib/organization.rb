@@ -40,7 +40,7 @@ class Organization
           @data[i]["work_time"] != nil ? @data[i]["work_time"] : "уточните по телефону", 
           @data[i]["address"], 
           @non_utility_service_types[@data[i]["servicetype"].mb_chars.capitalize.to_s], 
-          GetRequest.geocode(data[i]["address"])
+          GetRequest.geocode(@data[i]["address"])
         )
       end
     end
