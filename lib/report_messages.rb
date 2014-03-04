@@ -1,5 +1,5 @@
+#encoding: utf-8
 class ReportMessages
-
 	def self.monthly_report(email, filename)
 		require 'mandrill'
     	mandrill = Mandrill::API.new 'Sa9QSFZ8ZFAIJVosKwnqBQ'

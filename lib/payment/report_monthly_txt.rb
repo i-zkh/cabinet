@@ -1,3 +1,4 @@
+#encoding: utf-8
 class ReportMonthlyTxt < Payment
   attr_accessor :data
 
