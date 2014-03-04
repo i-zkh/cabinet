@@ -52,7 +52,7 @@ input, input[type="file"]{
 	width: 323px;
 	margin: 90px auto;
 }
-#button input, .link a, #button_small input, #file_button, #checkbox_all input{
+#button input, .link a, #button_small input, #file_button, #checkbox_all{
 	height: 30px;
 	margin-left: 5px;
 	width: 268px;
@@ -74,15 +74,11 @@ input, input[type="file"]{
 	-webkit-backface-visibility: hidden;
 }
 
-#checkbox_all{
-	float: right;
-}
-
 thead{
 	background-color: #3498DB;
 }
 
-#button input:active, .link a:active, #button_small input:active {
+#button input:active, .link a:active, #button_small input:active{
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	background-color: #006dcc;
 	background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
@@ -277,4 +273,14 @@ button .button {
 	padding: 8px 12px;
 	border-radius: 4px;
 	margin-bottom: 3%;
+}
+#checkbox_all, .checkbox_submit{
+	float: right;
+	margin:0 55px;
+	width: 100px;
+}
+#checkbox_all{
+padding: 7px 20px 0 30px;
+color: white;
+margin: 0;
 }

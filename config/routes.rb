@@ -4,7 +4,7 @@ Project::Application.routes.draw do
   # resources :accounts
   resources :transactions
   resources :counters
-  resources :meters
+  # resources :meters
   resources :address_ranges
   resources :sessions
 
@@ -28,6 +28,7 @@ Project::Application.routes.draw do
   get 'get_payment' => 'payments#create'
   get 'report/monthly/xls' => 'payments#monthly_xls'
   get 'report/monthly/txt' => 'payments#monthly_txt'
+  get 'report/monthly' => 'payments#monthly_txt'
   get 'report/hourly' => 'payments#hourly'
 
   get 'report/gibbon' => 'payments#report_with_gibbon'
@@ -74,4 +75,10 @@ Project::Application.routes.draw do
   get 'show_report' => 'vendors#show'
 
   get '/vendors/:id', to: 'vendors#destroy'
+
+  # Save metrics process
+  get 'meters' => 'meters#index'
+  post 'meters' => 'meters#create'
+  put 'meters' => 'meters#save_metrics_process'
+
 end

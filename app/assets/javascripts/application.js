@@ -15,30 +15,35 @@
 //= require jquery.ui.datepicker
 //= require_tree .
 
+var isChecked = true;
+
 hoverer = function(){
+
     $(document).ready(function() {
         $('.fancybox').fancybox();
     });
 };
-
     $(document).ready(function() {
+        document.getElementById("checkbox_all").onclick = function(){
+          checkedAll(isChecked);
+          isChecked = !isChecked;
+    };
         $('.fancybox').fancybox();
         $("#user_address").autocomplete({
           source: $('#address').data('address')
         });
-			   Init();
+			  Init();
+
     });
 
-function checkAll() {
-     var checkboxes = new Array();
-     checkboxes = document.getElementsByTagName('foo');
-
-     for (var i = 0; i < checkboxes.length; i++) {
-         if (checkboxes[i].type == 'checkbox') {
-             checkboxes[i].setAttribute('checked', true)
-         }
-     }
- }
+function checkedAll(isChecked) {
+    var c = document.getElementsByTagName('input');
+    for (var i = 0; i < c.length; i++){
+        if (c[i].type == 'checkbox'){
+          c[i].checked = isChecked;
+        }
+    }
+}
 
 // initialize
 function Init() {

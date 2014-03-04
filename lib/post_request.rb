@@ -60,5 +60,11 @@ class PostRequest
 		    	:body => { :payload => data}.to_json,
 		    	:headers => {'Content-Type' => 'application/json'})
 		end
+
+		def metrics_process(utility_metrics)
+			response = HTTParty.post( "http://izkh.ru/utility_metrics/process?auth_token=#{Auth.get}",
+		    	:body => {:utility_metrics => utility_metrics}.to_json,
+		    	:headers => {'Content-Type' => 'application/json'})
+		end
 	end
 end

@@ -5,7 +5,9 @@
       %td= r["user_id"]
       %td= r["energy_phase_one"]
       %td= r["energy_phase_two"]
+      %td= r["energy_phase_common"]
       %td= r["gas"]
       %td= r["water_cold"]
       %td= r["water_hot"]
       %td= date.strftime("%Y-%m-%d")
+      %td= check_box_tag 'take_readings', 'true', r["processed"] 

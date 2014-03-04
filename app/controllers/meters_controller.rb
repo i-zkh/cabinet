@@ -19,4 +19,9 @@ class MetersController < ApplicationController
         @report = data
     end
   end
+
+  def save_metrics_process
+    PostRequest.metrics_process(params["utility_metrics"])
+    render json: true
+  end
 end

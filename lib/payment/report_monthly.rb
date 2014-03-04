@@ -8,12 +8,14 @@ class ReportMonthly < Payment
   end
 
   def monthly
+    filename = "/home/ubuntu/apps/project/shared/transactions/" + "#{Vendor.find(@vendor_id).title.gsub!(/"/, "")}.xls"
     Axlsx::Package.new do |p|
       p.workbook.add_worksheet(:name => "Report") do |sheet|
         sheet.add_row ["Лицевой счет", "Сумма", "Дата"]
         @data.each { |d| sheet.add_row [d["user_account"], d["amount"], DateTime.parse(d['date']).strftime("%Y-%m-%d")] }
       end
-      p.serialize("report_monthly/1-2014/" + "#{Vendor.find(@vendor_id).title.gsub!(/"/, "")}.xls")
+      p.serialize(filename)
     end
+    filename
   end
 end
