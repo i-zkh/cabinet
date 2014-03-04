@@ -18,7 +18,7 @@ class ReportMessages
     	  :html=>
     	    "<html>
     	      <p>
- 				Выгрузка транзакций АйЖКХ за #{Date.today.month}
+ 				Выгрузка транзакций АйЖКХ
     	      </p>
     	    </html>",
     	  :from_email=>"out@izkh.ru"

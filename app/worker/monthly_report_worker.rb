@@ -2,7 +2,6 @@
 class MonthlyReportWorker
 include Sidekiq::Worker
   sidekiq_options :retry => false
-  
     def perform
 		GetRequest.report_monthly(Date.today.month-1).each do |id|
 			case id
