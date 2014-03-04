@@ -11,7 +11,7 @@ include Sidekiq::Worker
 				filename = Report.new(ReportMonthly.new(GetRequest.transactions(id, Date.today.month-1), id)).monthly
 			end
 				vendor = Vendor.where(id: id, distribution: true).first
-				ReportMessages.monthly_report("ivanova@izkh.ru", filename) unless vendor.nil? || vendor.id == 150
+				ReportMessages.monthly_report(vendor.email, filename) unless vendor.nil? || vendor.id == 150
 		end
     end
 end
