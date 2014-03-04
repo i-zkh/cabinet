@@ -8,7 +8,7 @@ class ReportMonthlyTxt < Payment
   end
 
   def monthly
-    filename = "/home/ubuntu/apps/project/shared/transactions/" + "#{Vendor.find(@vendor_id).title.gsub!(/"/, "")}.txt"
+    filename = "report_monthly/2-2014/" + "#{Vendor.find(@vendor_id).title.gsub!(/"/, "")}.txt"
     outFile = File.new(filename, "w")
       @data.each do |d|
         address = Account.where(user_account: d['user_account'], vendor_id: @vendor_id).first

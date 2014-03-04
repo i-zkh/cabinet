@@ -6,10 +6,10 @@ require 'clockwork'
 
 module Clockwork
     # Clock for Daily report
-	# every(1.day, 'Report', :at => '21:00') do
-	# 	Sidekiq.logger.info "Starting Report daily"
- #   		Report.report
- # 	end
+	every(1.day, 'Report', :at => '21:00') do
+		Sidekiq.logger.info "Starting Report daily"
+   		Report.report
+ 	end
     
     # Clock for hourly report
  	every(1.day, 'Report', :at => ['4:00', '07:00', '10:00', '13:00', '16:00', '19:00', '22:00', '01:00']) do
@@ -17,6 +17,6 @@ module Clockwork
         Report.report_hourly
     end
 
-	# every(1.day, 'monthly report for', :at => '11:15', :if => lambda { |t| t.day == 4 }) { MonthlyReportWorker.perform_async }
+	every(1.day, 'monthly report for', :at => '00:00', :if => lambda { |t| t.day == 1 }) { MonthlyReportWorker.perform_async }
 
 end
