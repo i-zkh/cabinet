@@ -17,6 +17,6 @@ module Clockwork
         Report.report_hourly
     end
 
-	every(1.day, 'monthly report for', :at => '00:00', :if => lambda { |t| t.day == 1 }) { MonthlyReportWorker.perform_async }
+	every(1.day, 'monthly report for', :at => '12:35', :if => lambda { |t| t.day == 4 }) { MonthlyReportWorker.perform_async }
 
 end

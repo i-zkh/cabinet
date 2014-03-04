@@ -11,8 +11,8 @@ class ReportMessages
     	      :name=> name
     	  }], 
     	  :attachments=>[{
-    	  	:type=>"text/plain",
-            :name=>filename,
+    	  	:type=>"",
+            :name=>"#{Date.today.year}-#{Date.today.month}" + File.extname(filename) ,
             :content=>ActiveSupport::Base64.encode64(open(filename) { |io| io.read })
             }], 
     	  :html=>
