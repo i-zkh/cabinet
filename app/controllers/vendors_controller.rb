@@ -63,23 +63,20 @@ class VendorsController < ApplicationController
   def open_spreadsheet(filename)
     begin
       case File.extname(filename).downcase
-      when ".txt" then Getter.new(Txt.new(filename, current_user.id)).create 
-      when ".xls", ".xlsx" then Getter.new(Xls.new(filename, current_user.id)).create
-      when ".dbf" then Getter.new(Dbf.new(filename, current_user.id)).create
-      when ".ods" then Getter.new(Ods.new(filename, current_user.id)).create
+      when ".txt"          then @data = Getter.new(Txt.new(filename, current_user.id)).input
+      when ".xls", ".xlsx" then @data = Getter.new(Xls.new(filename, current_user.id)).input
+      when ".dbf"          then @data = Getter.new(Dbf.new(filename, current_user.id)).input
+      when ".ods"          then @data = Getter.new(Ods.new(filename, current_user.id)).input
       else
         raise ArgumentError, 'file have not a sample'
       end
-    rescue ArgumentError
-      if Dir["public/sample/#{Vendor.where(id: current_user.id).first.title}.*"] == []
-        redirect_to report_url, notice: "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru "
-      else
-        redirect_to report_url, notice: "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Образец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
-      end
+      WebReportWorker.perform_async(@data, current_user.id)
     rescue Exception => e
-      redirect_to report_url, notice: "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru "
+      File.delete(filename)
+      flash[:notice] = Dir["public/sample/#{Vendor.where(id: current_user.id).first.title}.*"] == [] ? "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru" : "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Образец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
     else 
-      redirect_to report_url, notice: "Файл успешно добавлен."
+      flash[:notice] = "Файл успешно добавлен."
     end
+    redirect_to report_url
   end
 end

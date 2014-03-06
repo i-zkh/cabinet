@@ -15,21 +15,12 @@ class Xls < Parser
 				when 92															then sokol
 				when 15															then promsh
 				when 42															then silver_creek
-				when 62															then first_last 
+				when 62															then first_last
+				when 107														then energosbyt
 				else
-					raise ArgumentError, 'report don\'t have sample'
+					raise FiberError, 'report don\'t have sample'
 				end
 		super
-	end
-
-	def create
-	  	input
-	  	super
-	end
-
-	def update
-	  	input
-	  	super
 	end
 
 	# === REPORT IN XLS
@@ -151,8 +142,16 @@ class Xls < Parser
 			address = @file.cell(i, @file.first_column + 1).to_s.split(",")
   	  		@data <<  {@key[0] => @file.cell(i, @file.first_column).to_i, @key[2] => address[0], @key[3] => address[1], @key[5] => @file.cell(i, @file.first_column + 2)}
   		end
-		Account.destroy_all(vendor_id: @vendor_id)
-		(0..@data.size-1).each { |i| Account.create!(user_account: @data[i]["user_account"], city: @data[i]["city"], street: @data[i]["street"], building: @data[i]["building"], apartment: @data[i]["apartment"], invoice_amount: @data[i]["invoice_amount"], vendor_id: @vendor_id) }
+  		@data
+	end
+
+	# Parser for Energo-Sbit
+	def energosbyt
+		key = ["user_account", "city", "street", "building", "apartment", "bypass", "meter_reading", "invoice_amount", "data"]
+		(2..@file.last_row).each do |i|
+			@data << {key[0] => @file.cell(i, 1), key[1] => "Самара", key[2] => @file.cell(i, 2), key[3] => @file.cell(i, 3), key[4] => @file.cell(i, 4), key[5] => @file.cell(i, 5), key[6] => @file.cell(i, 6), key[7] => @file.cell(i, 7), key[8] => @file.cell(i, 8)}
+		end
+		@data
 	end
 
 	def parsing_file(file)

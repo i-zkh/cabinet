@@ -64,6 +64,11 @@ class GetRequest
 	    	response.parsed_response
 		end
 
+		def non_utility_vendors
+			response = HTTParty.get( "http://izkh.ru/api/1.0/non_utility_vendors?auth_token=#{Auth.get}") 
+	    	response.parsed_response
+		end
+
 		# Add vendors to service
 		# List of vendor's categories
 		def servicetypes

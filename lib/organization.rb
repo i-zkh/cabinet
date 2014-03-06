@@ -8,13 +8,13 @@ class Organization
     @servicetypes = get_type("service_type")
     @non_utility_service_types = get_type("non_utility_service_type")
     @cities = cities
+    p @non_utility_vendors_contacts = non_utility_vendors_contacts(file)
   end
 
   def add_vendors
     (0..@data.size-1).each do |i|
       cities = []
       @data[i]["city"].split(',').each { |city_title| cities << { id: @cities["#{city_title}"] } }
-
       unless Vendor.where(title: @data[i]["title"]).first
         check_servicetype(@data[i]["servicetype"].mb_chars.capitalize.to_s)
         vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"].to_i, cities)
@@ -41,9 +41,10 @@ class Organization
           @data[i]["address"], 
           @non_utility_service_types[@data[i]["servicetype"].mb_chars.capitalize.to_s], 
           GetRequest.geocode(@data[i]["address"])
-        )
+        )  
       end
     end
+      @non_utility_vendors_contacts.each {|contact| PostRequest.non_utility_vendors_contact(contact["vendor_id"], contact["title"], contact["phone"])}
   end
 
   # Add servicetypes and non_utility_service_types 
@@ -82,6 +83,17 @@ class Organization
           if s.cell(i, 2) == 2.0
             hash =  { key[0] => s.cell(i, 4), key[1] => s.cell(i, 7), key[2] => s.cell(i, 10), key[3] => s.cell(i, 8), key[4] => s.cell(i, 11), key[5] => s.cell(i, 13), key[6] => s.cell(i, 9), key[7] => s.cell(i, 5) }
             @data << hash
+          end
+      end
+      @data
+    end
+
+    def non_utility_vendors_contacts(file)
+      s, key, @data, hash = Roo::Excel.new(file), ["vendor_id", "title", "phone"], [], {}
+      (2..s.last_row).each do |i|
+          if s.cell(i, 2) == 2.0 && !s.cell(i, 14).nil?
+            GetRequest.non_utility_vendors.each {|n_u_v| @non_utility_vendor_id = n_u_v["id"] if n_u_v["title"] == s.cell(i, 4)}
+            (14..s.last_column-1).step(2).each { |j| @data << { key[0] => @non_utility_vendor_id, key[1] => s.cell(i, j), key[2] => s.cell(i, j+1).to_i.to_s} if !s.cell(i, j).nil? }
           end
       end
       @data

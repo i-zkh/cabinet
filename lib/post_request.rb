@@ -29,6 +29,12 @@ class PostRequest
 	            :headers => {'Content-Type' => 'application/json'})
 		end
 
+		def non_utility_vendors_contact(non_utility_vendor_id, title, phone)
+			response = HTTParty.post( "http://izkh.ru/api/1.0/non_utility_vendors_contact?auth_token=#{Auth.get}",
+	            :body => { :non_utility_vendors_contacts => { title: title, phone: phone, non_utility_vendor_id: non_utility_vendor_id }}.to_json,
+	            :headers => {'Content-Type' => 'application/json'})
+		end
+
 		def vendor(title, service_type_id, commission, cities)
 			response = HTTParty.post( "http://izkh.ru/api/1.0/vendor?auth_token=#{Auth.get}",
 		    	:body => { :vendor =>  { title: title, service_type_id: service_type_id, is_active: true, commission: commission, merchant_id: 43222, psk: "e45a8c7b-b0bd-4bdd-93d3-859b463daf81" },

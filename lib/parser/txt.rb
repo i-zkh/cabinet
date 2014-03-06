@@ -7,7 +7,7 @@ class Txt < Parser
 	end
 
  	def input
- 		p @data = case @vendor_id
+ 		@data = case @vendor_id
 		when 5, 40, 43, 44, 146 then parser
 		else
 			raise ArgumentError, 'report don\'t have sample'

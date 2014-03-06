@@ -8,7 +8,7 @@ class Dbf < Parser
   	end
 
 	def input
-		p @data = case @vendor_id
+		@data = case @vendor_id
 				when 61, 111, 33 then parser
 				else
 					raise ArgumentError, 'report don\'t have sample'

@@ -6,7 +6,7 @@ class Getter
 	end
 
 	def input
-		p @parser.input
+		@parser.input
 	end
 
 	def create
