@@ -7,7 +7,7 @@ class TxtCheckAddress < Payment
   end
 
   def output
-    outFile = File.new("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{@id}.txt", "w")
+    outFile = File.new("#{Vendor.where(id: @id).first.title}.txt", "w")
       @data.each do |d|
         address = Account.where(user_account: d['user_account'], vendor_id: d['vendor_id']).first
         if address.nil?

@@ -34,7 +34,7 @@ class ReportWorker
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("transactions/#{DateTime.now.year}-#{DateTime.now.month}-#{DateTime.now.day}-#{id}.txt")
+		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{Vendor.where(id: @id).first.title}.txt")
 	    		logger.info "transaction: #{vendor.title}-#{@data}"
 	    	end
 	    end

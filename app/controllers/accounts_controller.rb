@@ -11,7 +11,7 @@ class AccountsController < ApplicationController
   end
 
   def update
-  	# Report.new(Factorial.new(GetRequest.transactions(150, Date.today.month-1))).output_report
+  	Report.new(Factorial.new(GetRequest.transactions(150, Date.today.month))).output_report
 
 	# Energosbyt.new("report/1-2014/Сбыт_Энерго_дек.xls").update
 	# Getter.new(Xls.new("report/11-2013/254.xls", 58)).input

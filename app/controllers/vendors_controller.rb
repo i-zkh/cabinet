@@ -1,7 +1,4 @@
-# coding: utf-8
 #encoding: UTF-8
-
-
 class VendorsController < ApplicationController
   before_filter :authorize, only: [:edit, :update, :report, :report_test]
 
@@ -56,7 +53,7 @@ class VendorsController < ApplicationController
 
   def import_drag
     filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{current_user.id}" + "#{File.extname("#{request.headers['HTTP_X_FILENAME']}")}"
-    File.open(File.join(filename), "wb") { |f| f.write(request.body.read) }
+    File.open(File.join(filename), "wb"){|f| f.write(request.body.read)}
     open_spreadsheet(filename)
   end
 

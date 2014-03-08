@@ -24,6 +24,7 @@ hoverer = function(){
     });
 };
     $(document).ready(function() {
+      Init();
         document.getElementById("checkbox_all").onclick = function(){
           checkedAll(isChecked);
           isChecked = !isChecked;
@@ -32,8 +33,8 @@ hoverer = function(){
         $("#user_address").autocomplete({
           source: $('#address').data('address')
         });
-			  Init();
 
+			  
     });
 
 function checkedAll(isChecked) {
