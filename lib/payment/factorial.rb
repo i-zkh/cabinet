@@ -8,7 +8,7 @@ class Factorial < Payment
   def output
     sum = 0
     reportFile = File.new("#{Vendor.where(id: 150).first.title}.txt", "w:CP866")
-    @data.each {|d| sum = sum + d['amount']}
+    @data.each {|d| sum = sum + d['amount']} 
     reportFile.puts("# #{Date.today.strftime("%d%m%y")} ;Номер реестра\n" +
                     "# #{sum} ;Сумма реестра\n" +
                     "# ;В том числе пеня\n" +
