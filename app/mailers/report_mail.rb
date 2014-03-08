@@ -5,7 +5,7 @@ class ReportMail < ActionMailer::Base
 
   def report(message, vendor)
     @message = message
-    attachments["#{Vendor.where(id: @id).first.title}.txt"] = File.read("#{Vendor.where(id: @id).first.title}.txt")
+    attachments["#{vendor.title}.txt"] = File.read("#{vendor.title}.txt")
     mail(to: vendor.email, subject: "АйЖКХ")
   end
 
