@@ -1,3 +1,4 @@
+#encoding: utf-8
 class ReportMail < ActionMailer::Base
   default from: "out@izkh.ru"
   default to: "out@izkh.ru"
