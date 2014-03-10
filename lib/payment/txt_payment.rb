@@ -1,3 +1,4 @@
+#encoding: utf-8
 class TxtPayment < Payment
   attr_accessor :data, :id
 

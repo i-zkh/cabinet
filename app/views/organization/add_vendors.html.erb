@@ -3,4 +3,24 @@
 	<%= file_field_tag :file %>
 	<%= submit_tag "Добавить", id: "file_button" %>
 <% end %>
+<table>
+	<thead>
+		<th>Организация</th>
+		<th>Ключ</th>
+		<th>Email</th>
+		<th>Комиссия</th>
+		<th>Удалить</th>
+	</thead>
+	<tbody>
+		<% @vendors.each do |vendor| %>
+		<tr>
+			<td><%= vendor.title %></td>
+			<td><%= vendor.auth_key %></td>
+			<td><%= vendor.email %></td>
+			<td><%= vendor.commission %></td>
+			<td><%= link_to 'Destroy', vendor_path(vendor),  method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		</tr>
+		<% end %>
+	</tbody>
+	</table>
 </div>

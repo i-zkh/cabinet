@@ -25,9 +25,9 @@ class VendorsController < ApplicationController
   end
 
   def destroy
-    @vendor = Post.find(params[:id])
+    @vendor = Vendor.find(params[:id])
     @vendor.destroy
-    redirect_to show_report_url
+    redirect_to :back
   end
 
   def report

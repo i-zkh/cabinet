@@ -1,11 +1,9 @@
-#encoding: utf-8
 class ReportMail < ActionMailer::Base
   default from: "out@izkh.ru"
   default to: "out@izkh.ru"
 
-  def report(message, vendor)
-    @message = message
-    attachments["#{vendor.title}.txt"] = File.read("#{vendor.title}.txt")
+  def report(vendor)
+    attachments["#{vendor.title}.txt"] = File.read("#{vendor.title}.txt", :encoding => 'BINARY')
     mail(to: vendor.email, subject: "АйЖКХ")
   end
 

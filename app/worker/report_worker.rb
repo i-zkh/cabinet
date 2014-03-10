@@ -8,7 +8,7 @@ class ReportWorker
     def perform
 		@report = GetRequest.report_daily
 	    if @report != []
-	    	send_report_to_vendors(@report)
+	    	send_report_to_vendors(GetRequest.report_daily_for_vendor)
 			Report.new(AllPayment.new(@report)).output_report
 			Report.new(Error.new(@report)).output_report
 	    else
@@ -34,7 +34,7 @@ class ReportWorker
 		        else
 		          	Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		ReportMail.report("Выгрузка транзакций АйЖКХ за #{Russian::strftime(DateTime.now, "%B " "%Y")}", vendor).deliver unless File.zero?("#{Vendor.where(id: id).first.title}.txt")
+		   		ReportMail.report(vendor).deliver unless File.zero?("#{Vendor.where(id: id).first.title}.txt")
 	    		logger.info "transaction: #{vendor.title}-#{@data}"
 	    	end
 	    end

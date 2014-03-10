@@ -7,6 +7,7 @@ class OrganizationController < ApplicationController
 			File.open(File.join(filename), "wb") {|f| f.write(params[:file].read)}
 			Organization.new(filename).add_vendors
 		end
+		@vendors = Vendor.order('created_at DESC').all
 	end
 
 	def auth_keys
