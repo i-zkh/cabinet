@@ -8,8 +8,10 @@ class TxtPayment < Payment
   end
 
   def output
-    outFile = File.new("#{Vendor.where(id: @id).first.title}.txt", "w")
+    filename = "#{Vendor.where(id: @id).first.title}.txt"
+    outFile = File.new(filename, "w")
       @data.each { |d| outFile.puts("#{d['user_account']};#{d['address']};#{d['amount']};#{DateTime.parse(d['date']).strftime("%d.%m.%Y")}") }
     outFile.close
+    filename
   end
 end

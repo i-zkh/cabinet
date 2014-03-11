@@ -11,95 +11,21 @@ class PaymentsController < ApplicationController
 		send_file 'transactions.xls'
 	end
 
-	def report_with_gibbon
-		gb = Gibbon::API.new("df5b5ea75168dc2f5d3d105aefbd807a-us3")
-
-	  	list_id = "592b42a4a7"
-
-			gb.lists.subscribe({:id => list_id, 
-	    	:email => {
-	    		:email => "out@izkh.ru" }, 
-	    		:merge_vars => {:FNAME => 'Nastya Ivanova', 
-	    			:LNAME => ''
-	    			}, 
-	    			:double_optin => false})
-
-		render json: true
-	end
-
-	def new_report
-		gb = Gibbon::API.new("df5b5ea75168dc2f5d3d105aefbd807a-us3")
-		list_id = "592b42a4a7"
-
-		cid = gb.campaigns.create({
-				type: "regular", 
-				options: { list_id: list_id, 
-	    					subject: "АйЖКХ",
-	    					from_email: "out@izkh.ru",
-	    					from_name: "Сервис АйЖКХ",
-	    					generate_text: true
-	    				 },
-		    	content: {html: "<html><head></head><body><h1>Foo</h1><p>Bar</p></body></html>"}
-	    })
- 
-    	gb.campaigns.send({cid: cid['id']})
-    	# gb.campaigns.schedule(cid: cid['id'], schedule_time: "2014-02-06 20:30:00")
-
-		render json: true
-	end
-
   	# Daily report and errors to out@izkh.ru
     def create
 		@report = GetRequest.report_daily
 	    if @report != []
-	    	send_report_to_vendors(GetRequest.report_daily_for_vendor)
-			Report.new(AllPayment.new(@report)).output_report
-			Report.new(Error.new(@report)).output_report
+	  #   	send_report_to_vendors(GetRequest.report_daily_for_vendor)
+			# Report.new(AllPayment.new(@report)).output_report
+			# Report.new(Error.new(@report)).output_report
 	    else
 	   		ReportMail.no_transactions.deliver
 	    end
 	    render json: @report
     end
 
-	def monthly_xls
-		# GetRequest.report_monthly(Date.today.month-1).each do |id|
-		# 	case id
-		# 	when 5, 40, 43, 44, 146
-		# 		filename = Report.new(ReportMonthlyTxt.new(GetRequest.transactions(id, Date.today.month-1), id)).monthly
-		# 	else
-		# 		filename = Report.new(ReportMonthly.new(GetRequest.transactions(id, Date.today.month-1), id)).monthly
-		# 	end
-		# 		vendor = Vendor.where(id: id, distribution: true).first
-		# 		# ReportMessages.monthly_report("ivanova@izkh.ru", filename) unless vendor.nil? || vendor.id == 150
-		# end
-				ReportMessages.monthly_report("ivanova@izkh.ru", "ООО Сбыт-Энерго.xls")
-
-		render json: true
-	end
-
-  	def monthly_txt
-		GetRequest.report_monthly(2).each do |id|
-			if id = 121 || id == 43 || id == 44 || id == 5 || id == 40 || id == 41 || id == 146 
-				vendor = Vendor.where(id: id).first
-				unless vendor.nil?
-	 				@report = GetRequest.transactions(id, 2)
-	    			
-				end
-			end
-		end
-	    render json: true
-  	end
-
-  	def hourly
-		@report = GetRequest.report_hourly
-	    if @report != []
-			Report.new(Booker.new(@report)).output_report
-			# send_report_to_vendors(@report)
-    	end
-    	render json: true
-  	end
-
   	private
+
 	def send_report_to_vendors(report)
   		vendors_id = []
 	    report.each { |r| vendors_id << r['vendor_id'] }
@@ -109,13 +35,13 @@ class PaymentsController < ApplicationController
 	      	if vendor
 		        case id
 		    	when 5, 44, 40
-		          	Report.new(TxtCheckAddress.new(@data, id)).output_report
+		          	filename = Report.new(TxtCheckAddress.new(@data, id)).output_report
 		        when 150
-		        	Report.new(Factorial.new(@data, id)).output_report
+		        	filename = Report.new(Factorial.new(@data, id)).output_report
 		        else
-		          	Report.new(TxtPayment.new(@data, id)).output_report
+		          	filename = Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		ReportMail.report(vendor).deliver unless File.zero?("#{Vendor.where(id: id).first.title}.txt")
+		   		ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}")
 	    	end
 	    end
   	end

@@ -25,16 +25,16 @@ class ReportWorker
 	    vendors_id.uniq.each do |id|
 	      	@data = report.select { |d| d['vendor_id'] == id.to_i }
 	      	vendor = Vendor.where(id: id, distribution: true).first
-	      	if vendor
+			if vendor
 		        case id
 		    	when 5, 44, 40
-		          	Report.new(TxtCheckAddress.new(@data, id)).output_report
+		          	filename = Report.new(TxtCheckAddress.new(@data, id)).output_report
 		        when 150
-		        	Report.new(Factorial.new(@data, id)).output_report
+		        	filename = Report.new(Factorial.new(@data, id)).output_report
 		        else
-		          	Report.new(TxtPayment.new(@data, id)).output_report
+		          	filename = Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		ReportMail.report(vendor).deliver unless File.zero?("#{Vendor.where(id: id).first.title}.txt")
+		   		ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}")
 	    		logger.info "transaction: #{vendor.title}-#{@data}"
 	    	end
 	    end

@@ -1,9 +1,9 @@
 class MetersController < ApplicationController
   def index
-  	@user, @from, @to = [], Date.today.beginning_of_month, Date.today.end_of_month
+  	array, @from, @to = [], Date.today.beginning_of_month, Date.today.end_of_month
   	@report = GetRequest.utility_metrics(session[:vendor_id], @from, @to)
-    @report.each {|r| @user << r['user_id'].to_s}
-    @user.uniq
+    @report.each {|r| array << r['user_id'].to_s}
+    @user = array.uniq
   end
 
   def create

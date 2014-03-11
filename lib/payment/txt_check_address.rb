@@ -8,7 +8,8 @@ class TxtCheckAddress < Payment
   end
 
   def output
-    outFile = File.new("#{Vendor.where(id: @id).first.title}.txt", "w")
+    filename = "#{Vendor.where(id: @id).first.title}.txt"
+    outFile = File.new(filename, "w")
       @data.each do |d|
         address = Account.where(user_account: d['user_account'], vendor_id: d['vendor_id']).first
         if address.nil?
@@ -18,5 +19,6 @@ class TxtCheckAddress < Payment
         end
       end
     outFile.close
+    filename
   end
 end
