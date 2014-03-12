@@ -32,16 +32,16 @@ class ManagerController < ApplicationController
       else
         raise ArgumentError, 'file have not a sample'
       end
-      WebReportWorker.perform_async(@data, vendor_id)
     rescue FiberError
-      flash[:notice] = "Файл успешно добавлен."
+      flash[:notice], @data = "Файл успешно добавлен.", []
       WebReportWorker.perform_async(Xls.new(filename, vendor_id).manager, vendor_id)
     rescue Exception => e
       File.delete(filename)
-      flash[:notice] = Dir["public/sample/#{Vendor.where(id: vendor_id).first.title}.*"] == [] ? "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru" : "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузку и повторить добавление."
+      flash[:notice], @data = Dir["public/sample/#{Vendor.where(id: vendor_id).first.title}.*"] == [] ? "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru" : "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузку и повторить добавление.", []
     else 
-      flash[:notice] = "Файл успешно добавлен."
+      flash[:notice], @data = "Файл успешно добавлен.", []
     end
+    WebReportWorker.perform_async(@data, vendor_id) if @data != []
     redirect_to manager_report_url
   end
 
