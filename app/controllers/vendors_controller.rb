@@ -45,7 +45,7 @@ class VendorsController < ApplicationController
     if params.has_key?(:file)
       filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{current_user.id}" + "#{File.extname("#{params[:file].original_filename}")}"
       File.open(File.join(filename), "wb") { |f| f.write(params[:file].read) }
-      open_spreadsheet(filename)
+      WebReportWorker.perform_async(filename, current_user.id)
     else
       redirect_to report_url, notice: "Необходимо выбрать файл."
     end
@@ -54,26 +54,26 @@ class VendorsController < ApplicationController
   def import_drag
     filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{current_user.id}" + "#{File.extname("#{request.headers['HTTP_X_FILENAME']}")}"
     File.open(File.join(filename), "wb"){|f| f.write(request.body.read)}
-    open_spreadsheet(filename)
+    WebReportWorker.perform_async(filename, current_user.id)
   end
 
-  def open_spreadsheet(filename)
-    begin
-      case File.extname(filename).downcase
-      when ".txt"          then @data = Getter.new(Txt.new(filename, current_user.id)).input
-      when ".xls", ".xlsx" then @data = Getter.new(Xls.new(filename, current_user.id)).input
-      when ".dbf"          then @data = Getter.new(Dbf.new(filename, current_user.id)).input
-      when ".ods"          then @data = Getter.new(Ods.new(filename, current_user.id)).input
-      else
-        raise ArgumentError, 'file have not a sample'
-      end
-      WebReportWorker.perform_async(@data, current_user.id)
-    rescue Exception => e
-      File.delete(filename)
-      flash[:notice] = Dir["public/sample/#{Vendor.where(id: current_user.id).first.title}.*"] == [] ? "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru" : "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Образец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
-    else 
-      flash[:notice] = "Файл успешно добавлен."
-    end
-    redirect_to report_url
-  end
+  # def open_spreadsheet(filename)
+  #   begin
+  #     case File.extname(filename).downcase
+  #     when ".txt"          then @data = Getter.new(Txt.new(filename, current_user.id)).input
+  #     when ".xls", ".xlsx" then @data = Getter.new(Xls.new(filename, current_user.id)).input
+  #     when ".dbf"          then @data = Getter.new(Dbf.new(filename, current_user.id)).input
+  #     when ".ods"          then @data = Getter.new(Ods.new(filename, current_user.id)).input
+  #     else
+  #       raise ArgumentError, 'file have not a sample'
+  #     end
+  #     WebReportWorker.perform_async(@data, current_user.id)
+  #   rescue Exception => e
+  #     File.delete(filename)
+  #     flash[:notice] = Dir["public/sample/#{Vendor.where(id: current_user.id).first.title}.*"] == [] ? "Образец данной выгрузки отсутсвует в базе. Для внесения её в систему отправьте выгрузку на почтовый адрес system@izkh.ru" : "Формат данной выгрузки не соответствует образцу, предоставленному вами ранее. Просим переделать выгрузки и повторить добавление. Образец можно скачать ниже. По возникшим вопросом Вы можете проконсультироваться по телефонам 373-64-10, 373-64-11."
+  #   else 
+  #     flash[:notice] = "Файл успешно добавлен."
+  #   end
+  #   redirect_to report_url
+  # end
 end

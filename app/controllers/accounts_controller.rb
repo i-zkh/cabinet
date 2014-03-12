@@ -1,13 +1,15 @@
 #encoding: UTF-8
 class AccountsController < ApplicationController
 
-  def edit
-  	
-  end 
+  def index
+    @accounts = Account.where('vendor_id = ?', params[:vendor_id])
+	@vendor = Vendor.find(params[:vendor_id])
+  end
 
-  def create
-
-    render json: Account.where(vendor_id: 40)
+  def destroy
+    @account = Account.find(params[:id])
+    @account.destroy
+    redirect_to :back
   end
 
   def update

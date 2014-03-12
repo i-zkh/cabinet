@@ -1,7 +1,7 @@
 Project::Application.routes.draw do
 
   resources :vendors
-  # resources :accounts
+  resources :accounts
   resources :transactions
   resources :counters
   # resources :meters
@@ -39,7 +39,6 @@ Project::Application.routes.draw do
   get 'xls' => 'payments#xls'
   
 # Parsing vendor's reports
-  get 'accounts/create' => 'accounts#create'
   get 'accounts/update' => 'accounts#update'
 
   get 'get_xls' => 'xls#create'
