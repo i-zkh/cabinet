@@ -1,7 +1,6 @@
 class Parser
 	
 	def input
-		CheckParsers.check(@data)
 		@data
 	end
 
