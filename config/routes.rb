@@ -40,6 +40,7 @@ Project::Application.routes.draw do
   
 # Parsing vendor's reports
   get 'accounts/update' => 'accounts#update'
+  get 'account' => 'accounts#account'
 
   get 'get_xls' => 'xls#create'
   get 'get_xlt' => 'address_ranges#create'

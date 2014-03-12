@@ -17,8 +17,9 @@ class ManagerController < ApplicationController
       File.open(File.join(filename), "wb") {|f| f.write(params[:file].read)}
       WebReportWorker.perform_async(filename, vendor.id)
     else
-      redirect_to manager_report_url, notice: "Необходимо выбрать файл и поставщика."
+      flash[:notice] = "Необходимо выбрать файл и поставщика."
     end
+    redirect_to manager_report_url
   end
 
   def vendors_with_report

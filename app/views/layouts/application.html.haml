@@ -23,3 +23,5 @@
             %li{:class => ('active' if current_page?(energosbyt_report_url))}= link_to "Запросы пользователей", energosbyt_report_url
           %li= link_to "Выход", session_path("current"), method: "delete"
     = yield
+  = javascript_include_tag :vendors if params[:controller] == "vendors"
+  = javascript_include_tag :counters if params[:controller] == "meters"

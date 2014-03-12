@@ -34,7 +34,7 @@ class VendorsController < ApplicationController
     @vendor = current_user
     @month  = params.has_key?(:date) ? params[:date][:month].to_i : Date.today
     @year   = params.has_key?(:date) ? params[:date][:year].to_i  : Date.today
-    FileUtils.mkpath "report/#{DateTime.now.year}-#{DateTime.now.month}"
+    FileUtils.mkpath "/home/ubuntu/apps/project/shared/report/#{DateTime.now.year}-#{DateTime.now.month}"
   end
 
   def sample
@@ -43,7 +43,7 @@ class VendorsController < ApplicationController
 
   def import
     if params.has_key?(:file)
-      filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{current_user.id}" + "#{File.extname("#{params[:file].original_filename}")}"
+      filename = "/home/ubuntu/apps/project/shared/report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{current_user.id}" + "#{File.extname("#{params[:file].original_filename}")}"
       File.open(File.join(filename), "wb") { |f| f.write(params[:file].read) }
       WebReportWorker.perform_async(filename, current_user.id)
     else
@@ -52,7 +52,7 @@ class VendorsController < ApplicationController
   end
 
   def import_drag
-    filename = "report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{current_user.id}" + "#{File.extname("#{request.headers['HTTP_X_FILENAME']}")}"
+    filename = "/home/ubuntu/apps/project/shared/report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{current_user.id}" + "#{File.extname("#{request.headers['HTTP_X_FILENAME']}")}"
     File.open(File.join(filename), "wb"){|f| f.write(request.body.read)}
     WebReportWorker.perform_async(filename, current_user.id)
   end

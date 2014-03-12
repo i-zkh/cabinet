@@ -8,9 +8,9 @@ class Txt < Parser
 
  	def input
  		@data = case @vendor_id
-		when 5, 40, 43, 44, 146 then parser
-		else
-		end
+				when 5, 40, 43, 44, 146 then parser
+				else
+				end
 		super
   	end
 

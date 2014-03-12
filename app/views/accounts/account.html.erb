@@ -1,0 +1,31 @@
+<div class="span9">
+	<p>
+	  <h3>
+	  	Поставщик: <%= @vendor.title %>
+	  </h3>
+	</p>
+	<table>
+	<thead>
+		<th>Аккаунт</th>
+		<th>Город</th>
+		<th>Улица</th>
+		<th>Дом</th>
+		<th>Квартира</th>
+		<th>Задолжность</th>
+		<th>Удалить</th>
+	</thead>
+	<tbody>
+		<% @accounts.each do |a| %>
+		<tr>
+			<td><%= a.user_account %></td>
+			<td><%= a.city %></td>
+			<td><%= a.street %></td>
+			<td><%=a.building %></td>
+			<td><%=a.apartment %></td>
+			<td><%=a.invoice_amount %></td>
+			<td><%= link_to 'x', account_path(a),  method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		</tr>
+		<% end %>
+	</tbody>
+	</table>
+</div>
