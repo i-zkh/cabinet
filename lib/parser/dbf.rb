@@ -11,7 +11,6 @@ class Dbf < Parser
 		@data = case @vendor_id
 				when 61, 111, 33 then parser
 				else
-					raise ArgumentError, 'report don\'t have sample'
 				end
 		super
 	end

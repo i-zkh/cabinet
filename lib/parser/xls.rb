@@ -18,7 +18,7 @@ class Xls < Parser
 				when 62															then first_last
 				when 107														then energosbyt
 				else
-					raise FiberError, 'report don\'t have sample'
+					manager
 				end
 		super
 	end

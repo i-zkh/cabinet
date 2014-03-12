@@ -10,7 +10,6 @@ class Txt < Parser
  		@data = case @vendor_id
 		when 5, 40, 43, 44, 146 then parser
 		else
-			raise ArgumentError, 'report don\'t have sample'
 		end
 		super
   	end
