@@ -13,5 +13,6 @@ class WebReportWorker
     	else
     	end
 		Parser.create(@data, vendor_id)
+        logger.info "filename: #{filename}"
     end
 end
