@@ -1,3 +1,5 @@
+var isChecked = true
+
 $(document).ready(function() {
     document.getElementById("checkbox_all").onclick = function(){
           checkedAll(isChecked);
