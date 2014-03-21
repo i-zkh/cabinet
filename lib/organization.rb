@@ -65,13 +65,13 @@ class Organization
   private
 
     def parsing_file(file) 
-      s, key, data = Roo::Excel.new(file), ["title", "commission", "email", "phone", "address", "servicetype", "work_time", "city"], []
+      s, key, data = Roo::Excelx.new(file), ["title", "commission", "email", "phone", "address", "servicetype", "work_time", "city"], []
       (2..s.last_row).each { |i| data << { key[0] => s.cell(i, 4), key[1] => s.cell(i, 7), key[2] => s.cell(i, 10), key[3] => s.cell(i, 8), key[4] => s.cell(i, 11), key[5] => s.cell(i, 13), key[6] => s.cell(i, 9), key[7] => s.cell(i, 5) } if s.cell(i, 2) == 2.0 }
       data
     end
 
     def non_utility_vendors_contacts(file)
-      s, key, data, hash = Roo::Excel.new(file), ["vendor_id", "title", "phone"], [], {}
+      s, key, data, hash = Roo::Excelx.new(file), ["vendor_id", "title", "phone"], [], {}
       (2..s.last_row).each do |i|
           if s.cell(i, 2) == 2.0 && !s.cell(i, 14).nil?
             GetRequest.non_utility_vendors.each {|n_u_v| @non_utility_vendor_id = n_u_v["id"] if n_u_v["title"] == s.cell(i, 4)}

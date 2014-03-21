@@ -1,0 +1,19 @@
+%blockquote
+	= form_tag organization_add_vendors_url, multipart: true do
+		= file_field_tag :file
+		= submit_tag "Добавить", class: "btn btn-success btn-sm"
+%table.table.table-striped.table-hover
+	%thead
+		%tr.success
+			%th Организация
+			%th Ключ
+			%th Email
+			%th Комиссия
+			%th Удалить
+		- @vendors.each do |vendor|
+			%tr
+				%td= vendor.title
+				%td= vendor.auth_key
+				%td= vendor.email 
+				%td= vendor.commission
+				%td= link_to '×', vendor_path(vendor), method: :delete, data: { confirm: 'Вы уверены?' }

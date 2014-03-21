@@ -23,7 +23,7 @@
 			<td><%=a.building %></td>
 			<td><%=a.apartment %></td>
 			<td><%=a.invoice_amount %></td>
-			<td><%= link_to 'x', account_path(a),  method: :delete, data: { confirm: 'Are you sure?' } %></td>
+			<td><%= link_to '×', account_path(a),  method: :delete, data: { confirm: 'Are you sure?' } %></td>
 		</tr>
 		<% end %>
 	</tbody>

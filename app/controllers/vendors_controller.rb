@@ -45,7 +45,7 @@ class VendorsController < ApplicationController
     if params.has_key?(:file)
       filename = "/home/ubuntu/apps/project/shared/report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{current_user.id}" + "#{File.extname("#{params[:file].original_filename}")}"
       File.open(File.join(filename), "wb") { |f| f.write(params[:file].read) }
-      WebReportWorker.perform_async(filename, current_user.id)
+      # WebReportWorker.perform_async(filename, current_user.id)
     else
       redirect_to report_url, notice: "Необходимо выбрать файл."
     end
@@ -54,7 +54,7 @@ class VendorsController < ApplicationController
   def import_drag
     filename = "/home/ubuntu/apps/project/shared/report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{current_user.id}" + "#{File.extname("#{request.headers['HTTP_X_FILENAME']}")}"
     File.open(File.join(filename), "wb"){|f| f.write(request.body.read)}
-    WebReportWorker.perform_async(filename, current_user.id)
+    # WebReportWorker.perform_async(filename, current_user.id)
   end
 
   # def open_spreadsheet(filename)

@@ -1,41 +1,42 @@
-.span9
-  = form_tag(meters_url, method: :post, remote: true ) do 
-    #user_address_data
-      #address{ data: {address: @user.to_json} }
-      = text_field_tag :user_address, nil, placeholder: 'Адрес'
-    = text_field_tag :from, nil, placeholder: "#{@from}"
-    = text_field_tag :to, nil, placeholder: "#{@to}"
-    #button_small= submit_tag "Обновить"
-    #checkbox_all= "Отметить все"
-    %table.table.table-striped.table-hover
-      %thead
-        %tr
-          %th Адрес
-          %th Элекричество день
-          %th Элекричество ночь
-          %th Элекричество общее
-          %th Газ
-          %th Горячая вода
-          %th Холодная вода
-          %th Дата
-          %th Принять показания
-      %tbody#meters_data
-        - if @report 
-          .action-bar
-            = form_tag(meters_url, method: :put ) do
-              - @report.each do |r|
-                - date = DateTime.parse(r["created_at"])
-                %tr
-                  = hidden_field_tag 'utility_metrics[][id]', r['id']
-                  %td= r["user_id"]
-                  %td= r["energy_phase_one"]
-                  %td= r["energy_phase_two"]
-                  %td= r["energy_phase_common"]
-                  %td= r["gas"]
-                  %td= r["water_cold"]
-                  %td= r["water_hot"]
-                  %td= date.strftime("%Y-%m-%d")
-                  %td= check_box_tag 'utility_metrics[][processed]', true, r["processed"]
-                  %br
-                  %br
-              #button_small.checkbox_submit= submit_tag "Принять"
+.col-md-2.sidebar
+  .sidebar-action
+    = form_tag(meters_url, method: :post, remote: true ) do 
+      #user_address_data
+        #address{ data: {address: @user.to_json} }
+        = text_field_tag :user_address, nil, placeholder: 'Адрес', class: "form-control input-sm"
+      = text_field_tag :from, nil, placeholder: "c #{@from}", class: "form-control input-sm"
+      = text_field_tag :to, nil, placeholder: "по #{@to}", class: "form-control input-sm"
+      = submit_tag "Обновить", class: "btn btn-success"
+.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2
+  %table.table.table-striped.table-hover
+    %thead
+      %tr.success
+        %th Адрес
+        %th Элекричество день
+        %th Элекричество ночь
+        %th Элекричество общее
+        %th Газ
+        %th Горячая вода
+        %th Холодная вода
+        %th Дата
+        %th Принятые показания
+    %tbody#meters_data
+      - if @report 
+        .action-bar
+          = form_tag(meters_url, method: :put ) do
+            - @report.each do |r|
+              - date = DateTime.parse(r["created_at"])
+              %tr
+                = hidden_field_tag 'utility_metrics[][id]', r['id']
+                %td= r["user_id"]
+                %td= r["energy_phase_one"]
+                %td= r["energy_phase_two"]
+                %td= r["energy_phase_common"]
+                %td= r["gas"]
+                %td= r["water_cold"]
+                %td= r["water_hot"]
+                %td= date.strftime("%Y-%m-%d")
+                %td= check_box_tag 'utility_metrics[][processed]', true, r["processed"]
+            %blockquote
+              = submit_tag "Принять показания", class: "btn btn-success btn-sm"
+              #checkbox_all.label.label-primary= "Отметить все"

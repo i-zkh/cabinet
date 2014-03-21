@@ -22,6 +22,6 @@ class MetersController < ApplicationController
 
   def save_metrics_process
     PostRequest.metrics_process(params["utility_metrics"])
-    render json: true
+    redirect_to meters_url 
   end
 end
