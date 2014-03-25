@@ -1,13 +1,12 @@
-.span9
-	%h3 Транзакции
-	.select-block.span3
-		= form_tag transactions_url, method: :post, remote: true do
-			= select_tag(:month_id, options_for_select([["Январь", 1],["Февраль", 2], ["Май", 5],["Июнь", 6],["Июль", 7],[ "Август", 8],["Сентябрь", 9],["Октябрь", 10],["Ноябрь", 11],[ "Декабрь", 12]], DateTime.now.month))
-			#button_small= submit_tag "Обновить"
-
+.col-md-2.sidebar
+	.sidebar-action
+		= form_tag transactions_url, method: :post, remote: true do		
+			= select_tag(:month_id, options_for_select([["Январь", 1], ["Февраль", 2], ["Март", 3], ["Апрель", 4], ["Май", 5],["Июнь", 6],["Июль", 7],[ "Август", 8],["Сентябрь", 9],["Октябрь", 10],["Ноябрь", 11],[ "Декабрь", 12]], DateTime.now.month), class: "form-control")
+			= submit_tag "Обновить", class: "btn btn-success btn-sm"
+.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2
 	%table.table.table-striped.table-hover
 		%thead
-			%tr
+			%tr.success
 				%th Лицевой счёт
 				%th Адрес
 				%th Сумма
@@ -20,4 +19,4 @@
 						%td= r["user_account"]
 						%td= r["address"]
 						%td= r["amount"]
-						%td= date.strftime("%Y-%m-%d")
+						%td= date.strftime("%Y-%m-%d")	

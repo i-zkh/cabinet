@@ -15,7 +15,7 @@ class ManagerController < ApplicationController
     if params.has_key?(:file) && vendor
       filename = "/home/ubuntu/apps/project/shared/report/#{DateTime.now.year}-#{DateTime.now.month}/" + "#{vendor.id}" + "#{File.extname("#{params[:file].original_filename}")}"
       File.open(File.join(filename), "wb") {|f| f.write(params[:file].read)}
-      WebReportWorker.perform_async(filename, vendor.id)
+      # WebReportWorker.perform_async(filename, vendor.id)
       flash[:notice] = "Файл успешно добавлен."
     else
       flash[:notice] = "Необходимо выбрать файл и поставщика."

@@ -10,7 +10,6 @@ gem 'pg'
 gem 'roo'
 gem 'json'
 gem 'httparty'
-gem "flat-ui-rails"
 gem "jquery-ui-rails"
 gem 'nokogiri'
 gem 'rack', '~>1.1'
@@ -20,12 +19,11 @@ gem 'daemons'
 gem 'sidekiq'
 gem 'clockwork'
 gem 'haml'
-gem 'sass'
 gem 'axlsx'
 gem "dbf"
-gem 'gibbon'
 gem 'mandrill-api'
 gem 'simple_form'
+gem 'bootstrap-sass', '~> 3.1.1'
 
 # Gems used only for assets and not required
 # in production environments by default.
