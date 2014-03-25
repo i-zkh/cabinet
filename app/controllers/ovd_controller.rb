@@ -1,7 +1,7 @@
 class OvdController < ApplicationController
 
 	def ovd
-		Ovd.xls_parser
+		Ovd.xls_parser("report/ovd_19.03.14.xls")
 		render json: true
 	end
 

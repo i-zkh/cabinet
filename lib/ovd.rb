@@ -109,8 +109,8 @@ class Ovd
 		end
 	end
 
-	def self.xls_parser
-		s = Roo::Excel.new("report/ovd_19.12.13.xls")
+	def self.xls_parser(filename)
+		s = Roo::Excel.new(filename)
 		(1..s.last_row).each do |i|
 			address_ovd = s.cell(i, 2).split(", ")
 			full_name 	= s.cell(i, 4).split(" ")
