@@ -11,7 +11,6 @@
     = csrf_meta_tag
   %body
     - if current_user
-<<<<<<< HEAD
       .navbar.navbar-default
         .navbar-header
           = link_to 'АйЖКХ', "http://izkh.ru/", class: 'navbar-brand'
@@ -27,17 +26,3 @@
       = yield
   = javascript_include_tag :vendors  if params[:controller] == "vendors"
   = javascript_include_tag :counters if params[:controller] == "meters"
-=======
-      .navigation
-        %ul.sidebar
-          %li{:class => ('active' if current_page?(vendors_path))}= link_to "Аккаунт", vendors_path
-          %li{:class => ('active' if current_page?(transactions_path))}= link_to "Транзакции", transactions_path
-          %li{:class => ('active' if current_page?(meters_path))}= link_to "Показания счётчиков", meters_path
-          - if session[:vendor_id] == 107
-            %li{:class => ('active' if current_page?(energosbyt_report_url))}= link_to "Запросы пользователей", energosbyt_report_url
-          %li= link_to "Выход", session_path("current"), method: "delete"
-    = yield
-  = javascript_include_tag :vendors if params[:controller] == "vendors"
-  = javascript_include_tag :counters if params[:controller] == "meters"
-  = javascript_include_tag :counters if params[:controller] == "counters"
->>>>>>> 71def3d50f21c90e3baaa96e3b22e6c4b797cd57
