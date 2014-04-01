@@ -3,7 +3,7 @@ class AccountsController < ApplicationController
 
   def account
     @accounts = Account.where('vendor_id = ?', params[:vendor_id])
-	@vendor = Vendor.find(params[:vendor_id])
+	  @vendor = Vendor.find(params[:vendor_id])
   end
   
   def destroy

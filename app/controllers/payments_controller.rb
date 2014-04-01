@@ -13,11 +13,11 @@ class PaymentsController < ApplicationController
 
   	# Daily report and errors to out@izkh.ru
     def create
-		@report = GetRequest.report_daily
+		@report = GetRequest.report_from_to("2014-03-25", "2014-03-24")
 	    if @report != []
-	    	# send_report_to_vendors(GetRequest.report_daily_for_vendor)
-			Report.new(AllPayment.new(@report)).output_report
-			Report.new(Error.new(@report)).output_report
+	    	# send_report_to_vendors(@report)
+			# Report.new(AllPayment.new(@report)).output_report
+			# Report.new(Error.new(@report)).output_report
 	    else
 	   		ReportMail.no_transactions.deliver
 	    end

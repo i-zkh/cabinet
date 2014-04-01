@@ -8,7 +8,7 @@ class ReportMonthly < Payment
   end
 
   def monthly
-    filename = "/home/ubuntu/apps/project/shared/transactions/" + "#{Vendor.find(@vendor_id).title.gsub!(/"/, "")}.xls"
+    filename = "/home/ubuntu/apps/project/shared/transactions/" + "#{@vendor_id}.xls"
     Axlsx::Package.new do |p|
       p.workbook.add_worksheet(:name => "Report") do |sheet|
         sheet.add_row ["Лицевой счет", "Сумма", "Дата"]
