@@ -1,0 +1,26 @@
+.col-md-2.sidebar
+  .sidebar-action
+    = form_tag(bids_path, method: :get ) do 
+      = text_field_tag :from, nil, placeholder: "c #{@from}", class: "form-control input-sm"
+      = text_field_tag :to, nil, placeholder: "по #{@to}", class: "form-control input-sm"
+      = submit_tag "Обновить", class: "btn btn-success"
+.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2
+  %table.table.table-striped.table-hover
+    %thead
+      %tr.success
+        %th Имя клиента
+        %th Телефон клиента
+        %th Сумма за установку системы
+        %th Сумма за ежемесячное обслуживание
+        %th Дата
+        %th
+    %tbody
+      - @bids.each do |bid|
+        %tr
+          %td= bid.name
+          %td= bid.phone
+          %td= bid.installation_payment
+          %td= bid.service_payment
+          %th= bid.created_at.strftime("%Y-%m-%d")  
+          %td= link_to 'Посмотреть', bid
+  = link_to 'Добавить заявку', new_bid_path, class: "btn btn-success btn-sm"

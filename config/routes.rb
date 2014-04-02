@@ -1,5 +1,6 @@
 Project::Application.routes.draw do
 
+  resources :bids
   resources :vendors
   resources :accounts
   resources :transactions

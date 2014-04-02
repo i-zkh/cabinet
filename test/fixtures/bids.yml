@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  phone: MyString
+  email: MyString
+  contract_number: 1
+  installation_payment: 1.5
+  installation_payment_for_vendor: MyString
+  service_payment: 1.5
+  service_payment_for_vendor: MyString
+
+two:
+  name: MyString
+  phone: MyString
+  email: MyString
+  contract_number: 1
+  installation_payment: 1.5
+  installation_payment_for_vendor: MyString
+  service_payment: 1.5
+  service_payment_for_vendor: MyString

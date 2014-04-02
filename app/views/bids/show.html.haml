@@ -1,0 +1,30 @@
+.block
+  %notice.label.label-primary= notice
+  %table.table.table-striped.table-hover
+    %tbody
+      %tr
+        %td= "Имя клиента"
+        %td= @bid.name
+      %tr
+        %td= "Телефон клиента"
+        %td= @bid.phone
+      %tr       
+        %td= "Эл.почта клиента" 
+        %td= @bid.email
+      %tr
+        %td= "№ договора"
+        %td= @bid.contract_number 
+      %tr
+        %td= "Cумма за установку системы"
+        %td= @bid.installation_payment
+      %tr
+        %td= "Компания, устанавливающая систему"
+        %td= @bid.installation_payment_for_vendor 
+      %tr
+        %td= "Сумма за ежемесячное обслуживание"
+        %td= @bid.service_payment 
+      %tr
+        %td= "Компания, обеспечивающая систему"
+        %td= @bid.service_payment_for_vendor 
+  = link_to 'К списку заявок', bids_path, class: "btn btn-success btn-sm"
+        

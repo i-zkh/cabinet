@@ -20,9 +20,12 @@
             %li{:class => ('active' if current_page?(meters_path))}= link_to "Показания счётчиков", meters_path
             - if session[:vendor_id] == 107
               %li{:class => ('active' if current_page?(energosbyt_report_url))}= link_to "Запросы пользователей", energosbyt_report_url
+            - if session[:vendor_id] == 20
+              %li{:class => ('active' if current_page?(bids_path))}= link_to "Заявки клиентов", bids_path
           %ul.nav.navbar-nav.navbar-right
             %li= link_to "Выход", session_path("current"), method: "delete"
     .container-fluid
       = yield
   = javascript_include_tag :vendors  if params[:controller] == "vendors"
   = javascript_include_tag :counters if params[:controller] == "meters"
+  = javascript_include_tag :meters if params[:controller] == "bids"
