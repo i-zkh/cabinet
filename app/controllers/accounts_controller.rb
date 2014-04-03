@@ -2,8 +2,13 @@
 class AccountsController < ApplicationController
 
   def account
-    @accounts = Account.where('vendor_id = ?', params[:vendor_id])
-	  @vendor = Vendor.find(params[:vendor_id])
+    @account = Account.where('vendor_id = ? AND user_account = ?', params[:vendor_id], params[:user_account])
+    if @account == []
+      Account.where('vendor_id = ?', params[:vendor_id]) == [] ? status = -1 : status = 0
+    else
+      status = 1
+    end
+    render json: { status: status }
   end
   
   def destroy

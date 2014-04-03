@@ -16,7 +16,7 @@ class DeltaWorker
           :email=> email,
       }],  
       :html=>
-        "<html><h1>Заявка</h1>
+        "<html><h3>Заявка на услуги компании delta</h3>
 
           <p>Для проведения оплаты пройдите по ссылке ниже:</p>
           <a href='http://izkh.ru/delta_payment?key=#{key}'>Перейти к оплате</a>
