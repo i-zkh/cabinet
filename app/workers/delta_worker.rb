@@ -13,13 +13,13 @@ class DeltaWorker
       :from_name=> "Delta",  
       :text=>"Заявка на услуги компании delta",  
       :to=>[{
-          :email=> "iva.anastya@gmail.com",
+          :email=> email,
       }],  
       :html=>
         "<html><h1>Заявка</h1>
 
-          <p>#{key}Для проведения оплаты пройдите по ссылке ниже</p>
-          <a href='http://izkh.ru'>Подтвердить</a>
+          <p>Для проведения оплаты пройдите по ссылке ниже:</p>
+          <a href='http://izkh.ru/delta_payment?key=#{key}'>Перейти к оплате</a>
         </html>",
       :from_email=>"out@izkh.ru"
     } 
