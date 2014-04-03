@@ -52,7 +52,7 @@ class BidsController < ApplicationController
 
   def delta_payment
     @bid = Bid.where('key = ?', params[:key])
-    render json: @bid
+    render json: { payment: @bid }
   end
 
 end

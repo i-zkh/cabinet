@@ -35,7 +35,7 @@ class GetRequest
 		# to vendors
 		def report_monthly(month)
 			response = HTTParty.get( "http://izkh.ru/api/1.0/report_vendors?auth_token=#{Auth.get}&month=#{month}")
-	    	response.parsed_response
+	    response.parsed_response
 		end
 		
 		# Transactions for month in cabinet
