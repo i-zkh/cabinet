@@ -1,3 +1,4 @@
+#encoding: UTF-8
 class BidsController < ApplicationController
   # GET /bids
   # GET /bids.json
@@ -27,7 +28,6 @@ class BidsController < ApplicationController
   # GET /bids/new.json
   def new
     @bid = Bid.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @bid }
@@ -40,7 +40,7 @@ class BidsController < ApplicationController
     @bid = Bid.new(params[:bid])
     respond_to do |format|
       if @bid.save
-        DeltaWorker.perform_async(@bid)
+        DeltaWorker.perform_async(@bid.key, @bid.email)
         format.html { redirect_to @bid, notice: 'Заявка отправлена клиенту' }
         format.json { render json: @bid, status: :created, location: @bid }
       else
@@ -48,6 +48,11 @@ class BidsController < ApplicationController
         format.json { render json: @bid.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def delta_payment
+    @bid = Bid.where('key = ?', params[:key])
+    render json: @bid
   end
 
 end

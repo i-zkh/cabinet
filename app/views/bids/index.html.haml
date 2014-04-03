@@ -8,6 +8,7 @@
   %table.table.table-striped.table-hover
     %thead
       %tr.success
+        %th Номер договора
         %th Имя клиента
         %th Телефон клиента
         %th Сумма за установку системы
@@ -17,6 +18,7 @@
     %tbody
       - @bids.each do |bid|
         %tr
+          %td= bid.id
           %td= bid.name
           %td= bid.phone
           %td= bid.installation_payment

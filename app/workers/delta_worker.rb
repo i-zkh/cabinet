@@ -4,8 +4,9 @@ class DeltaWorker
   include Sidekiq::Worker
   sidekiq_options :retry => false
   
-    def perform(bid)
-    mandrill = Mandrill::API.new 'WT_DRSPlVKfp2sBM-TsZ_w'
+    def perform(key, email)
+    require 'mandrill'
+    mandrill = Mandrill::API.new 'Sa9QSFZ8ZFAIJVosKwnqBQ'
 
     message = {  
       :subject=> "Заявка на услуги компании delta",  
@@ -16,8 +17,8 @@ class DeltaWorker
       }],  
       :html=>
         "<html><h1>Заявка</h1>
-          #{bid}
-          <p>Для проведения опталы пройдите по ссылке ниже</p>
+
+          <p>#{key}Для проведения оплаты пройдите по ссылке ниже</p>
           <a href='http://izkh.ru'>Подтвердить</a>
         </html>",
       :from_email=>"out@izkh.ru"

@@ -81,4 +81,7 @@ Project::Application.routes.draw do
   post 'meters' => 'meters#create'
   put 'meters' => 'meters#save_metrics_process'
 
+  #Delta
+  get 'delta_payment' => 'bids#delta_payment'
+
 end

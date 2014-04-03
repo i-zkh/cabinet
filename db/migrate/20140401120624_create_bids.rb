@@ -4,7 +4,7 @@ class CreateBids < ActiveRecord::Migration
       t.string :name
       t.string :phone
       t.string :email
-      t.integer :contract_number
+      t.string :key
       t.float :installation_payment
       t.string :installation_payment_for_vendor
       t.float :service_payment
