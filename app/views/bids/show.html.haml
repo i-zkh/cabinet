@@ -3,9 +3,6 @@
   %table.table.table-striped.table-hover
     %tbody
       %tr
-        %td= "№ договора"
-        %td= @bid.id 
-      %tr
         %td= "Имя клиента"
         %td= @bid.name
       %tr
@@ -14,6 +11,9 @@
       %tr       
         %td= "Эл.почта клиента" 
         %td= @bid.email
+      %tr
+        %td= "№ договора"
+        %td= @bid.contract_number 
       %tr
         %td= "Cумма за установку системы"
         %td= @bid.installation_payment
