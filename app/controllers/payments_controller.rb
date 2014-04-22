@@ -3,7 +3,9 @@ class PaymentsController < ApplicationController
 
 	# Daily report for managers
 	def xls_report_daily
+		@transactions_type = ["", "PayOnline", "Yandex", "WebMoney"]
 		@report = GetRequest.report_daily
+		@terminal = GetRequest.terminal((Date.today-1).strftime("%Y-%m-%d"), Date.today.strftime("%Y-%m-%d"))
 	end
 
 	def xls
@@ -13,15 +15,29 @@ class PaymentsController < ApplicationController
 
   	# Daily report and errors to out@izkh.ru
     def create
-		@report = GetRequest.report_daily
+		@report = GetRequest.report_from_to("2014-04-20", "2014-04-21")
 	    if @report != []
-	    	send_report_to_vendors(GetRequest.report_daily_for_vendor)
-				Report.new(AllPayment.new(@report)).output_report
-				Report.new(Error.new(@report)).output_report
-	    else
-	   		ReportMail.no_transactions.deliver
+	   #  	send_report_to_vendors(GetRequest.report_daily_for_vendor)
+				# Report.new(AllPayment.new(@report)).output_report
+				# Report.new(Error.new(@report)).output_report
+	   #  else
+	   # 		ReportMail.no_transactions.deliver
 	    end
 	    render json: @report
+    end
+
+    def report_monthly
+    	GetRequest.report_monthly(Date.today.month-2).each do |id|
+			case id
+			when 5, 40, 43, 44, 146
+				filename = Report.new(ReportMonthlyTxt.new(GetRequest.transactions(id, Date.today.month-2), id)).monthly
+			else
+				filename = Report.new(ReportMonthly.new(GetRequest.transactions(id, Date.today.month-2), id)).monthly
+			end
+				vendor = Vendor.where(id: id, distribution: true).first
+				# ReportMessages.monthly_report(vendor.email, filename) unless vendor.nil? || vendor.id == 150
+			end
+			render json: true
     end
 
   	private

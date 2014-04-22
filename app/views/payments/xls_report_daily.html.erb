@@ -5,6 +5,7 @@
     <th>Город</th>
     <th>Адрес</th>
     <th>Сумма платежа</th>
+    <th>Тип транзакции</th>
     <th>Дата транзакции</th>
   </tr>
   <% @report.each do |report| %>
@@ -15,8 +16,30 @@
     <td><%= address[0] %></td>
     <td><%= address[1] + "," + address[2] + "," + address[3] %></td>
     <td><%= report['amount'] %></td>
+    <td><%= @transactions_type[report['payment_type'].to_i] %></td>
     <td><%= DateTime.parse(report['date']).strftime("%d.%m.%Y")%></td>
   </tr>
   <% end %>
 </table>
 <%= link_to "Скачать", xls_url, class: "btn btn-success" %>
+
+<table class="table table-striped table-hover">
+  <tr>
+    <th>Название организации</th>
+    <th>Лицевой счет</th>
+    <th>Сумма чистого платежа</th>
+    <th>Сумма транзакции</th>
+    <th>Комиссия</th>
+    <th>Дата транзакции</th>
+  </tr>
+  <% @terminal.each do |terminal| %>
+  <tr>
+    <td><%= Vendor.find(terminal['vendor_id']).title %></td>
+    <td><%= terminal['user_account'] %></td>
+    <td><%= terminal['amount'] %></td>
+    <td><%= terminal['total'] %></td>
+    <td><%= terminal['commission'] %></td>
+    <td><%= DateTime.parse(terminal['created_at']).strftime("%d.%m.%Y")%></td>
+  </tr>
+  <% end %>
+</table>

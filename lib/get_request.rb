@@ -17,6 +17,11 @@ class GetRequest
 	    	daily
 		end
 
+		def terminal(from, to)
+		  	response = HTTParty.get( "http://izkh.ru/api/1.0/report_from_to?from=#{from}&to=#{to}&auth_token=#{Auth.get}")
+	    	response.parsed_response["terminal"]
+		end
+
 		def report_daily_for_vendor
 		  	response = HTTParty.get( "http://izkh.ru/api/1.0/report_daily?auth_token=#{Auth.get}")
 	    	daily = response.parsed_response["payload"]
