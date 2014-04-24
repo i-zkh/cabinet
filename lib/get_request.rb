@@ -10,6 +10,13 @@ class GetRequest
 	    	daily
 		end
 
+		def report_terminal
+		  	response = HTTParty.get( "http://izkh.ru/api/1.0/report_daily?auth_token=#{Auth.get}")
+	    	daily = response.parsed_response["terminal"]
+	    	daily.each {|d| d["user_account"].gsub!(/^00/, "")}
+	    	daily
+		end
+
 		def report_from_to(from, to)
 		  	response = HTTParty.get( "http://izkh.ru/api/1.0/report_from_to?from=#{from}&to=#{to}&auth_token=#{Auth.get}")
 	    	daily = response.parsed_response["payload"]
@@ -29,6 +36,12 @@ class GetRequest
 	    	daily
 		end
 
+		def report_terminal_for_vendor
+		  	response = HTTParty.get( "http://izkh.ru/api/1.0/report_daily?auth_token=#{Auth.get}")
+	    	daily = response.parsed_response["terminal"]
+	    	daily.each {|t| t["amount"] = (t["amount"]*100/(Vendor.where(id: t['vendor_id']).first.commission+100)).round(2)}
+	    	daily
+		end
 		# to managers and vendors
 	    def report_hourly
 		  	response = HTTParty.get( "http://izkh.ru/api/1.0/report_hourly?auth_token=#{Auth.get}")

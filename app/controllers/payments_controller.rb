@@ -14,17 +14,62 @@ class PaymentsController < ApplicationController
 	end
 
   	# Daily report and errors to out@izkh.ru
+  #   def create
+		# @report = GetRequest.report_from_to("2014-04-15", "2014-04-16")
+	 #    if @report != []
+	 #    	send_report_to_vendors(GetRequest.report_from_to("2014-04-15", "2014-04-16"))
+		# 		# Report.new(AllPayment.new(@report)).output_report
+		# 		# Report.new(Error.new(@report)).output_report
+	 #   #  else
+	 #   # 		ReportMail.no_transactions.deliver
+	 #    end
+	 #    render json: @report
+  #   end
+
     def create
-		@report = GetRequest.report_from_to("2014-04-20", "2014-04-21")
+		@report = GetRequest.report_daily
 	    if @report != []
-	   #  	send_report_to_vendors(GetRequest.report_daily_for_vendor)
-				# Report.new(AllPayment.new(@report)).output_report
-				# Report.new(Error.new(@report)).output_report
-	   #  else
-	   # 		ReportMail.no_transactions.deliver
+	    	send_report_to_vendors(GetRequest.report_daily_for_vendor)
+				Report.new(AllPayment.new(@report)).output_report
+				Report.new(Error.new(@report)).output_report
+	    else
+	   		ReportMail.no_transactions.deliver
+	   		logger.info "no transactions"
 	    end
-	    render json: @report
+	  
+	  logger.info @terminal = GetRequest.report_terminal
+	  	if @terminal != []
+	    	send_report_to_vendors(GetRequest.report_terminal_for_vendor)
+			Report.new(AllPayment.new(@report)).output_report
+			Report.new(Error.new(@report)).output_report
+	    else
+	   		ReportMail.no_transactions.deliver
+	   		logger.info "no transactions"
+	    end
     end
+
+    private
+
+	def send_report_to_vendors(report)
+  		vendors_id = []
+	    report.each { |r| vendors_id << r['vendor_id'] }
+	    vendors_id.uniq.each do |id|
+	      	@data = report.select { |d| d['vendor_id'] == id.to_i }
+	      	vendor = Vendor.where(id: id, distribution: true).first
+			if vendor
+		        case id
+		    	when 5, 44, 40
+		          	filename = Report.new(TxtCheckAddress.new(@data, id)).output_report
+		        when 150
+		        	filename = Report.new(Factorial.new(@data, id)).output_report
+		        else
+		          	filename = Report.new(TxtPayment.new(@data, id)).output_report
+		        end
+		   		ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}")
+	    		logger.info "transaction: #{vendor.title}-#{@data}"
+	    	end
+	    end
+  	end
 
     def report_monthly
     	GetRequest.report_monthly(Date.today.month-2).each do |id|
@@ -42,23 +87,25 @@ class PaymentsController < ApplicationController
 
   	private
 
-	def send_report_to_vendors(report)
-  		vendors_id = []
-	    report.each { |r| vendors_id << r['vendor_id'] }
-	    vendors_id.uniq.each do |id|
-	      	@data = report.select { |d| d['vendor_id'] == id.to_i }
-	      	vendor = Vendor.where(id: id, distribution: true).first
-	      	if vendor
-		        case id
-		    	when 5, 44, 40
-		          	filename = Report.new(TxtCheckAddress.new(@data, id)).output_report
-		        when 150
-		        	filename = Report.new(Factorial.new(@data, id)).output_report
-		        else
-		          	filename = Report.new(TxtPayment.new(@data, id)).output_report
-		        end
-		   		ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}")
-	    	end
-	    end
-  	end
+	# def send_report_to_vendors(report)
+ #  		vendors_id = []
+	#     report.each { |r| vendors_id << r['vendor_id'] }
+	#     vendors_id.uniq.each do |id|
+	#       	p @data = report.select { |d| d['vendor_id'] == id.to_i }
+	#       	p vendor = Vendor.where(id: id, distribution: true).first
+	#       	if vendor
+	# 	        case id
+	# 	    		when 5, 44, 40
+	# 	          	filename = Report.new(TxtCheckAddress.new(@data, id)).output_report
+	# 	        when 150
+	# 	        	p "--------"
+	# 	        	filename = Report.new(Factorial.new(@data, id)).output_report
+	# 	        else
+	# 	          	filename = Report.new(TxtPayment.new(@data, id)).output_report
+	# 	        end
+	# 	        p filename
+	# 	   		# ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}")
+	#     	end
+	#     end
+ #  	end
 end
