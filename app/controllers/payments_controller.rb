@@ -8,6 +8,22 @@ class PaymentsController < ApplicationController
 		@terminal = GetRequest.terminal((Date.today-1).strftime("%Y-%m-%d"), Date.today.strftime("%Y-%m-%d"))
 	end
 
+	 def index
+  	array, @from, @to = [], Date.today, Date.today + 1
+		@transactions_type = ["", "PayOnline", "Yandex", "WebMoney"]
+		@report = GetRequest.report_from_to(@from, @to)
+		@terminal = GetRequest.terminal(@from, @to)
+  end
+
+  def create
+  	array = []
+    @from = params[:from] != "" ? params[:from] : Date.today.beginning_of_month
+    @to = params[:to] != "" ? params[:to] : Date.today.end_of_month
+    @transactions_type = ["", "PayOnline", "Yandex", "WebMoney"]
+  	@report = GetRequest.report_from_to(@from, @to)
+  	@terminal = GetRequest.terminal(@from, @to)
+  end
+
 	def xls
 		Report.new(ReportForManager.new(GetRequest.report_daily)).output_report
 		send_file 'transactions.xls'
@@ -26,27 +42,28 @@ class PaymentsController < ApplicationController
 	 #    render json: @report
   #   end
 
-    def create
-		@report = GetRequest.report_daily
-	    if @report != []
-	    	send_report_to_vendors(GetRequest.report_daily_for_vendor)
-				Report.new(AllPayment.new(@report)).output_report
-				Report.new(Error.new(@report)).output_report
-	    else
-	   		ReportMail.no_transactions.deliver
-	   		logger.info "no transactions"
-	    end
+    # def create
+		# @report = GetRequest.report_from_to("2014-04-25", "2014-04-29")
+	 #    if @report != []
+	    	# send_report_to_vendors(GetRequest.report_from_to("2014-04-27", "2014-04-28"))
+				# Report.new(AllPayment.new(@report)).output_report
+				# Report.new(Error.new(@report)).output_report
+	    # else
+	   		# ReportMail.no_transactions.deliver
+	   		# logger.info "no transactions"
+	    # end
 	  
-	  logger.info @terminal = GetRequest.report_terminal
-	  	if @terminal != []
-	    	send_report_to_vendors(GetRequest.report_terminal_for_vendor)
-			Report.new(AllPayment.new(@report)).output_report
-			Report.new(Error.new(@report)).output_report
-	    else
-	   		ReportMail.no_transactions.deliver
-	   		logger.info "no transactions"
-	    end
-    end
+	  # @terminal = GetRequest.terminal("2014-04-22", "2014-04-30")
+	  	# if @terminal != []
+	  #   	send_report_to_vendors(GetRequest.terminal("2014-04-22", "2014-04-30"))
+			# Report.new(AllPayment.new(@report)).output_report
+			# Report.new(Error.new(@report)).output_report
+	    # else
+	   		# ReportMail.no_transactions.deliver
+	   		# logger.info "no transactions"
+	    # end
+	  # render json: @terminal
+    # end
 
     private
 
@@ -65,7 +82,7 @@ class PaymentsController < ApplicationController
 		        else
 		          	filename = Report.new(TxtPayment.new(@data, id)).output_report
 		        end
-		   		ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}")
+		   		# ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}")
 	    		logger.info "transaction: #{vendor.title}-#{@data}"
 	    	end
 	    end

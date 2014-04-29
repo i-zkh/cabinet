@@ -38,7 +38,9 @@ Project::Application.routes.draw do
   get 'new_report' => 'payments#new_report'
 
 # Report for manager
-  get 'report_daily' => 'payments#xls_report_daily'
+  # get 'report_daily' => 'payments#xls_report_daily'
+    get 'report_daily' => 'payments#index'
+  post 'report_daily' => 'payments#create'
   get 'xls' => 'payments#xls'
   
 # Parsing vendor's reports

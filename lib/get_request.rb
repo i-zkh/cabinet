@@ -19,9 +19,7 @@ class GetRequest
 
 		def report_from_to(from, to)
 		  	response = HTTParty.get( "http://izkh.ru/api/1.0/report_from_to?from=#{from}&to=#{to}&auth_token=#{Auth.get}")
-	    	daily = response.parsed_response["payload"]
-	    	daily.each {|t| t["amount"] = (t["amount"]*100/(Vendor.where(id: t['vendor_id']).first.commission+100)).round(2)}
-	    	daily
+	    	response.parsed_response["payload"]
 		end
 
 		def terminal(from, to)

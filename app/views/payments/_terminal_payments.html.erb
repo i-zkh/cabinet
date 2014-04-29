@@ -1,0 +1,10 @@
+<tr>
+  <% @terminal.each do |terminal| %>
+  <td><%= Vendor.find(terminal['vendor_id']).title %></td>
+  <td><%= terminal['user_account'] %></td>
+  <td><%= terminal['amount'] %></td>
+  <td><%= terminal['total'] %></td>
+  <td><%= terminal['commission'] %></td>
+  <td><%= DateTime.parse(terminal['created_at']).strftime("%d.%m.%Y")%></td>
+</tr>
+<% end %>
