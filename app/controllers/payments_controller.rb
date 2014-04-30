@@ -8,121 +8,79 @@ class PaymentsController < ApplicationController
 		@terminal = GetRequest.terminal((Date.today-1).strftime("%Y-%m-%d"), Date.today.strftime("%Y-%m-%d"))
 	end
 
-	 def index
-  	array, @from, @to = [], Date.today, Date.today + 1
+	def index
+	 	@report = GetRequest.report_from_to(Date.today-1, Date.today)
 		@transactions_type = ["", "PayOnline", "Yandex", "WebMoney"]
-		@report = GetRequest.report_from_to(@from, @to)
-		@terminal = GetRequest.terminal(@from, @to)
+		@payments = @report["payload"]
+		@terminal = @report["terminal"]
   end
 
   def create
   	array = []
     @from = params[:from] != "" ? params[:from] : Date.today.beginning_of_month
     @to = params[:to] != "" ? params[:to] : Date.today.end_of_month
+    @report = GetRequest.report_from_to(@from, @to)
     @transactions_type = ["", "PayOnline", "Yandex", "WebMoney"]
-  	@report = GetRequest.report_from_to(@from, @to)
-  	@terminal = GetRequest.terminal(@from, @to)
+  	@payments = @report["payload"]
+  	@terminal = @report["terminal"]
   end
 
 	def xls
-		Report.new(ReportForManager.new(GetRequest.report_daily)).output_report
+    @transactions_type = ["", "PayOnline", "Yandex", "WebMoney"]
+   	@report = GetRequest.report_from_to(Date.today-1, Date.today)
+		Report.new(ReportForManager.new(@report["payload"])).output_report
 		send_file 'transactions.xls'
 	end
 
-  	# Daily report and errors to out@izkh.ru
-  #   def create
-		# @report = GetRequest.report_from_to("2014-04-15", "2014-04-16")
-	 #    if @report != []
-	 #    	send_report_to_vendors(GetRequest.report_from_to("2014-04-15", "2014-04-16"))
-		# 		# Report.new(AllPayment.new(@report)).output_report
-		# 		# Report.new(Error.new(@report)).output_report
-	 #   #  else
-	 #   # 		ReportMail.no_transactions.deliver
-	 #    end
-	 #    render json: @report
-  #   end
-
-    # def create
-		# @report = GetRequest.report_from_to("2014-04-25", "2014-04-29")
-	 #    if @report != []
-	    	# send_report_to_vendors(GetRequest.report_from_to("2014-04-27", "2014-04-28"))
-				# Report.new(AllPayment.new(@report)).output_report
-				# Report.new(Error.new(@report)).output_report
-	    # else
-	   		# ReportMail.no_transactions.deliver
-	   		# logger.info "no transactions"
-	    # end
+  def report_from_to
+  	@report = GetRequest.report_from_to(params[:from], params[:to])
+  	@online_payments = @report["payload"]
+  	@terminal_payments = @report["terminal"]
+  	@online_payments_for_vendors = @online_payments.each {|t| t["amount"] = (t["amount"]*100/(Vendor.where(id: t['vendor_id']).first.commission+100)).round(2)}
+  	@terminal_payments_for_vendors = @terminal_payments.each {|t| t["amount"] = (t["amount"]*100/(Vendor.where(id: t['vendor_id']).first.commission+100)).round(2)}
 	  
-	  # @terminal = GetRequest.terminal("2014-04-22", "2014-04-30")
-	  	# if @terminal != []
-	  #   	send_report_to_vendors(GetRequest.terminal("2014-04-22", "2014-04-30"))
-			# Report.new(AllPayment.new(@report)).output_report
-			# Report.new(Error.new(@report)).output_report
-	    # else
-	   		# ReportMail.no_transactions.deliver
-	   		# logger.info "no transactions"
-	    # end
-	  # render json: @terminal
-    # end
+	  # send_report_to_vendors(@online_payments_for_vendors)
+	  # send_report_to_vendors(@terminal_payments_for_vendors)
+		# Report.new(AllPayment.new(@online_payments)).output_report
+		# Report.new(AllPayment.new(@terminal_payments)).output_report
+		render json: @report
+  end
 
-    private
+  def report_monthly
+  	GetRequest.report_monthly(Date.today.month-2).each do |id|
+		case id
+		when 5, 40, 43, 44, 146
+			filename = Report.new(ReportMonthlyTxt.new(GetRequest.transactions(id, Date.today.month-2), id)).monthly
+		else
+			filename = Report.new(ReportMonthly.new(GetRequest.transactions(id, Date.today.month-2), id)).monthly
+		end
+			vendor = Vendor.where(id: id, distribution: true).first
+			# ReportMessages.monthly_report(vendor.email, filename) unless vendor.nil? || vendor.id == 150
+		end
+		render json: true
+  end
+
+  private
 
 	def send_report_to_vendors(report)
-  		vendors_id = []
-	    report.each { |r| vendors_id << r['vendor_id'] }
-	    vendors_id.uniq.each do |id|
-	      	@data = report.select { |d| d['vendor_id'] == id.to_i }
-	      	vendor = Vendor.where(id: id, distribution: true).first
+  	vendors_id = []
+	  report.each { |r| vendors_id << r['vendor_id'] }
+	  vendors_id.uniq.each do |id|
+	    @data = report.select { |d| d['vendor_id'] == id.to_i }
+	    vendor = Vendor.where(id: id, distribution: true).first
 			if vendor
-		        case id
-		    	when 5, 44, 40
-		          	filename = Report.new(TxtCheckAddress.new(@data, id)).output_report
-		        when 150
-		        	filename = Report.new(Factorial.new(@data, id)).output_report
-		        else
-		          	filename = Report.new(TxtPayment.new(@data, id)).output_report
-		        end
-		   		# ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}")
-	    		logger.info "transaction: #{vendor.title}-#{@data}"
-	    	end
-	    end
-  	end
+		   	case id
+		   	when 5, 44, 40
+		        filename = Report.new(TxtCheckAddress.new(@data, id)).output_report
+		    when 150
+		      	filename = Report.new(Factorial.new(@data, id)).output_report
+		    else
+		        filename = Report.new(TxtPayment.new(@data, id)).output_report
+		    end
+		  	# ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}")
+	   		logger.info "transaction: #{vendor.title}-#{@data}"
+	   	end
+	  end
+  end
 
-    def report_monthly
-    	GetRequest.report_monthly(Date.today.month-2).each do |id|
-			case id
-			when 5, 40, 43, 44, 146
-				filename = Report.new(ReportMonthlyTxt.new(GetRequest.transactions(id, Date.today.month-2), id)).monthly
-			else
-				filename = Report.new(ReportMonthly.new(GetRequest.transactions(id, Date.today.month-2), id)).monthly
-			end
-				vendor = Vendor.where(id: id, distribution: true).first
-				# ReportMessages.monthly_report(vendor.email, filename) unless vendor.nil? || vendor.id == 150
-			end
-			render json: true
-    end
-
-  	private
-
-	# def send_report_to_vendors(report)
- #  		vendors_id = []
-	#     report.each { |r| vendors_id << r['vendor_id'] }
-	#     vendors_id.uniq.each do |id|
-	#       	p @data = report.select { |d| d['vendor_id'] == id.to_i }
-	#       	p vendor = Vendor.where(id: id, distribution: true).first
-	#       	if vendor
-	# 	        case id
-	# 	    		when 5, 44, 40
-	# 	          	filename = Report.new(TxtCheckAddress.new(@data, id)).output_report
-	# 	        when 150
-	# 	        	p "--------"
-	# 	        	filename = Report.new(Factorial.new(@data, id)).output_report
-	# 	        else
-	# 	          	filename = Report.new(TxtPayment.new(@data, id)).output_report
-	# 	        end
-	# 	        p filename
-	# 	   		# ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}")
-	#     	end
-	#     end
- #  	end
 end

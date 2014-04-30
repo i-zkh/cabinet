@@ -1,5 +1,5 @@
 <tr>
-<% @report.each do |report| %>
+<% @payments.each do |report| %>
 <% address = report['address'].split(',') %>
   <td><%= Vendor.find(report['vendor_id']).title %></td>
   <td><%= report['user_account'] %></td>

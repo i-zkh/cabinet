@@ -13,20 +13,20 @@
     <th>Город</th>
     <th>Адрес</th>
     <th>Сумма платежа</th>
-    <th>Тип транзакции</th>
     <th>Дата транзакции</th>
+    <th>Тип транзакции</th>
   </tr>
   <tbody id="js-transaction">
     <tr>
-    <% @report.each do |report| %>
+    <% @payments.each do |report| %>
     <% address = report['address'].split(',') %>
       <td><%= Vendor.find(report['vendor_id']).title %></td>
       <td><%= report['user_account'] %></td>
       <td><%= address[0] %></td>
       <td><%= address[1] + "," + address[2] + "," + address[3] %></td>
       <td><%= report['amount'] %></td>
-      <td><%= @transactions_type[report['payment_type'].to_i] %></td>
       <td><%= DateTime.parse(report['date']).strftime("%d.%m.%Y")%></td>
+      <td><%= @transactions_type[report['payment_type'].to_i] %></td>
     </tr>
     <% end %>
   </tbody>

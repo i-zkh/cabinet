@@ -3,7 +3,7 @@ class GetRequest
 
 	    # Report 
 	    # to out@izkh.ru
-	    def report_daily
+	  def report_daily
 		  	response = HTTParty.get( "http://izkh.ru/api/1.0/report_daily?auth_token=#{Auth.get}")
 	    	daily = response.parsed_response["payload"]
 	    	daily.each {|d| d["user_account"].gsub!(/^00/, "")}
@@ -19,7 +19,7 @@ class GetRequest
 
 		def report_from_to(from, to)
 		  	response = HTTParty.get( "http://izkh.ru/api/1.0/report_from_to?from=#{from}&to=#{to}&auth_token=#{Auth.get}")
-	    	response.parsed_response["payload"]
+	    	response.parsed_response
 		end
 
 		def terminal(from, to)

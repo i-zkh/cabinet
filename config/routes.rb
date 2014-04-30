@@ -27,7 +27,7 @@ Project::Application.routes.draw do
   get 'user_account' => "user_check#account"
   
 # Report
-  get 'get_payment' => 'payments#create'
+  get 'get_payment' => 'payments#report_from_to'
   get 'report_monthly' => 'payments#report_monthly'
   get 'report/monthly/xls' => 'payments#monthly_xls'
   get 'report/monthly/txt' => 'payments#monthly_txt'

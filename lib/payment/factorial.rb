@@ -1,3 +1,4 @@
+#encoding: utf-8
 class Factorial < Payment
   attr_accessor :data
 
@@ -22,7 +23,10 @@ class Factorial < Payment
                     "# #{DateTime.now.strftime("%d/%m/%Y %H:%M:%S")} ;Начало диапазона дат документов, входящих в реестр\n" +
                     "# #{DateTime.now.strftime("%d/%m/%Y %H:%M:%S")} ;Конец диапазона дат документов, входящих в реестр\n"
     )
-    @data.each {|d| reportFile.puts(";#{d['address']};#{d['user_account']};#{d['amount']};1;01/#{DateTime.now.strftime("%m/%Y")};#{Date.today.end_of_month.strftime("%d/%m/%Y")};;#{DateTime.parse(d['date']).strftime("%d/%m/%Y")};;")}
+    @data.each do |d|
+        ";#{d['address']};#{d['user_account']};#{d['amount']};1;01/#{DateTime.now.strftime("%m/%Y")};#{Date.today.end_of_month.strftime("%d/%m/%Y")};;#{Date.today.end_of_month.strftime("%d/%m/%Y")};;#{d['date'].nil? ? DateTime.parse(d['created_at']).strftime("%d.%m.%Y") : DateTime.parse(d['date']).strftime("%d.%m.%Y")};;"
+    end
+    @data.each {|d| reportFile.puts(";#{d['address']};#{d['user_account']};#{d['amount']};1;01/#{DateTime.now.strftime("%m/%Y")};#{Date.today.end_of_month.strftime("%d/%m/%Y")};;#{d['date'].nil? ? DateTime.parse(d['created_at']).strftime("%d.%m.%Y") : DateTime.parse(d['date']).strftime("%d.%m.%Y")};;")}
     reportFile.close
     filename
   end
