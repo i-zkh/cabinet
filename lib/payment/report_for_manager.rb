@@ -3,7 +3,7 @@ class ReportForManager < Payment
   attr_accessor :data
 
   def initialize(data)
-   p @data = data
+   @data = data
    @transactions_type = ["", "PayOnline", "Yandex", "WebMoney"]
   end
 
