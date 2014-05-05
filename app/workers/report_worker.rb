@@ -14,8 +14,8 @@ class ReportWorker
     
     send_report_to_vendors(@online_payments_for_vendors)
     send_report_to_vendors(@terminal_payments_for_vendors)
-    Report.new(AllPayment.new(@online_payments)).output_report
-    Report.new(AllPayment.new(@terminal_payments)).output_report
+    # Report.new(AllPayment.new(@online_payments)).output_report
+    # Report.new(AllPayment.new(@terminal_payments)).output_report
   end
 
   private
@@ -35,7 +35,7 @@ class ReportWorker
         else
             filename = Report.new(TxtPayment.new(@data, id)).output_report
         end
-        ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}")
+        # ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}")
         logger.info "transaction: #{vendor.title}-#{@data}"
       end
     end
