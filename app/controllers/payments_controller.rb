@@ -37,11 +37,10 @@ class PaymentsController < ApplicationController
   	@online_payments = @report["payload"]
   	@terminal_payments = @report["terminal"]
   	@online_payments_for_vendors = @online_payments.each {|t| t["amount"] = (t["amount"]*100/(Vendor.where(id: t['vendor_id']).first.commission+100)).round(2)}
-  	@terminal_payments_for_vendors = @terminal_payments.each {|t| t["amount"] = (t["amount"]*100/(Vendor.where(id: t['vendor_id']).first.commission+100)).round(2)}
-	  
-	  send_report_to_vendors(@online_payments_for_vendors)
-	  send_report_to_vendors(@terminal_payments_for_vendors)
-		# Report.new(AllPayment.new(@online_payments)).output_report
+
+    send_report_to_vendors(@online_payments_for_vendors)
+	  # send_report_to_vendors(@terminal_payments)
+		Report.new(AllPayment.new(@online_payments)).output_report
 		# Report.new(AllPayment.new(@terminal_payments)).output_report
 		render json: @report
   end
@@ -55,7 +54,7 @@ class PaymentsController < ApplicationController
 			filename = Report.new(ReportMonthly.new(GetRequest.transactions(id, Date.today.month-2), id)).monthly
 		end
 			vendor = Vendor.where(id: id, distribution: true).first
-			ReportMessages.monthly_report(vendor.email, filename) unless vendor.nil? || vendor.id == 150
+			# ReportMessages.monthly_report(vendor.email, filename) unless vendor.nil? || vendor.id == 150
 		end
 		render json: true
   end
