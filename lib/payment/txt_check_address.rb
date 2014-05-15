@@ -11,12 +11,12 @@ class TxtCheckAddress < Payment
     filename = "#{Vendor.where(id: @id).first.title}.txt"
     outFile = File.new(filename, "w")
       @data.each do |d|
-        address = Account.where(user_account: d['user_account'], vendor_id: d['vendor_id']).first
-        data = d['date'].nil? ? DateTime.parse(d['created_at']).strftime("%d.%m.%Y") : DateTime.parse(d['date']).strftime("%d.%m.%Y")
+        d = d.split(';')
+        address = Account.where(user_account: d[1], vendor_id: d[-1]).first
         if address.nil?
-          outFile.puts("#{d['user_account']};#{d['address']};#{d['amount']};#{data}")
+          outFile.puts("#{d[1]};#{d[2]};#{d[3]};#{d[7]}")
         else
-          outFile.puts("#{d['user_account']};#{address['city']}, #{address['street']}, #{address['building']}, #{address['apartment']};#{d['amount']};#{data}")
+          p outFile.puts("#{d[1]};#{address['city']}, #{address['street']}, #{address['building']}, #{address['apartment']};#{d[3]};#{d[7]}")
         end
       end
     outFile.close

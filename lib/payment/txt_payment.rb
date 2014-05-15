@@ -10,7 +10,10 @@ class TxtPayment < Payment
   def output
     filename = "#{Vendor.where(id: @id).first.title}.txt"
     outFile = File.new(filename, "w")
-      @data.each { |d| outFile.puts("#{d['user_account']};#{d['address']};#{d['amount']};#{d['date'].nil? ? DateTime.parse(d['created_at']).strftime("%d.%m.%Y") : DateTime.parse(d['date']).strftime("%d.%m.%Y")}") }
+      @data.each do |d| 
+        d = d.split(';')
+        outFile.puts("#{d[1]};#{d[2]};#{d[3]};#{d[7]}")
+      end
     outFile.close
     filename
   end

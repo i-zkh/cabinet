@@ -10,7 +10,6 @@
   <tr>
     <th>Название организации</th>
     <th>Лицевой счет</th>
-    <th>Город</th>
     <th>Адрес</th>
     <th>Сумма платежа</th>
     <th>Дата транзакции</th>
@@ -19,39 +18,15 @@
   <tbody id="js-transaction">
     <tr>
     <% @payments.each do |report| %>
-    <% address = report['address'].split(',') %>
-      <td><%= Vendor.find(report['vendor_id']).title %></td>
-      <td><%= report['user_account'] %></td>
-      <td><%= address[0] %></td>
-      <td><%= address[1] + "," + address[2] + "," + address[3] %></td>
-      <td><%= report['amount'] %></td>
-      <td><%= DateTime.parse(report['date']).strftime("%d.%m.%Y")%></td>
-      <td><%= @transactions_type[report['payment_type'].to_i] %></td>
+    <% report = report.split(';') %>
+      <td><%= report[5] %></td>
+      <td><%= report[1] %></td>
+      <td><%= report[2] %></td>
+      <td><%= report[3].to_f + report[4].to_f  %></td>
+      <td><%= report[7] %></td>
+      <td><%= report[0] %></td>
     </tr>
     <% end %>
   </tbody>
 </table>
 <%= link_to "Скачать", xls_url, class: "btn btn-success" %>
-<table class="table table-striped table-hover">
-  <h3>Транзакции через терминалы:</h3>
-  <tr>
-    <th>Название организации</th>
-    <th>Лицевой счет</th>
-    <th>Сумма чистого платежа</th>
-    <th>Сумма транзакции</th>
-    <th>Комиссия</th>
-    <th>Дата транзакции</th>
-  </tr>
-  <tbody id="js-terminal">
-    <tr>
-      <% @terminal.each do |terminal| %>
-      <td><%= Vendor.find(terminal['vendor_id']).title %></td>
-      <td><%= terminal['user_account'] %></td>
-      <td><%= terminal['amount'] %></td>
-      <td><%= terminal['total'] %></td>
-      <td><%= terminal['commission'] %></td>
-      <td><%= DateTime.parse(terminal['created_at']).strftime("%d.%m.%Y")%></td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>

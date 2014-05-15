@@ -4,16 +4,15 @@ class ReportForManager < Payment
 
   def initialize(data)
    @data = data
-   @transactions_type = ["", "PayOnline", "Yandex", "WebMoney"]
   end
 
   def output
     Axlsx::Package.new do |p|
       p.workbook.add_worksheet(:name => "data") do |sheet|
-        sheet.add_row ["Название организации", "Лицевой счет", "Город", "Адрес", "Сумма платежа", "Дата транзакции", "Тип транзакции"]
+        sheet.add_row ["Название организации", "Лицевой счет", "Адрес", "Сумма платежа", "Дата транзакции", "Тип транзакции"]
         @data.each do |data|
-          address = data['address'].split(',')
-          sheet.add_row [Vendor.find(data['vendor_id']).title, data["user_account"], address[0], address[1] + "," + address[2] + "," + address[3], data['amount'], DateTime.parse(data['date']).strftime("%Y-%m-%d"), @transactions_type[data['payment_type'].to_i]] 
+          data = data.split(';')
+          sheet.add_row [data[5], data[1], data[2], data[3].to_f + data[4].to_f , data[7], data[0]] 
        end
       end
       p.serialize("transactions.xls")

@@ -14,9 +14,9 @@
 		%tbody#report
 			- unless @report.nil?
 				- @report.each do |r|
-					- date = DateTime.parse(r["date"])
 					%tr
-						%td= r["user_account"]
-						%td= r["address"]
-						%td= r["amount"]
-						%td= date.strftime("%Y-%m-%d")
+						- r = r.split(';')
+						%td= r[1]
+						%td= r[2]
+						%td= r[3]
+						%td= r[7]

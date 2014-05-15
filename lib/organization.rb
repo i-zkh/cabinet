@@ -13,6 +13,30 @@ class Organization
 
   def add_vendors
     (0..@data.size-1).each do |i|
+      unless Vendor.where(title: @data[i]["title"]).first
+        check_servicetype(@data[i]["servicetype"].mb_chars.capitalize.to_s)
+        vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"].to_i, cities)
+        vendor_id.parsed_response
+        tariff_id = PostRequest.tariff_template(vendor_id["vendor"]["id"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s])
+        tariff_id.parsed_response
+        PostRequest.field_template(tariff_id["id"])
+        v = Vendor.new(
+              title:              @data[i]["title"],
+              vendor_type:        @data[i]["servicetype"].mb_chars.capitalize.to_s, 
+              service_type_id:    @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], 
+              commission:         @data[i]["commission"], 
+              email:              @data[i]["email"],
+              auth_key:           Digest::MD5.hexdigest((0...5).map{('a'..'z').to_a[rand(26)]}.join)[0..5], 
+              distribution:       @data[i]["email"] ? true : false
+            )
+        v.id = vendor_id["vendor"]["id"].to_i
+        v.save!
+      end
+    end
+  end
+
+  def add_vendors_old_version
+    (0..@data.size-1).each do |i|
       cities = []
       @data[i]["city"].split(',').each { |city_title| cities << { id: @cities["#{city_title}"] } }
       unless Vendor.where(title: @data[i]["title"]).first

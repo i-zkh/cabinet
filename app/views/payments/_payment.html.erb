@@ -1,12 +1,11 @@
 <tr>
 <% @payments.each do |report| %>
-<% address = report['address'].split(',') %>
-  <td><%= Vendor.find(report['vendor_id']).title %></td>
-  <td><%= report['user_account'] %></td>
-  <td><%= address[0] %></td>
-  <td><%= address[1] + "," + address[2] + "," + address[3] %></td>
-  <td><%= report['amount'] %></td>
-  <td><%= @transactions_type[report['payment_type'].to_i] %></td>
-  <td><%= DateTime.parse(report['date']).strftime("%d.%m.%Y")%></td>
+<% report = report.split(';') %>
+  <td><%= report[5] %></td>
+  <td><%= report[1] %></td>
+  <td><%= report[2] %></td>
+  <td><%= report[3].to_f + report[4].to_f %></td>
+  <td><%= report[7] %></td>
+  <td><%= report[0] %></td>
 </tr>
 <% end %>

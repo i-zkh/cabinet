@@ -39,7 +39,7 @@ Project::Application.routes.draw do
 
 # Report for manager
   # get 'report_daily' => 'payments#xls_report_daily'
-    get 'report_daily' => 'payments#index'
+  get 'report_daily' => 'payments#index'
   post 'report_daily' => 'payments#create'
   get 'xls' => 'payments#xls'
   
