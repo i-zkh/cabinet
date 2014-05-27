@@ -95,7 +95,7 @@ class GetRequest
 		# Add vendors to service
 		# List of vendor's categories
 		def servicetypes
-			response = HTTParty.get( "http://izkh.ru/api/1.0/servicetypes?") 
+			response = HTTParty.get( "http://izkh.ru/api/1.0/servicetypes") 
 	    response.parsed_response
 		end
 

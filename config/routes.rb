@@ -86,5 +86,6 @@ Project::Application.routes.draw do
 
   #Delta
   get 'delta_payment' => 'bids#delta_payment'
+  get 'delta_success_pay' => 'bids#delta_success_pay'
 
 end

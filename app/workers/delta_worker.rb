@@ -6,17 +6,17 @@ class DeltaWorker
   
     def perform(key, email)
     require 'mandrill'
-    mandrill = Mandrill::API.new 'Sa9QSFZ8ZFAIJVosKwnqBQ'
+    mandrill = Mandrill::API.new 'NToYNXQZRClqYQkDai6ujg'
 
     message = {  
-      :subject=> "Заявка на услуги компании delta",  
-      :from_name=> "Delta",  
-      :text=>"Заявка на услуги компании delta",  
+      :subject=> "Заявка на оплату услуг компании DELTA",  
+      :from_name=> "DELTA",  
+      :text=>"Заявка на оплату услуг компании DELTA",  
       :to=>[{
           :email=> email,
       }],  
       :html=>
-        "<html><h3>Заявка на услуги компании delta</h3>
+        "<html><h3>Заявка на оплату услуг компании DELTA</h3>
 
           <p>Для проведения оплаты пройдите по ссылке ниже:</p>
           <a href='http://izkh.ru/delta_payment?key=#{key}'>Перейти к оплате</a>

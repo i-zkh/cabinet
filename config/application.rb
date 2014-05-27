@@ -64,11 +64,11 @@ module Project
 
     # Configure mailer
     config.action_mailer.smtp_settings = {
-      :address              => "mail.nic.ru",
-      :port                 => 25,
+      :address              => "smtp.mandrillapp.com",
+      :port                 => 587,
       :domain               => "izkh.ru",
-      :user_name            => "out@izkh.ru",
-      :password             => "EbabZas0",
+      :user_name            => "ccabinet@bk.ru",
+      :password             => "NToYNXQZRClqYQkDai6ujg",
       :authentication       => :plain,
       :enable_starttls_auto => false
     }

@@ -1,5 +1,6 @@
 #encoding: UTF-8
 class BidsController < ApplicationController
+  before_filter :authorize
   # GET /bids
   # GET /bids.json
   def index
@@ -53,6 +54,12 @@ class BidsController < ApplicationController
   def delta_payment
     @bid = Bid.where('key = ?', params[:key])
     render json: { payment: @bid }
+  end
+
+  def delta_success_pay
+    @bid = Bid.where('key = ?', params[:key])
+    @bid.update_attribute(:pay, true)
+    render json: true
   end
 
 end

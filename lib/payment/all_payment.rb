@@ -9,6 +9,6 @@ class AllPayment < Payment
     reportFile = File.new("report.txt", "w")
     @data.each {|d| reportFile.puts("#{d}")}
     reportFile.close
-    # ReportMail.report_to_out.deliver
+    ReportMail.report_to_out.deliver
   end
 end

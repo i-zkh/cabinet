@@ -5,9 +5,7 @@ class Organization
 	
   def initialize(file)
     @data = parsing_file(file)
-    @servicetypes = get_type("service_type")
-    @non_utility_service_types = get_type("non_utility_service_type")
-    @cities = cities
+    @servicetypes = get_types
     @non_utility_vendors_contacts = non_utility_vendors_contacts(file)
   end
 
@@ -15,22 +13,18 @@ class Organization
     (0..@data.size-1).each do |i|
       unless Vendor.where(title: @data[i]["title"]).first
         check_servicetype(@data[i]["servicetype"].mb_chars.capitalize.to_s)
-        vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"].to_i, cities)
-        vendor_id.parsed_response
-        tariff_id = PostRequest.tariff_template(vendor_id["vendor"]["id"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s])
-        tariff_id.parsed_response
-        PostRequest.field_template(tariff_id["id"])
-        v = Vendor.new(
-              title:              @data[i]["title"],
-              vendor_type:        @data[i]["servicetype"].mb_chars.capitalize.to_s, 
-              service_type_id:    @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], 
-              commission:         @data[i]["commission"], 
-              email:              @data[i]["email"],
-              auth_key:           Digest::MD5.hexdigest((0...5).map{('a'..'z').to_a[rand(26)]}.join)[0..5], 
-              distribution:       @data[i]["email"] ? true : false
-            )
-        v.id = vendor_id["vendor"]["id"].to_i
-        v.save!
+        # vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"].to_f, @data[i]["commission-ya-money"].to_f, @data[i]["commission-yandex"].to_f)
+        # v = Vendor.new(
+        #       title:              @data[i]["title"],
+        #       vendor_type:        @data[i]["servicetype"].mb_chars.capitalize.to_s, 
+        #       service_type_id:    @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], 
+        #       commission:         @data[i]["commission"], 
+        #       email:              @data[i]["email"],
+        #       auth_key:           Digest::MD5.hexdigest((0...5).map{('a'..'z').to_a[rand(26)]}.join)[0..5], 
+        #       distribution:       @data[i]["email"] ? true : false
+        #     )
+        # v.id = vendor_id["vendor"]["id"].to_i
+        # v.save!
       end
     end
   end
@@ -75,7 +69,7 @@ class Organization
   def check_servicetype(title)
     if @servicetypes[title].nil?
       PostRequest.servicetype(title)
-      @servicetypes = get_type("service_type")
+      @servicetypes = get_type
     end
   end
 
@@ -89,8 +83,8 @@ class Organization
   private
 
     def parsing_file(file) 
-      s, key, data = Roo::Excelx.new(file), ["title", "commission", "email", "phone", "address", "servicetype", "work_time", "city"], []
-      (2..s.last_row).each { |i| data << { key[0] => s.cell(i, 4), key[1] => s.cell(i, 7), key[2] => s.cell(i, 10), key[3] => s.cell(i, 8), key[4] => s.cell(i, 11), key[5] => s.cell(i, 13), key[6] => s.cell(i, 9), key[7] => s.cell(i, 5) } if s.cell(i, 2) == 2.0 }
+      s, key, data = Roo::Excelx.new(file), ["title", "commission", "email", "phone", "address", "servicetype", "work_time", "city", "commission-ya-money", "commission-ya-card"], []
+      (2..s.last_row).each { |i| data << { key[0] => s.cell(i, 4), key[1] => s.cell(i, 7), key[2] => s.cell(i, 10), key[3] => s.cell(i, 8), key[4] => s.cell(i, 11), key[5] => s.cell(i, 13), key[6] => s.cell(i, 9), key[7] => s.cell(i, 5), key[8] => s.cell(i, 6).split(';')[1], key[9] => s.cell(i, 6).split(';')[0] } if s.cell(i, 2) == 2.0 }
       data
     end
 
@@ -102,13 +96,13 @@ class Organization
             (14..s.last_column-1).step(2).each { |j| data << { key[0] => @non_utility_vendor_id, key[1] => s.cell(i, j), key[2] => s.cell(i, j+1).to_i.to_s} if !s.cell(i, j).nil? }
           end
       end
-      data
+      p data
     end
 
-    def get_type(type)
+    def get_types
       servicetype, hash = [], {}
-      servicetype = type == "service_type" ? GetRequest.servicetypes : GetRequest.nonutilityservicetype
-      servicetype.each { |s| hash[s[type]["title"]] = s[type]["id"] }
+      servicetype = GetRequest.servicetypes
+      servicetype.each { |s| hash[s['service_type']["title"]] = s['service_type']["id"] }
       hash
     end
 

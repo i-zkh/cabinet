@@ -1,3 +1,37 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+$(document).ready ->
+
+  $('body').on 'change', '#bid_installation_payment', ->
+    if $('#bid_installation_payment').val() && $('#bid_installation_payment_for_vendor').val()
+      if !$('#bid_service_payment').val() && $('#bid_service_payment_for_vendor').val() || $('#bid_service_payment').val() && !$('#bid_service_payment_for_vendor').val()
+        $('.js-send-bid').attr("disabled", true)
+      else
+        $('.js-send-bid').attr("disabled", false) 
+    else
+        $('.js-send-bid').attr("disabled", true) 
+
+  $('body').on 'change', '#bid_installation_payment_for_vendor', ->
+    if $('#bid_installation_payment').val() && $('#bid_installation_payment_for_vendor').val()
+      if !$('#bid_service_payment').val() && $('#bid_service_payment_for_vendor').val() || $('#bid_service_payment').val() && !$('#bid_service_payment_for_vendor').val()
+        $('.js-send-bid').attr("disabled", true)
+      else
+        $('.js-send-bid').attr("disabled", false) 
+    else
+        $('.js-send-bid').attr("disabled", true) 
+
+  $('body').on 'change', '#bid_service_payment', ->
+    if $('#bid_service_payment').val() && $('#bid_service_payment_for_vendor').val()
+      if !$('#bid_installation_payment').val() && $('#bid_installation_payment_for_vendor').val() || $('#bid_installation_payment').val() && !$('#bid_installation_payment_for_vendor').val()
+        $('.js-send-bid').attr("disabled", true)
+      else
+        $('.js-send-bid').attr("disabled", false) 
+    else
+        $('.js-send-bid').attr("disabled", true) 
+
+  $('body').on 'change', '#bid_service_payment_for_vendor', ->
+    if $('#bid_service_payment').val() && $('#bid_service_payment_for_vendor').val()
+      if !$('#bid_installation_payment').val() && $('#bid_installation_payment_for_vendor').val() || $('#bid_installation_payment').val() && !$('#bid_installation_payment_for_vendor').val()
+        $('.js-send-bid').attr("disabled", true)
+      else
+        $('.js-send-bid').attr("disabled", false) 
+    else
+        $('.js-send-bid').attr("disabled", true) 

@@ -8,9 +8,12 @@ class Factorial < Payment
   end
 
   def output
-    sum, filename = 0, "#{Date.today.strftime("%d%m%y")}.txt"
+    sum, filename = 0, "#{Date.today.strftime("%d%m%y%M")}.txt"
     reportFile = File.new(filename, "w:CP866")
-    @data.each {|d| sum = sum + d['amount']}
+    @data.each do |d| 
+        d = d.split(';')
+        sum = sum + d[3].to_i
+    end
     reportFile.puts("# #{Date.today.strftime("%d%m%y")} ;Номер реестра\n" +
                     "# #{sum} ;Сумма реестра\n" +
                     "# ;В том числе пеня\n" +
@@ -23,7 +26,10 @@ class Factorial < Payment
                     "# #{DateTime.now.strftime("%d/%m/%Y %H:%M:%S")} ;Начало диапазона дат документов, входящих в реестр\n" +
                     "# #{DateTime.now.strftime("%d/%m/%Y %H:%M:%S")} ;Конец диапазона дат документов, входящих в реестр\n"
     )
-    @data.each {|d| reportFile.puts(";#{d['address']};#{d['user_account']};#{d['amount']};1;01/#{DateTime.now.strftime("%m/%Y")};#{Date.today.end_of_month.strftime("%d/%m/%Y")};;#{d['date'].nil? ? DateTime.parse(d['created_at']).strftime("%d.%m.%Y") : DateTime.parse(d['date']).strftime("%d.%m.%Y")};;")}
+    @data.each do |d| 
+        d = d.split(';')
+        reportFile.puts(";#{d[2]};#{d[1]};#{d[3]};1;01/#{DateTime.now.strftime("%m/%Y")};#{Date.today.end_of_month.strftime("%d/%m/%Y")};;#{DateTime.parse(d[7]).strftime("%d/%m/%Y")};;")
+    end
     reportFile.close
     filename
   end

@@ -18,15 +18,15 @@ Project::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
 
- config.action_mailer.smtp_settings = {
-     :address              => "mail.nic.ru",
-     :port                 => 25,
-     :domain               => "izkh.ru",
-     :user_name            => "out@izkh.ru",
-     :password             => "EbabZas0",
-     :authentication       => :plain,
-     :enable_starttls_auto => false
- }
+  config.action_mailer.smtp_settings = {
+   :address              => "smtp.mandrillapp.com",
+   :port                 => 587,
+   :domain               => "izkh.ru",
+   :user_name            => "ccabinet@bk.ru",
+   :password             => "NToYNXQZRClqYQkDai6ujg",
+   :authentication       => :plain,
+   :enable_starttls_auto => false
+  }
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
