@@ -2,7 +2,6 @@
 require 'russian'
 class DeltaWorker
   include Sidekiq::Worker
-  sidekiq_options :retry => false
   
     def perform(key, email)
     require 'mandrill'

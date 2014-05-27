@@ -52,12 +52,12 @@ class BidsController < ApplicationController
   end
 
   def delta_payment
-    @bid = Bid.where('key = ?', params[:key])
+    @bid = Bid.where('key = ?', params[:key]).first
     render json: { payment: @bid }
   end
 
   def delta_success_pay
-    @bid = Bid.where('key = ?', params[:key])
+    @bid = Bid.where('key = ?', params[:key]).first
     @bid.update_attribute(:pay, true)
     render json: true
   end
