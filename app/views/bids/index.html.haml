@@ -14,9 +14,11 @@
         %th Стоимость установки системы DELTA, руб
         %th Стоимость ежемесячного обслуживания, руб
         %th Дата
+        %th Оплата
         %th
     %tbody
       - @bids.each do |bid|
+        - pay = bid.pay == true ? "Да" : "Нет"
         %tr
           %td= bid.contract_number
           %td= bid.name
@@ -24,5 +26,6 @@
           %td= bid.installation_payment
           %td= bid.service_payment
           %th= bid.created_at.strftime("%Y-%m-%d")  
+          %td= pay
           %td= link_to 'Посмотреть', bid
   = link_to 'Добавить заявку', new_bid_path, class: "btn btn-success btn-sm"

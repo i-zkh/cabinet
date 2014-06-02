@@ -2,6 +2,7 @@
   %notice.label.label-primary= notice
   %table.table.table-striped.table-hover
     %tbody
+      - pay = @bid.pay == true ? "Да" : "Нет"
       %tr
         %td= "Имя клиента"
         %td= @bid.name
@@ -26,5 +27,8 @@
       %tr
         %td= "Компания, обеспечивающая охрану"
         %td= @bid.service_payment_for_vendor 
+      %tr
+        %td= "Оплата"
+        %td= pay
   = link_to 'К списку заявок', bids_path, class: "btn btn-success btn-sm"
         
