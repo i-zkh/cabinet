@@ -1,6 +1,6 @@
 #encoding: UTF-8
 class BidsController < ApplicationController
-  before_filter :authorize
+  before_filter :authorize, :only => [:index, :show, :create, :new]
   # GET /bids
   # GET /bids.json
   def index

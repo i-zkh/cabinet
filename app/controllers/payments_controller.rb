@@ -27,6 +27,11 @@ class PaymentsController < ApplicationController
 	end
 
   def report_monthly
+    @payments = GetRequest.report_monthly(5)
+    render json: @payments
+  end
+
+  def old_report_monthly
   	GetRequest.report_monthly(Date.today.month-2).each do |id|
 		case id
 		when 5, 40, 43, 44, 146
@@ -35,7 +40,7 @@ class PaymentsController < ApplicationController
 			filename = Report.new(ReportMonthly.new(GetRequest.transactions(id, Date.today.month-2), id)).monthly
 		end
 			vendor = Vendor.where(id: id, distribution: true).first
-			ReportMessages.monthly_report(vendor.email, filename) unless vendor.nil? || vendor.id == 150
+			# ReportMessages.monthly_report(vendor.email, filename) unless vendor.nil? || vendor.id == 150
 		end
 		render json: true
   end
@@ -43,7 +48,7 @@ class PaymentsController < ApplicationController
   def report_from_to
     @payments = GetRequest.index_with_vendor_id(params[:from], params[:to])
     send_report_to_vendors(@payments)
-    # Report.new(AllPayment.new(@payments)).output_report
+    Report.new(AllPayment.new(@payments)).output_report
     render json: @payments
   end
 
@@ -64,7 +69,7 @@ class PaymentsController < ApplicationController
 		    else
 		        filename = Report.new(TxtPayment.new(@data, id)).output_report
 		    end
-		  	# ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}") && vendor.id == 16
+		  	ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}") && vendor.id == 135
 	   		logger.info "transaction: #{vendor.title}-#{@data}"
 	   	end
 	  end

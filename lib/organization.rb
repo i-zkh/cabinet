@@ -13,18 +13,18 @@ class Organization
     (0..@data.size-1).each do |i|
       unless Vendor.where(title: @data[i]["title"]).first
         check_servicetype(@data[i]["servicetype"].mb_chars.capitalize.to_s)
-        # vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"].to_f, @data[i]["commission-ya-money"].to_f, @data[i]["commission-yandex"].to_f)
-        # v = Vendor.new(
-        #       title:              @data[i]["title"],
-        #       vendor_type:        @data[i]["servicetype"].mb_chars.capitalize.to_s, 
-        #       service_type_id:    @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], 
-        #       commission:         @data[i]["commission"], 
-        #       email:              @data[i]["email"],
-        #       auth_key:           Digest::MD5.hexdigest((0...5).map{('a'..'z').to_a[rand(26)]}.join)[0..5], 
-        #       distribution:       @data[i]["email"] ? true : false
-        #     )
+        p vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"].to_f, @data[i]["commission-ya-money"].to_f, @data[i]["commission-yandex"].to_f)
+        v = Vendor.new(
+              title:              @data[i]["title"],
+              vendor_type:        @data[i]["servicetype"].mb_chars.capitalize.to_s, 
+              service_type_id:    @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], 
+              commission:         @data[i]["commission"], 
+              email:              @data[i]["email"],
+              auth_key:           Digest::MD5.hexdigest((0...5).map{('a'..'z').to_a[rand(26)]}.join)[0..5], 
+              distribution:       @data[i]["email"] ? true : false
+            )
         # v.id = vendor_id["vendor"]["id"].to_i
-        # v.save!
+        v.save!
       end
     end
   end

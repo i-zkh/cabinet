@@ -26,12 +26,18 @@ class GetRequest
 		  	response = HTTParty.get( "http://izkh.ru/api/1.0/index_with_vendor_id?from=#{from}&to=#{to}&")
 	    	response.parsed_response["payload"]
 		end
+		# to vendors
+		def report_monthly(month)
+			year = Time.new.year
+		  response = HTTParty.get( "http://izkh.ru/api/1.0/report_from_to?from=#{Date.new(year,month,1).strftime("%Y-%m-%d")}&to=#{Date.new(year, month).at_end_of_month.strftime("%Y-%m-%d")}")
+	    response.parsed_response["payload"]
+		end
 
 		def report_daily_for_vendor
-		  	response = HTTParty.get( "http://izkh.ru/api/1.0/report_daily?")
-	    	daily = response.parsed_response["payload"]
-	    	daily.each {|t| t["amount"] = (t["amount"]*100/(Vendor.where(id: t['vendor_id']).first.commission+100)).round(2)}
-	    	daily
+		  response = HTTParty.get( "http://izkh.ru/api/1.0/report_daily?")
+	    daily = response.parsed_response["payload"]
+	    daily.each {|t| t["amount"] = (t["amount"]*100/(Vendor.where(id: t['vendor_id']).first.commission+100)).round(2)}
+	    daily
 		end
 
 		def report_terminal_for_vendor
@@ -47,12 +53,6 @@ class GetRequest
 	    	hourly = response.parsed_response["payload"]
 	    	hourly.each {|d| d["user_account"].gsub!(/^00/, "")}
 	    	hourly
-		end
-
-		# to vendors
-		def report_monthly(month)
-			response = HTTParty.get( "http://izkh.ru/api/1.0/report_vendors?&month=#{month}")
-	    response.parsed_response
 		end
 		
 		# Transactions for month in cabinet
