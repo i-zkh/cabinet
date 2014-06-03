@@ -18,7 +18,7 @@
         %th
     %tbody
       - @bids.each do |bid|
-        - pay = bid.pay == true ? "Да" : "Нет"
+        - pay = bid.pay == true ? "Есть" : "Нет"
         %tr
           %td= bid.contract_number
           %td= bid.name
