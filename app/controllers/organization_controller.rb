@@ -2,11 +2,11 @@
 class OrganizationController < ApplicationController
 	
 	def add_vendors
-		# if params[:file]
-  #     		filename = "/home/ubuntu/apps/project/shared/organizations/" + "#{Date.today.strftime('%Y-%m-%d')}.xlsx"
-		# 	File.open(File.join(filename), "wb") {|f| f.write(params[:file].read)}
-			Organization.new("Organizations.xlsx").add_vendors
-		# end
+		if params[:file]
+      filename = "/home/ubuntu/apps/project/shared/organizations/" + "#{Date.today.strftime('%Y-%m-%d')}.xlsx"
+			File.open(File.join(filename), "wb") {|f| f.write(params[:file].read)}
+			Organization.new(filename).add_vendors
+		end
 		@vendors = Vendor.order('created_at DESC').all
 	end
 

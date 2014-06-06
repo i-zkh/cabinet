@@ -13,7 +13,7 @@ class Organization
     (0..@data.size-1).each do |i|
       unless Vendor.where(title: @data[i]["title"]).first
         check_servicetype(@data[i]["servicetype"].mb_chars.capitalize.to_s)
-        p vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"].to_f, @data[i]["commission-ya-money"].to_f, @data[i]["commission-yandex"].to_f)
+        vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"].to_f, @data[i]["commission-ya-money"].to_f, @data[i]["commission-ya-card"].gsub(',', '.').to_f, 106680).parsed_response
         v = Vendor.new(
               title:              @data[i]["title"],
               vendor_type:        @data[i]["servicetype"].mb_chars.capitalize.to_s, 
@@ -23,7 +23,7 @@ class Organization
               auth_key:           Digest::MD5.hexdigest((0...5).map{('a'..'z').to_a[rand(26)]}.join)[0..5], 
               distribution:       @data[i]["email"] ? true : false
             )
-        # v.id = vendor_id["vendor"]["id"].to_i
+        v.id = vendor_id
         v.save!
       end
     end
@@ -96,7 +96,7 @@ class Organization
             (14..s.last_column-1).step(2).each { |j| data << { key[0] => @non_utility_vendor_id, key[1] => s.cell(i, j), key[2] => s.cell(i, j+1).to_i.to_s} if !s.cell(i, j).nil? }
           end
       end
-      p data
+      data
     end
 
     def get_types
