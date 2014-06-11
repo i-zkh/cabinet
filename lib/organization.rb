@@ -69,7 +69,7 @@ class Organization
   def check_servicetype(title)
     if @servicetypes[title].nil?
       PostRequest.servicetype(title)
-      @servicetypes = get_type
+      @servicetypes = get_types
     end
   end
 
