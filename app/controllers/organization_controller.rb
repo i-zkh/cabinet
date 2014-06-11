@@ -3,7 +3,7 @@ class OrganizationController < ApplicationController
 	
 	def add_vendors
 		if params[:file]
-      filename = "#{Date.today.strftime('%Y-%m-%d')}.xlsx"
+      filename = "/home/ubuntu/apps/project/shared/organizations/" + "#{Date.today.strftime('%Y-%m-%d')}.xlsx"
 			File.open(File.join(filename), "wb") {|f| f.write(params[:file].read)}
 			Organization.new(filename).add_vendors
 		end
