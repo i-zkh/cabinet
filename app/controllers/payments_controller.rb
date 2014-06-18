@@ -46,7 +46,7 @@ class PaymentsController < ApplicationController
   end
 
   def report_from_to
-    @payments = GetRequest.index_with_vendor_id(params[:from], params[:to])
+    p @payments = GetRequest.index_with_vendor_id(params[:from], params[:to])
     send_report_to_vendors(@payments)
     # Report.new(AllPayment.new(@payments)).output_report
     render json: @payments
@@ -56,11 +56,11 @@ class PaymentsController < ApplicationController
 
 	def send_report_to_vendors(report)
   	vendors_id = []
-	  report.each{|r| vendors_id << r.split(';')[8]}
+	  report.each{|r| vendors_id << r.split(';')[-1]}
 	  vendors_id.uniq.each do |id|
       vendor = Vendor.where(id: id.to_i, distribution: true).first
 			if vendor
-        @data = report.select{|d| d.split(';')[8]  == id}
+        @data = report.select{|d| d.split(';')[-1]  == id}
 		   	case id.to_i
 		   	when 5, 44, 40, 146, 16
 		        filename = Report.new(TxtCheckAddress.new(@data, id)).output_report
