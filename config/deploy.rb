@@ -17,7 +17,7 @@ default_run_options[:pty] = true
 set :ssh_options, {:forward_agent => true}
 ssh_options[:verbose] = :debug
 set :ssh_options, {:auth_methods => "publickey"}
-set :ssh_options, {:keys => ["/home/ubuntu/apps/project/current/aws.pem"]}
+set :ssh_options, {:keys => ["/vagrant/new_project/aws.pem"]}
  
 set :clockwork_roles, :app
 set :cw_pid_file, "#{current_path}/tmp/pids/clockwork.pid"

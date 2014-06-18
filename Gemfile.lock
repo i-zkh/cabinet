@@ -208,7 +208,6 @@ DEPENDENCIES
   jquery-ui-rails
   json
   mandrill-api
-  net-ssh (~> 2.7.0)
   nokogiri
   pdf-reader
   pg
