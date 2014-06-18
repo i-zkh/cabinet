@@ -8,8 +8,9 @@ class Delta < Payment
   end
 
   def output
-    hash, i_p, s_p, filenames = {}, [], [], []
+    hash, filenames = {}, []
     @data.each do |d|
+      i_p, s_p = [], []
       bid = Bid.find_by_key(d.split(';')[8])
       i_p = hash["#{bid.installation_payment_for_vendor}"] if hash.has_key?("#{bid.installation_payment_for_vendor}")
       i_p << "Монтаж;#{bid.contract_number};#{bid.name};#{bid.phone};#{bid.installation_payment};#{bid.created_at.strftime("%Y-%m-%d")};#{bid.id}"
@@ -22,7 +23,7 @@ class Delta < Payment
       f = "#{key}.xlsx"
       Axlsx::Package.new do |p|
         p.workbook.add_worksheet(:name => "Report") do |sheet|
-          sheet.add_row ["Платежи населения, принятые через сервис АйЖКХ в пользу ООО ЧОП \"Команда\" "]
+          sheet.add_row ["Платежи населения, принятые через сервис АйЖКХ в пользу #{key}"]
           sheet.add_row ["Услуга", "№ договора", "ФИО клиента", "Номер телефона", "Сумма платежа", "Дата платежа", "Номер операции"]
           value.each do |d|
             d = d.split(';')
