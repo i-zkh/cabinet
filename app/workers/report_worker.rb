@@ -29,7 +29,7 @@ class ReportWorker
         else
             filename = Report.new(TxtPayment.new(@data, id)).output_report
         end
-        ReportMail.report(vendor, filename).deliver if vendor.id == 16
+        ReportMail.report(vendor, filename).deliver if vendor.id == 20
         logger.info "transaction: #{vendor.title}-#{@data}"
       end
     end
