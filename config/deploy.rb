@@ -15,6 +15,7 @@ set :branch, "master"
 
 default_run_options[:pty] = true
 set :ssh_options, {:forward_agent => true}
+ssh_options[:verbose] = :debug
 set :ssh_options, {:auth_methods => "publickey"}
 set :ssh_options, {:keys => ["/vagrant/project/aws.pem"]}
  
