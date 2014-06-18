@@ -16,7 +16,7 @@ class TxtCheckAddress < Payment
         if address.nil?
           outFile.puts("#{d[1]};#{d[2]};#{d[3]};#{d[7]}")
         else
-          p outFile.puts("#{d[1]};#{address['city']}, #{address['street']}, #{address['building']}, #{address['apartment']};#{d[3]};#{d[7]}")
+          outFile.puts("#{d[1]};#{address['city']}, #{address['street']}, #{address['building']}, #{address['apartment']};#{d[3]};#{d[7]}")
         end
       end
     outFile.close

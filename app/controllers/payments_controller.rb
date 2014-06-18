@@ -40,7 +40,7 @@ class PaymentsController < ApplicationController
 			filename = Report.new(ReportMonthly.new(GetRequest.transactions(id, Date.today.month-2), id)).monthly
 		end
 			vendor = Vendor.where(id: id, distribution: true).first
-			ReportMessages.monthly_report(vendor.email, filename) unless vendor.nil? || vendor.id == 150
+			# ReportMessages.monthly_report(vendor.email, filename) unless vendor.nil? || vendor.id == 150
 		end
 		render json: true
   end
@@ -56,20 +56,22 @@ class PaymentsController < ApplicationController
 
 	def send_report_to_vendors(report)
   	vendors_id = []
-	  report.each{|r| vendors_id << r.split(';')[-1]}
+	  report.each{|r| vendors_id << r.split(';')[8]}
 	  vendors_id.uniq.each do |id|
       vendor = Vendor.where(id: id.to_i, distribution: true).first
 			if vendor
-        @data = report.select{|d| d.split(';')[-1]  == id}
+        @data = report.select{|d| d.split(';')[8]  == id}
 		   	case id.to_i
 		   	when 5, 44, 40, 146, 16
 		        filename = Report.new(TxtCheckAddress.new(@data, id)).output_report
 		    when 150
 		      	filename = Report.new(Factorial.new(@data, id)).output_report
+        when 20
+            filename = Report.new(Delta.new(@data, id)).output_report
 		    else
 		        filename = Report.new(TxtPayment.new(@data, id)).output_report
 		    end
-		  	# ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}") && vendor.id == 135
+		  	# ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}") && vendor.id == 16
 	   		logger.info "transaction: #{vendor.title}-#{@data}"
 	   	end
 	  end
