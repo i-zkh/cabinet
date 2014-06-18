@@ -46,7 +46,7 @@ class PaymentsController < ApplicationController
   end
 
   def report_from_to
-    p @payments = GetRequest.index_with_vendor_id(params[:from], params[:to])
+    @payments = GetRequest.index_with_vendor_id(params[:from], params[:to])
     send_report_to_vendors(@payments)
     # Report.new(AllPayment.new(@payments)).output_report
     render json: @payments
