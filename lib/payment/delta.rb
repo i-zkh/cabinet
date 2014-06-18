@@ -20,7 +20,7 @@ class Delta < Payment
       hash["#{bid.service_payment_for_vendor}"] = s_p
     end
     hash.each do |key, value|
-      f = "#{key}.xlsx"
+      f = "#{key}-#{(Date.today-1).strftime("%Y-%m-%d")}.xlsx"
       Axlsx::Package.new do |p|
         p.workbook.add_worksheet(:name => "Report") do |sheet|
           sheet.add_row ["Платежи населения, принятые через сервис АйЖКХ в пользу #{key}"]
