@@ -14,7 +14,7 @@ set :repository, "git://github.com/ivannasya/vendor.git"
 set :branch, "master"
 
 default_run_options[:pty] = true
-ssh_options[:forward_agent] = true
+set :ssh_options, {:forward_agent => true}
 set :ssh_options, {:auth_methods => "publickey"}
 set :ssh_options, {:keys => ["/vagrant/project/aws.pem"]}
  
