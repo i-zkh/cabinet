@@ -6,7 +6,7 @@ require 'clockwork'
 
 module Clockwork
   # Clock for Daily report
-  every(1.day, 'Report', :at => '15:50') { ReportWorker.perform_async }
+  every(1.day, 'Report', :at => '22:40') { ReportWorker.perform_async }
     
     # Clock for hourly report
  	# every(1.day, 'Report', :at => ['4:00', '07:00', '10:00', '13:00', '16:00', '19:00', '22:00', '01:00']) do
