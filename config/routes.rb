@@ -88,4 +88,9 @@ Project::Application.routes.draw do
   get 'delta_payment' => 'bids#delta_payment'
   post 'delta_success_pay' => 'bids#delta_success_pay'
 
+  #Notification 
+  get 'notifications' => 'notifications#index'
+  get 'notifications_new' => 'notifications#new'
+  post 'notifications_new' => 'notifications#create'
+
 end

@@ -23,6 +23,7 @@
               %li{:class => ('active' if current_page?(bids_path))}= link_to "Заявки клиентов", bids_path
             - else
               %li{:class => ('active' if current_page?(meters_path))}= link_to "Показания счётчиков", meters_path
+              %li{:class => ('active' if current_page?(meters_path))}= link_to "Уведомления пользователей", notifications_path
           %ul.nav.navbar-nav.navbar-right
             %li= link_to "Выход", session_path("current"), method: "delete"
     .container-fluid

@@ -71,5 +71,12 @@ class PostRequest
 		    	:body => {:utility_metrics => utility_metrics}.to_json,
 		    	:headers => {'Content-Type' => 'application/json'})
 		end
+
+		#Notification
+		def notification(body, vendor_id)
+			response = HTTParty.post( "http://izkh.ru/notifications",
+		    	:body => {notification_text: body, vendor_id: vendor_id}.to_json,
+		    	:headers => {'Content-Type' => 'application/json'})
+		end
 	end
 end

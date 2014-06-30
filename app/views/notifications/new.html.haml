@@ -1,0 +1,6 @@
+.block.well.bs-component.js-bids
+  = form_tag(notifications_new_path, method: :post )  do
+    %div.form-group
+      %h3= 'Новое уведомление:'
+      = text_area_tag :body, nil, rows: 10, class: 'form-control'
+      %p= submit_tag "Отправить пользователям ", class: "btn btn-success"

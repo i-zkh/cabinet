@@ -40,7 +40,7 @@ class PaymentsController < ApplicationController
 			filename = Report.new(ReportMonthly.new(GetRequest.transactions(id, Date.today.month-2), id)).monthly
 		end
 			vendor = Vendor.where(id: id, distribution: true).first
-			# ReportMessages.monthly_report(vendor.email, filename) unless vendor.nil? || vendor.id == 150
+			ReportMessages.monthly_report(vendor.email, filename) unless vendor.nil? || vendor.id == 150
 		end
 		render json: true
   end

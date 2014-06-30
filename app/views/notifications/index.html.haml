@@ -1,0 +1,15 @@
+.col-md-5
+  - if flash[:notice]
+    .label.label-warning= notice
+.col-md-9.col-md-offset-1
+  %table.table.table-striped.table-hover
+    %thead
+      %tr.successs
+        %th Уведомление
+        %th Дата
+    %tbody#report
+      - @notifications.each do |notification|
+        %tr
+          %td= notification['notification_text']
+          %td= Date.parse(notification['created_at']).strftime("%Y-%m-%d")  
+  %p= link_to 'Новое уведомление', notifications_new_path, class: "btn btn-success btn-sm"

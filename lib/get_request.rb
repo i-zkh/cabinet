@@ -126,6 +126,12 @@ class GetRequest
 		def vendors
 			response = HTTParty.get( "http://izkh.ru/api/1.0/vendors?")
 	    	response.parsed_response
-	    end
+	  end
+
+	  def notifications_by_vendor(vendor_id)
+			response = HTTParty.get( "http://izkh.ru/notifications/by_vendor/#{vendor_id}")
+	    	response.parsed_response
+	  end
+
 	end
 end
