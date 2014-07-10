@@ -28,7 +28,8 @@ class Factorial < Payment
     )
     @data.each do |d| 
         d = d.split(';')
-        reportFile.puts(";#{d[2]};#{d[1]};#{d[3]};1;01/#{DateTime.now.strftime("%m/%Y")};#{Date.today.end_of_month.strftime("%d/%m/%Y")};;#{DateTime.parse(d[7]).strftime("%d/%m/%Y")};;")
+        address = d[2].empty? ? ",,," : d[2]
+        reportFile.puts(";#{address};#{d[1]};#{d[3]};1;01/#{DateTime.now.strftime("%m/%Y")};#{Date.today.end_of_month.strftime("%d/%m/%Y")};;#{DateTime.parse(d[7]).strftime("%d/%m/%Y")};;")
     end
     reportFile.close
     filename

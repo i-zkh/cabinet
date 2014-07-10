@@ -16,7 +16,7 @@
     <th>Тип транзакции</th>
   </tr>
   <tbody id="js-transaction">
-    <tr>
+  <tr>
     <% @payments.each do |report| %>
     <% report = report.split(';') %>
       <td><%= report[5] %></td>
@@ -24,7 +24,7 @@
       <td><%= report[2] %></td>
       <td><%= report[3].to_f + report[4].to_f  %></td>
       <td><%= report[7] %></td>
-      <td><%= report[0] %></td>
+      <td><%= @transactions_type[report[0].to_i] %></td>
     </tr>
     <% end %>
   </tbody>

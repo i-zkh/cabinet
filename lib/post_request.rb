@@ -35,9 +35,9 @@ class PostRequest
 	            :headers => {'Content-Type' => 'application/json'})
 		end
 
-		def vendor(title, service_type_id, commission, commission_yandex, commission_ya_card, shop_article_id)
+		def vendor(title, service_type_id, commission, commission_yandex, commission_ya_card, commission_web_money, commission_ya_cash_in, shop_article_id)
 			response = HTTParty.post( "http://izkh.ru/api/1.0/vendors",
-		    	:body => { :vendor =>  { title: title, service_type_id: service_type_id, commission: commission, commission_yandex: commission_yandex, commission_ya_card: commission_ya_card, shop_article_id: shop_article_id}}.to_json,
+		    	:body => { :vendor =>  { title: title, service_type_id: service_type_id, commission: commission, commission_yandex: commission_yandex, commission_ya_card: commission_ya_card, commission_web_money: commission_web_money, commission_ya_cash_in: commission_ya_cash_in, shop_article_id: shop_article_id}}.to_json,
 		    	:headers => {'Content-Type' => 'application/json'})
 		end
 

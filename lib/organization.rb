@@ -11,9 +11,10 @@ class Organization
 
   def add_vendors
     (0..@data.size-1).each do |i|
-      unless Vendor.where(title: @data[i]["title"]).first
+      # unless Vendor.where(title: @data[i]["title"]).first
+      if i == 1
         check_servicetype(@data[i]["servicetype"].mb_chars.capitalize.to_s)
-        vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"].to_f, @data[i]["commission-ya-money"].to_f, @data[i]["commission-ya-card"].gsub(',', '.').to_f, 106680).parsed_response
+        vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"], @data[i]["commission-ya-money"], @data[i]["commission-ya-card"], @data[i]["commission_web_money"], @data[i]["commission_ya_cash_in"], 106680).parsed_response
         v = Vendor.new(
               title:              @data[i]["title"],
               vendor_type:        @data[i]["servicetype"].mb_chars.capitalize.to_s, 
@@ -83,8 +84,20 @@ class Organization
   private
 
     def parsing_file(file) 
-      s, key, data = Roo::Excelx.new(file), ["title", "commission", "email", "phone", "address", "servicetype", "work_time", "city", "commission-ya-money", "commission-ya-card"], []
-      (2..s.last_row).each { |i| data << { key[0] => s.cell(i, 4), key[1] => s.cell(i, 7), key[2] => s.cell(i, 10), key[3] => s.cell(i, 8), key[4] => s.cell(i, 11), key[5] => s.cell(i, 13), key[6] => s.cell(i, 9), key[7] => s.cell(i, 5), key[8] => s.cell(i, 6).split(';')[1], key[9] => s.cell(i, 6).split(';')[0] } if s.cell(i, 2) == 2.0 }
+      s, key, data = Roo::Excelx.new(file), ["title", "commission", "email", "phone", "address", "servicetype", "work_time", "city", "commission-ya-money", "commission-ya-card", 'commission_web_money', 'commission_ya_cash_in'], []
+      (2..s.last_row).each { |i| data << { key[0] => s.cell(i, 4), 
+                                           key[1] => s.cell(i, 7).to_f, 
+                                           key[2] => s.cell(i, 10), 
+                                           key[3] => s.cell(i, 8), 
+                                           key[4] => s.cell(i, 11), 
+                                           key[5] => s.cell(i, 13), 
+                                           key[6] => s.cell(i, 9), 
+                                           key[7] => s.cell(i, 5), 
+                                           key[8] => s.cell(i, 6).split(';')[1].gsub(',', '.').to_f, 
+                                           key[9] => s.cell(i, 6).split(';')[0].gsub(',', '.').to_f, 
+                                           key[10] => s.cell(i, 6).split(';')[2].gsub(',', '.').to_f, 
+                                           key[11] => s.cell(i, 6).split(';')[3].gsub(',', '.').to_f 
+      } if s.cell(i, 2) == 2.0 }
       data
     end
 
