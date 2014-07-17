@@ -1,5 +1,6 @@
 Project::Application.routes.draw do
 
+
   resources :bids
   resources :vendors
   resources :accounts
@@ -92,5 +93,9 @@ Project::Application.routes.draw do
   get 'notifications' => 'notifications#index'
   get 'notifications_new' => 'notifications#new'
   post 'notifications_new' => 'notifications#create'
+
+  #Feedback
+  get 'feedbacks' => 'feedbacks#index'
+
 
 end

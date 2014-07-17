@@ -1,5 +1,8 @@
 # encoding: utf-8
 class ManagerController < ApplicationController
+  layout 'manager'
+  before_filter :authorize
+
   def index
     @vendor_title = []
     @month = params.has_key?(:date) ? params[:date][:month].to_i : Date.today.month

@@ -133,5 +133,9 @@ class GetRequest
 	    	response.parsed_response
 	  end
 
+	  def user_feedbacks
+			response = HTTParty.get( "http://izkh.ru/user_feedbacks")
+	    response.parsed_response
+	  end
 	end
 end

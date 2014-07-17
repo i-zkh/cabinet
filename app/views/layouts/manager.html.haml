@@ -1,0 +1,26 @@
+!!!
+%html
+  %head
+    %title АйЖКХ
+    = stylesheet_link_tag "http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"
+    = stylesheet_link_tag "http://bootswatch.com/flatly/bootstrap.min.css"
+    = stylesheet_link_tag :application
+    = javascript_include_tag :application
+    = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"
+    = javascript_include_tag "http://code.jquery.com/ui/1.10.3/jquery-ui.js"
+    = csrf_meta_tag
+  %body
+    - if current_user
+      .navbar.navbar-default
+        .navbar-header
+          = link_to 'АйЖКХ', "http://izkh.ru/", class: 'navbar-brand'
+        .container
+          %ul.nav.navbar-nav
+            %li{:class => ('active' if current_page?(organization_add_vendors_path))}= link_to "Поставщики", organization_add_vendors_path
+            %li{:class => ('active' if current_page?(report_daily_path))}= link_to "Транзакции", report_daily_path
+            %li{:class => ('active' if current_page?(feedbacks_path))}= link_to "Обратная связь", feedbacks_path
+            %li{:class => ('active' if current_page?(manager_report_path))}= link_to "Выгрузка", manager_report_path
+          %ul.nav.navbar-nav.navbar-right
+            %li= link_to "Выход", session_path("current"), method: "delete"
+    .container-fluid
+      = yield

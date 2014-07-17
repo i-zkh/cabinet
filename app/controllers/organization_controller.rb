@@ -1,6 +1,8 @@
 #encoding: UTF-8
 class OrganizationController < ApplicationController
-	
+	layout 'manager'
+	before_filter :authorize, only: [:add_vendors]
+
 	def add_vendors
 		if params[:file]
       filename = "/home/ubuntu/apps/project/shared/organizations/" + "#{Date.today.strftime('%Y-%m-%d')}.xlsx"

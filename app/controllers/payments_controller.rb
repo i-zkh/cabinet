@@ -1,5 +1,7 @@
 #encoding: utf-8
 class PaymentsController < ApplicationController
+  layout 'manager'
+  before_filter :authorize, only: [:index, :create, :xls]
 
 	# Daily report for managers
 	def index
@@ -57,7 +59,7 @@ class PaymentsController < ApplicationController
         else
           filename = Report.new(TxtPayment.new(@data, id)).output_report
         end
-        # ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}") || vendor.id == 16
+        # ReportMail.report(vendor, filename).deliver if File.zero?("#{filename}") || vendor.id == 16
         logger.info "transaction: #{vendor.title}-#{@data}"
       end
     end

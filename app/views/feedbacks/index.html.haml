@@ -1,0 +1,20 @@
+%table.table.table-striped.table-hover
+  %thead
+    %tr.success
+      %th Тема
+      %th Обращение
+      %th Новая версии
+      %th Имя пользователя
+      %th Телефон
+      %th Почта
+      %th Дата
+  %tbody
+    - @feedback.each do |f|
+      %tr
+        %td= f['topic']
+        %td= f['body']
+        %td= f['new_version']
+        %td= f['user_name']
+        %td= f['user_phone']
+        %td= f['user_email']
+        %td= f['created_at']
