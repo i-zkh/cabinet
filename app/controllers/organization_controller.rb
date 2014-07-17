@@ -3,7 +3,7 @@ class OrganizationController < ApplicationController
 	
 	def add_vendors
 		if params[:file]
-      filename = "#{Date.today.strftime('%Y-%m-%d')}.xlsx"
+      filename = "/home/ubuntu/apps/project/shared/organizations/" + "#{Date.today.strftime('%Y-%m-%d')}.xlsx"
 			File.open(File.join(filename), "wb") {|f| f.write(params[:file].read)}
 			Organization.new(filename).add_vendors
 		end
@@ -11,7 +11,7 @@ class OrganizationController < ApplicationController
 	end
 
 	def auth_keys
-		Vendor.all.each { |ven| ReportMail.auth_keys(ven).deliver }
+		# Vendor.where(distribution: true).each { |ven| ReportMail.auth_keys(ven).deliver }
 		render json: true
 	end
 end

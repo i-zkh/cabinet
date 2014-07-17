@@ -11,8 +11,7 @@ class Organization
 
   def add_vendors
     (0..@data.size-1).each do |i|
-      # unless Vendor.where(title: @data[i]["title"]).first
-      if i == 1
+      unless Vendor.where(title: @data[i]["title"]).first
         check_servicetype(@data[i]["servicetype"].mb_chars.capitalize.to_s)
         vendor_id = PostRequest.vendor(@data[i]["title"], @servicetypes[@data[i]["servicetype"].mb_chars.capitalize.to_s], @data[i]["commission"], @data[i]["commission-ya-money"], @data[i]["commission-ya-card"], @data[i]["commission_web_money"], @data[i]["commission_ya_cash_in"], 106680).parsed_response
         v = Vendor.new(

@@ -57,7 +57,7 @@ class PaymentsController < ApplicationController
         else
           filename = Report.new(TxtPayment.new(@data, id)).output_report
         end
-        # ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}") || vendor.id == 150
+        # ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}") || vendor.id == 16
         logger.info "transaction: #{vendor.title}-#{@data}"
       end
     end
