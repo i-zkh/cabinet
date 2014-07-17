@@ -3,6 +3,7 @@ class TransactionsController < ApplicationController
 
   # Show vendor's transaction from service in cabinet.
   def index 
+    redirect_to organization_add_vendors_path if session[:vendor_id] == 3000
   	@report = GetRequest.transactions(session[:vendor_id], DateTime.now.month)
   end
 
