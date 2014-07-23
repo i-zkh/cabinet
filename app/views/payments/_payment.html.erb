@@ -6,6 +6,6 @@
   <td><%= report[2] %></td>
   <td><%= report[3].to_f + report[4].to_f %></td>
   <td><%= report[7] %></td>
-  <td><%= report[0] %></td>
+  <td><%= @transactions_type[report[0].to_i] %></td>
 </tr>
 <% end %>

@@ -12,6 +12,7 @@ class PaymentsController < ApplicationController
   def create
     @from = params[:from] != "" ? params[:from] : Date.today.beginning_of_month
     @to = params[:to] != "" ? params[:to] : Date.today.end_of_month
+    @transactions_type = transactions_type
     @payments = GetRequest.report_from_to(@from, @to)
   end
 
@@ -59,7 +60,7 @@ class PaymentsController < ApplicationController
         else
           filename = Report.new(TxtPayment.new(@data, id)).output_report
         end
-        # ReportMail.report(vendor, filename).deliver if File.zero?("#{filename}") || vendor.id == 16
+        # ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}") || vendor.id == 16
         logger.info "transaction: #{vendor.title}-#{@data}"
       end
     end
