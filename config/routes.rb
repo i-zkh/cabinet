@@ -96,6 +96,4 @@ Project::Application.routes.draw do
 
   #Feedback
   get 'feedbacks' => 'feedbacks#index'
-
-
 end

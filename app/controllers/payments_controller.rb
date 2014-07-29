@@ -32,7 +32,7 @@ class PaymentsController < ApplicationController
   def report_from_to
     @payments = GetRequest.index_with_vendor_id(params[:from], params[:to])
     send_report_to_vendors(@payments)
-    # Report.new(AllPayment.new(@payments)).output_report
+    Report.new(AllPayment.new(@payments)).output_report
     render json: @payments
   end
 
@@ -56,11 +56,11 @@ class PaymentsController < ApplicationController
           filename = Report.new(Factorial.new(@data, id)).output_report
         when 20
           # filenames = Report.new(Delta.new(@data, id)).output_report
-          # filenames.each { |f| ReportMail.report(vendor, f).deliver }
+          filenames.each { |f| ReportMail.report(vendor, f).deliver }
         else
           filename = Report.new(TxtPayment.new(@data, id)).output_report
         end
-        # ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}") || vendor.id == 16
+        ReportMail.report(vendor, filename).deliver unless File.zero?("#{filename}") || vendor.id == 16
         logger.info "transaction: #{vendor.title}-#{@data}"
       end
     end

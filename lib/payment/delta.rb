@@ -11,7 +11,8 @@ class Delta < Payment
     hash, filenames = {}, []
     @data.each do |d|
       i_p, s_p = [], []
-      bid = Bid.find_by_key(d.split(';')[8])
+      p d.split(';')[8]
+      p bid = Bid.find_by_key(d.split(';')[8])
       i_p = hash["#{bid.installation_payment_for_vendor}"] if hash.has_key?("#{bid.installation_payment_for_vendor}")
       i_p << "Монтаж;#{bid.contract_number};#{bid.name};#{bid.phone};#{bid.installation_payment};#{bid.created_at.strftime("%Y-%m-%d")};#{bid.id}"
       hash["#{bid.installation_payment_for_vendor}"] = i_p
