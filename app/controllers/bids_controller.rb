@@ -41,7 +41,7 @@ class BidsController < ApplicationController
     @bid = Bid.new(params[:bid])
     respond_to do |format|
       if @bid.save
-        DeltaWorker.perform_async(@bid.key, @bid.email)
+        DeltaWorker.perform_async(@bid.key, @bid.email, @bid.installation_payment, @bid.installation_payment_for_vendor, @bid.service_payment, @bid.service_payment_for_vendor)
         format.html { redirect_to @bid, notice: 'Заявка отправлена клиенту' }
         format.json { render json: @bid, status: :created, location: @bid }
       else

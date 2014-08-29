@@ -11,14 +11,17 @@ class Delta < Payment
     hash, filenames = {}, []
     @data.each do |d|
       i_p, s_p = [], []
-      p d.split(';')[8]
-      p bid = Bid.find_by_key(d.split(';')[8])
-      i_p = hash["#{bid.installation_payment_for_vendor}"] if hash.has_key?("#{bid.installation_payment_for_vendor}")
-      i_p << "Монтаж;#{bid.contract_number};#{bid.name};#{bid.phone};#{bid.installation_payment};#{bid.created_at.strftime("%Y-%m-%d")};#{bid.id}"
-      hash["#{bid.installation_payment_for_vendor}"] = i_p
-      s_p = hash["#{bid.service_payment_for_vendor}"] if hash.has_key?("#{bid.service_payment_for_vendor}")
-      s_p << "Охрана;#{bid.contract_number};#{bid.name};#{bid.phone};#{bid.service_payment};#{bid.created_at.strftime("%Y-%m-%d")};#{bid.id}"
-      hash["#{bid.service_payment_for_vendor}"] = s_p
+      bid = Bid.find_by_key(d.split(';')[8])
+      if !bid.installation_payment.nil? && bid.installation_payment > 0
+        i_p = hash["#{bid.installation_payment_for_vendor}"] if hash.has_key?("#{bid.installation_payment_for_vendor}")
+        i_p << "Монтаж;#{bid.contract_number};#{bid.name};#{bid.phone};#{bid.installation_payment};#{bid.created_at.strftime("%Y-%m-%d")};#{bid.id}"
+        hash["#{bid.installation_payment_for_vendor}"] = i_p
+      end
+      if !bid.service_payment.nil? && bid.service_payment > 0
+        s_p = hash["#{bid.service_payment_for_vendor}"] if hash.has_key?("#{bid.service_payment_for_vendor}")
+        s_p << "Охрана;#{bid.contract_number};#{bid.name};#{bid.phone};#{bid.service_payment};#{bid.created_at.strftime("%Y-%m-%d")};#{bid.id}"
+        hash["#{bid.service_payment_for_vendor}"] = s_p
+      end
     end
     hash.each do |key, value|
       f = "#{key}-#{(Date.today-1).strftime("%Y-%m-%d")}.xlsx"
